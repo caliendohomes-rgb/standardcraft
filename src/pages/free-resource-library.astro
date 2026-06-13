@@ -9,7 +9,7 @@ const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
 const { data: { user } } = await supabase.auth.getUser();
 
 if (!user) {
-  return Astro.redirect('/signin?redirect=/free-resource-library');
+  return Astro.redirect('/sign-in?redirect=/free-resource-library');
 }
 
 const admin = createSupabaseAdmin();
@@ -22,138 +22,193 @@ const [creditsResult, downloadsResult, allResources] = await Promise.all([
 
 const balance: number = creditsResult.data?.balance ?? 0;
 const downloadedSlugs = new Set((downloadsResult.data ?? []).map((d: any) => d.resource_slug));
-
-const CREDIT_COST: Record<string, number> = {
-  'Lesson Plan': 2,
-  'Co-Teaching Frame': 2,
-  'Task Card Set': 2,
-  'CDOS Transition Material': 2,
-  'IEP Goal-Support Resource': 3,
-  'SDI Planning Frame': 2,
-  'default': 1,
-};
-
-function creditCost(type: string): number {
-  return CREDIT_COST[type] ?? CREDIT_COST['default'];
-}
+const resources = allResources.sort((a, b) => a.data.title.localeCompare(b.data.title));
+const subjects = [...new Set(resources.map(r => r.data.subject))].sort();
+const gradeBands = ['K-2', '3-5', '6-8', '9-12'];
+const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sort();
 ---
 
 <Layout
-  title="Free Resource Library — StandardCraft"
-  description="Access your StandardCraft resources. NYS-aligned lesson plans, worksheets, SDI blocks, and MLL scaffolds."
+  title="Free Resource Library | StandardCraft"
+  description="Browse 50 NYS-aligned classroom resources and download one free with your StandardCraft signup credit."
   noIndex={true}
 >
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Header bar -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
+    <div class="grid lg:grid-cols-[1fr_18rem] gap-6 items-start mb-8">
       <div>
-        <div class="section-label mb-1">Your Library</div>
-        <h1 class="text-3xl font-bold">50 NYS-Aligned Resources</h1>
+        <div class="section-label mb-2">Free resource library</div>
+        <h1 class="text-4xl font-bold mb-4 text-[#172438]">Browse 50 resources. Download one free with your signup credit.</h1>
+        <p class="text-[#415066] max-w-3xl">
+          Preview every resource before you choose. Your free account includes one signup credit for one resource download. Upgrade when you need more.
+        </p>
       </div>
-      <div class="flex items-center gap-4">
-        <div class="card py-2 px-4 text-center min-w-[120px]">
-          <div class="text-2xl font-bold text-teal-400" id="credit-balance">{balance}</div>
-          <div class="text-xs text-[#4a5f63]">credits remaining</div>
-        </div>
+      <div class={`card text-center ${balance === 0 ? 'border-amber-300' : ''}`}>
+        <div class="text-5xl font-bold text-[#172438]" id="credit-balance">{balance}</div>
+        <div class="text-sm font-semibold text-[#415066]">credits remaining</div>
         {balance === 0 && (
-          <a href="/pricing" class="btn-primary text-sm py-2 px-4">Get more credits →</a>
-        )}
-        {balance > 0 && balance <= 2 && (
-          <a href="/pricing" class="btn-outline text-sm py-2 px-4">Upgrade plan</a>
+          <a href="/pricing" class="btn-primary text-sm py-2 px-4 mt-4">Upgrade for more downloads</a>
         )}
       </div>
     </div>
 
     {balance === 0 && (
-      <div class="mb-8 p-4 rounded-xl bg-amber-950/40 border border-amber-800/60 text-amber-300 text-sm flex items-start gap-3">
-        <span class="text-lg">⚠️</span>
-        <div>
-          <strong>You've used your free trial credit.</strong>
-          <span class="text-amber-400/80"> Upgrade to Classroom ($29/mo · 8 credits) or Pro ($69/mo · 20 credits) to download more resources.</span>
-          <a href="/pricing" class="ml-2 text-amber-300 underline hover:text-amber-200">View plans →</a>
-        </div>
+      <div class="mb-8 card border-amber-300 text-sm text-[#415066]">
+        <strong class="text-[#172438]">You have 0 free credits remaining.</strong>
+        You can still preview all 50 resources and re-download anything you already claimed. Upgrade for more downloads.
       </div>
     )}
 
-    <!-- Resource grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {allResources.map(resource => {
-        const cost = creditCost(resource.data.resource_type);
+    <div class="card mb-6">
+      <div class="grid md:grid-cols-[2fr_1fr_1fr_1fr] gap-4">
+        <label class="grid gap-1 text-sm font-bold text-[#415066]">
+          Search
+          <input class="filter-control" data-filter="search" placeholder="Search subject, skill, standard, or resource type" />
+        </label>
+        <label class="grid gap-1 text-sm font-bold text-[#415066]">
+          Subject
+          <select class="filter-control" data-filter="subject">
+            <option value="">All subjects</option>
+            {subjects.map(subject => <option value={subject}>{subject}</option>)}
+          </select>
+        </label>
+        <label class="grid gap-1 text-sm font-bold text-[#415066]">
+          Grade band
+          <select class="filter-control" data-filter="grade">
+            <option value="">All grades</option>
+            {gradeBands.map(grade => <option value={grade}>{grade}</option>)}
+          </select>
+        </label>
+        <label class="grid gap-1 text-sm font-bold text-[#415066]">
+          Type
+          <select class="filter-control" data-filter="type">
+            <option value="">All types</option>
+            {resourceTypes.map(type => <option value={type}>{type}</option>)}
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <p class="text-sm font-bold text-[#415066] mb-4" id="result-count">50 of 50 resource cards shown.</p>
+
+    <div id="resource-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {resources.map(resource => {
         const alreadyDownloaded = downloadedSlugs.has(resource.slug);
-        const canDownload = alreadyDownloaded || balance >= cost;
+        const canDownload = alreadyDownloaded || balance >= 1;
+        const primaryStandard = resource.data.standards[0];
 
         return (
-          <div class="card flex flex-col gap-3">
+          <article
+            class="resource-card card flex flex-col gap-3"
+            data-title={resource.data.title.toLowerCase()}
+            data-subject={resource.data.subject}
+            data-grade={resource.data.grade_band}
+            data-type={resource.data.resource_type}
+            data-search={`${resource.data.title} ${resource.data.subject} ${resource.data.grade_band} ${resource.data.resource_type} ${primaryStandard?.code ?? ''} ${resource.data.standards_framework}`.toLowerCase()}
+          >
             <div class="flex flex-wrap gap-2">
               <span class="tag tag-teal">{resource.data.subject}</span>
-              <span class="tag tag-gray">Grade {resource.data.grade}</span>
-              {alreadyDownloaded && <span class="tag bg-teal-900/60 text-teal-300 border-teal-700/50">Downloaded</span>}
+              <span class="tag tag-gray">{resource.data.grade_band}</span>
+              <span class="tag tag-gray">{resource.data.resource_type}</span>
+              {alreadyDownloaded && <span class="tag tag-amber">Downloaded</span>}
             </div>
-            <h3 class="font-semibold text-sm leading-snug flex-1">{resource.data.title}</h3>
-            <div class="flex items-center gap-2 text-xs">
-              <span class="font-mono text-teal-400 bg-teal-900/30 px-2 py-0.5 rounded border border-teal-800/50">
-                {resource.data.standards[0]?.code}
-              </span>
-              <span class="text-[#4a5f63]">{resource.data.resource_type}</span>
-            </div>
-            <div class="flex items-center justify-between mt-auto pt-2 border-t border-[#1e2a2d]">
-              <span class="text-xs text-[#4a5f63]">
-                {alreadyDownloaded ? 'Free re-download' : `${cost} credit${cost === 1 ? '' : 's'}`}
-              </span>
+            <h2 class="text-lg font-bold text-[#172438] leading-snug">{resource.data.title}</h2>
+            <p class="text-sm text-[#415066] flex-1">
+              {resource.data.standards_framework}. Alignment note, classroom use guidance, SDI block, and MLL/ELL scaffolds included.
+            </p>
+            {primaryStandard && (
+              <div class="text-xs text-[#415066]">
+                <span class="font-mono font-bold text-[#376b9b]">{primaryStandard.code}</span>
+                <span> - {primaryStandard.text}</span>
+              </div>
+            )}
+            <div class="flex flex-col sm:flex-row gap-2 pt-3 border-t" style="border-color: var(--sc-border);">
+              <a href={`/resources/${resource.slug}`} class="btn-outline text-sm py-2 px-3 justify-center">Open preview</a>
               <button
-                class={`download-btn text-sm py-1.5 px-3 rounded-lg font-medium transition-colors ${canDownload ? 'bg-teal-700 hover:bg-teal-600 text-white' : 'bg-[#1e2a2d] text-[#4a5f63] cursor-not-allowed'}`}
+                class={`download-btn btn-primary text-sm py-2 px-3 justify-center ${canDownload ? '' : 'opacity-60 cursor-not-allowed'}`}
                 data-slug={resource.slug}
-                data-cost={cost}
                 data-title={resource.data.title}
                 disabled={!canDownload}
               >
-                {alreadyDownloaded ? 'Download again' : canDownload ? 'Download' : 'Need credits'}
+                {alreadyDownloaded ? 'Download again' : canDownload ? 'Use 1 credit and download' : 'Upgrade to download'}
               </button>
             </div>
-          </div>
+          </article>
         );
       })}
     </div>
 
-    <!-- Bottom upgrade banner -->
-    <div class="mt-16 card border-teal-800/50 bg-teal-950/20 p-8 text-center">
-      <h2 class="text-2xl font-bold mb-3">Ready for more?</h2>
-      <p class="text-[#4a5f63] mb-6">Classroom plan gives you 8 credits/month. Pro gives you 20. All resources, all frameworks.</p>
-      <a href="/pricing" class="btn-primary py-3 px-8">View plans →</a>
+    <div class="mt-12 card text-center">
+      <h2 class="text-2xl font-bold text-[#172438] mb-2">Need more than one download?</h2>
+      <p class="text-[#415066] mb-5">Upgrade when StandardCraft becomes part of your regular planning rhythm.</p>
+      <a href="/pricing" class="btn-primary">View pricing</a>
     </div>
   </section>
 
-  <!-- Download toast -->
-  <div id="download-toast" class="hidden fixed bottom-6 right-6 z-50 p-4 rounded-xl bg-teal-900 border border-teal-700 text-teal-100 text-sm shadow-2xl max-w-xs">
-    <div id="toast-msg">Preparing download…</div>
+  <div id="download-toast" class="hidden fixed bottom-6 right-6 z-50 p-4 rounded-lg border bg-white text-[#172438] text-sm shadow-2xl max-w-xs" style="border-color: var(--sc-border);">
+    <div id="toast-msg">Preparing download...</div>
   </div>
 </Layout>
 
 <script>
-  import { createSupabaseBrowserClient } from '../lib/supabase';
-
+  const cards = Array.from(document.querySelectorAll('.resource-card')) as HTMLElement[];
+  const resultCount = document.getElementById('result-count') as HTMLElement;
+  const filters = Array.from(document.querySelectorAll('[data-filter]')) as HTMLInputElement[];
   const toast = document.getElementById('download-toast') as HTMLDivElement;
   const toastMsg = document.getElementById('toast-msg') as HTMLDivElement;
   const balanceEl = document.getElementById('credit-balance') as HTMLDivElement;
 
   function showToast(msg: string, isError = false) {
     toastMsg.textContent = msg;
-    toast.className = `fixed bottom-6 right-6 z-50 p-4 rounded-xl border text-sm shadow-2xl max-w-xs ${
-      isError ? 'bg-red-950 border-red-800 text-red-200' : 'bg-teal-900 border-teal-700 text-teal-100'
-    }`;
-    toast.classList.remove('hidden');
+    toast.classList.toggle('hidden', false);
+    toast.style.borderColor = isError ? '#dc9a9a' : 'var(--sc-border)';
     setTimeout(() => toast.classList.add('hidden'), 4000);
   }
 
-  document.querySelectorAll('.download-btn:not([disabled])').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const slug = btn.getAttribute('data-slug')!;
-      const cost = parseInt(btn.getAttribute('data-cost')!, 10);
-      const title = btn.getAttribute('data-title')!;
+  function applyFilters() {
+    const search = (document.querySelector('[data-filter="search"]') as HTMLInputElement).value.trim().toLowerCase();
+    const subject = (document.querySelector('[data-filter="subject"]') as HTMLSelectElement).value;
+    const grade = (document.querySelector('[data-filter="grade"]') as HTMLSelectElement).value;
+    const type = (document.querySelector('[data-filter="type"]') as HTMLSelectElement).value;
+    let visible = 0;
 
-      (btn as HTMLButtonElement).disabled = true;
-      (btn as HTMLButtonElement).textContent = 'Downloading…';
-      showToast('Preparing download…');
+    for (const card of cards) {
+      const matchesSearch = !search || (card.dataset.search || '').includes(search);
+      const matchesSubject = !subject || card.dataset.subject === subject;
+      const matchesGrade = !grade || card.dataset.grade === grade;
+      const matchesType = !type || card.dataset.type === type;
+      const show = matchesSearch && matchesSubject && matchesGrade && matchesType;
+      card.classList.toggle('hidden', !show);
+      if (show) visible += 1;
+    }
+
+    resultCount.textContent = `${visible} of 50 resource cards shown.`;
+  }
+
+  filters.forEach(filter => {
+    filter.addEventListener('input', applyFilters);
+    filter.addEventListener('change', applyFilters);
+  });
+
+  function exhaustUndownloadedButtons() {
+    document.querySelectorAll('.download-btn').forEach(button => {
+      const btn = button as HTMLButtonElement;
+      if (btn.textContent !== 'Download again') {
+        btn.disabled = true;
+        btn.textContent = 'Upgrade to download';
+        btn.classList.add('opacity-60', 'cursor-not-allowed');
+      }
+    });
+  }
+
+  document.querySelectorAll('.download-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const button = btn as HTMLButtonElement;
+      const slug = button.dataset.slug!;
+      const title = button.dataset.title!;
+
+      button.disabled = true;
+      button.textContent = 'Preparing...';
+      showToast('Preparing download...');
 
       try {
         const res = await fetch('/api/download', {
@@ -163,25 +218,19 @@ function creditCost(type: string): number {
         });
 
         const data = await res.json();
-
         if (!res.ok) {
-          if (data.code === 'INSUFFICIENT_CREDITS') {
-            showToast('Not enough credits. Upgrade your plan to continue.', true);
-          } else {
-            showToast(data.error || 'Download failed.', true);
-          }
-          (btn as HTMLButtonElement).disabled = false;
-          (btn as HTMLButtonElement).textContent = 'Download';
+          showToast(data.error || 'Download failed.', true);
+          button.textContent = data.code === 'INSUFFICIENT_CREDITS' ? 'Upgrade to download' : 'Use 1 credit and download';
+          button.disabled = data.code === 'INSUFFICIENT_CREDITS';
           return;
         }
 
-        // Update credit display
         if (!data.redownload && balanceEl) {
-          const current = parseInt(balanceEl.textContent || '0', 10);
-          balanceEl.textContent = String(Math.max(0, current - cost));
+          const nextBalance = Math.max(0, Number(balanceEl.textContent || '0') - 1);
+          balanceEl.textContent = String(nextBalance);
+          if (nextBalance === 0) exhaustUndownloadedButtons();
         }
 
-        // Trigger download
         const a = document.createElement('a');
         a.href = data.url;
         a.download = `${slug}.md`;
@@ -190,12 +239,13 @@ function creditCost(type: string): number {
         document.body.removeChild(a);
 
         showToast(`"${title}" is downloading.`);
-        (btn as HTMLButtonElement).textContent = 'Download again';
-        btn.setAttribute('data-redownload', 'true');
+        button.textContent = 'Download again';
+        button.disabled = false;
+        button.classList.remove('opacity-60', 'cursor-not-allowed');
       } catch {
         showToast('Network error. Please try again.', true);
-        (btn as HTMLButtonElement).disabled = false;
-        (btn as HTMLButtonElement).textContent = 'Download';
+        button.disabled = false;
+        button.textContent = 'Use 1 credit and download';
       }
     });
   });

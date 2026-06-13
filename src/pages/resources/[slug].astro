@@ -10,6 +10,12 @@ export async function getStaticPaths() {
 const { resource } = Astro.props;
 const { data } = resource;
 const { Content } = await resource.render();
+const primaryStandard = data.standards[0];
+const previewBullets = [
+  `${data.resource_type} for Grade ${data.grade} ${data.subject}`,
+  `NYS framework label: ${data.standards_framework}`,
+  primaryStandard ? `Primary standard: ${primaryStandard.code}` : 'Standards alignment note included',
+];
 
 const confidenceColors = {
   'Full Trust': 'text-teal-400 border-teal-700/40 bg-teal-900/30',
@@ -104,6 +110,22 @@ const learningResourceSchema = JSON.stringify({
       ))}
     </div>
 
+    <!-- Resource preview details -->
+    <div class="grid sm:grid-cols-2 gap-4 mb-8 no-print">
+      <div class="card">
+        <div class="section-label mb-3">Classroom use case</div>
+        <p class="text-sm text-[#415066]">
+          Use this resource for classroom instruction, small-group support, intervention, enrichment, independent practice, or planning support. Preview the alignment record before choosing whether to spend your signup credit.
+        </p>
+      </div>
+      <div class="card">
+        <div class="section-label mb-3">Preview content</div>
+        <ul class="space-y-2 text-sm text-[#415066]">
+          {previewBullets.map(item => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
     <!-- Content -->
     <article class="prose prose-invert prose-teal max-w-none
       prose-headings:text-[#e8f0f0] prose-headings:font-bold
@@ -148,7 +170,7 @@ const learningResourceSchema = JSON.stringify({
       </div>
       <div class="flex gap-3">
         <button onclick="window.print()" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
-        <a href="/free-resource-library" class="btn-primary text-sm py-2 px-4">Download this resource →</a>
+        <a href="/free-resource-library" class="btn-primary text-sm py-2 px-4">Use your signup credit in the library</a>
       </div>
     </div>
 

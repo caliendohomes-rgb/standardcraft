@@ -1,8 +1,21 @@
-import { defineMiddleware } from 'astro:middleware';
+﻿import { defineMiddleware } from 'astro:middleware';
 import { createServerClient, parseCookieHeader } from '@supabase/ssr';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Only process HTML requests — skip API routes, assets, etc.
+  // Only process HTML requests â€” skip API routes, assets, etc.
+  const path = context.url.pathname;
+  const needsSessionRefresh =
+    path.startsWith('/dashboard') ||
+    path.startsWith('/account') ||
+    path.startsWith('/claim-free') ||
+    path.startsWith('/sign-in') ||
+    path.startsWith('/signin') ||
+    path.startsWith('/free-resource-library');
+
+  if (!needsSessionRefresh) {
+    return next();
+  }
+
   const accept = context.request.headers.get('accept') ?? '';
   if (!accept.includes('text/html')) {
     return next();
@@ -25,7 +38,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   );
 
-  // Refresh session if expired — this sets new cookie headers automatically
+  // Refresh session if expired â€” this sets new cookie headers automatically
   await supabase.auth.getUser();
 
   return next();

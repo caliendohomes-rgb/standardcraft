@@ -1,4 +1,4 @@
----
+﻿---
 interface Props {
   title?: string;
   description?: string;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const {
-  title = 'StandardCraft — NYS Standards-Aligned Classroom Resources',
+  title = 'StandardCraft â€” NYS Standards-Aligned Classroom Resources',
   description = 'Classroom-ready lesson plans and worksheets grounded in NYS Next Generation Standards. Zero invented codes. Verified alignment records. Built for New York educators.',
   canonical,
   noIndex = false,
@@ -31,6 +31,10 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="StandardCraft" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     {noIndex
       ? <meta name="robots" content="noindex, nofollow" />
@@ -38,27 +42,39 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     }
     <slot name="head-schema" />
   </head>
-  <body class="bg-[#0a0e0f] text-[#e8f0f0] font-sans antialiased">
+  <body class="site-shell font-sans antialiased">
 
-    <header class="border-b border-[#1e2a2d] sticky top-0 z-50 bg-[#0a0e0f]/95 backdrop-blur">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <a href="/" class="font-bold text-lg tracking-tight text-[#e8f0f0] hover:text-teal-400 transition-colors">
-          Standard<span class="text-teal-400">Craft</span>
+    <header class="border-b sticky top-0 z-50 backdrop-blur" style="background: rgba(251, 247, 239, 0.94); border-color: var(--sc-border);">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-16 gap-4">
+        <a href="/" class="font-bold text-lg tracking-tight text-[#172438] hover:text-[#376b9b] transition-colors">
+          Standard<span style="color: var(--sc-blue);">Craft</span>
+          <span class="hidden sm:block text-xs font-semibold text-[#415066]">NYS-aligned classroom resources</span>
         </a>
         <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="/#why-us" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Why us</a>
-          <a href="/#standards" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Standards</a>
-          <a href="/#sdi" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">SDI</a>
-          <a href="/#mll" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">MLL Plans</a>
-          <a href="/resources" class="text-[#4a5f63] hover:text-teal-400 transition-colors font-medium">Resource Library</a>
+          <a href="/#why-us" class="site-nav-link transition-colors">Why us</a>
+          <a href="/#how-it-works" class="site-nav-link transition-colors">How it works</a>
+          <a href="/resources" class="site-nav-link transition-colors">Preview resources</a>
+          <a href="/free-resource-library" class="site-nav-link transition-colors">Free library</a>
         </div>
-        <div class="flex items-center gap-3">
-          <a href="/pricing" class="hidden sm:inline text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Plans</a>
+        <div class="hidden md:flex items-center gap-3">
+          <a href="/pricing" class="text-sm site-nav-link transition-colors">Pricing</a>
           <!-- Auth-aware nav: both rendered, JS shows correct one -->
-          <a id="nav-signin" href="/signin" class="hidden text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Sign in</a>
-          <a id="nav-dashboard" href="/dashboard" class="hidden text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Dashboard</a>
-          <a id="nav-start" href="/claim-free" class="btn-primary text-sm py-2 px-4">Start free →</a>
+          <a id="nav-signin" href="/sign-in" class="hidden text-sm site-nav-link transition-colors">Sign in</a>
+          <a id="nav-dashboard" href="/dashboard" class="hidden text-sm site-nav-link transition-colors">Dashboard</a>
+          <a id="nav-start" href="/claim-free" class="btn-primary text-sm py-2 px-4">Start free</a>
         </div>
+        <details class="mobile-menu md:hidden relative">
+          <summary class="list-none cursor-pointer rounded-lg border px-3 py-2 text-sm font-bold" style="border-color: var(--sc-border); background: white;">Menu</summary>
+          <div class="absolute right-0 top-full mt-2 w-64 rounded-lg border bg-white p-4 shadow-xl grid gap-3 text-sm" style="border-color: var(--sc-border);">
+            <a href="/#how-it-works" class="site-nav-link">How it works</a>
+            <a href="/resources" class="site-nav-link">Preview resources</a>
+            <a href="/free-resource-library" class="site-nav-link">Free library</a>
+            <a href="/pricing" class="site-nav-link">Pricing</a>
+            <a href="/school-inquiry" class="site-nav-link">Schools</a>
+            <a href="/sign-in" class="site-nav-link">Sign in</a>
+            <a href="/claim-free" class="btn-primary text-sm py-2 px-4 justify-center">Start free</a>
+          </div>
+        </details>
       </nav>
     </header>
 
@@ -114,7 +130,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
             Resources are designed to support classroom planning and instruction and do not replace district curriculum or teacher professional judgment.
           </p>
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-            <p>© {new Date().getFullYear()} StandardCraft. All rights reserved.</p>
+            <p>Â© {new Date().getFullYear()} StandardCraft. All rights reserved.</p>
             <p>NYS standard codes cited from official publicly available NYSED sources.</p>
           </div>
         </div>

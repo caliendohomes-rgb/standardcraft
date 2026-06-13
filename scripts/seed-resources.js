@@ -107,17 +107,7 @@ function parseFrontmatter(content) {
 }
 
 function creditCostForType(resourceType) {
-  const costs = {
-    'Lesson Plan': 2,
-    'Co-Teaching Frame': 2,
-    'Task Card Set': 2,
-    'CDOS Transition Material': 2,
-    'Mini-Assessment': 2,
-    'SDI Planning Frame': 2,
-    'Station Activity': 2,
-    'IEP Goal-Support Resource': 3,
-  };
-  return costs[resourceType] ?? 1;
+  return 1;
 }
 
 async function main() {

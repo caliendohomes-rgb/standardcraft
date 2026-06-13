@@ -15,6 +15,7 @@ SECURITY DEFINER
 AS $$
 DECLARE
   v_balance INTEGER;
+  v_existing_download UUID;
 BEGIN
   -- Lock the credits row to prevent concurrent double-spend
   SELECT balance INTO v_balance
@@ -24,6 +25,15 @@ BEGIN
 
   IF v_balance IS NULL THEN
     RETURN json_build_object('success', false, 'error', 'No credit record found.');
+  END IF;
+
+  SELECT id INTO v_existing_download
+  FROM public.downloads
+  WHERE user_id = p_user_id
+    AND resource_slug = p_resource_slug;
+
+  IF v_existing_download IS NOT NULL THEN
+    RETURN json_build_object('success', true, 'redownload', true);
   END IF;
 
   IF v_balance < p_credit_cost THEN

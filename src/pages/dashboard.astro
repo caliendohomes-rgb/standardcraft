@@ -1,4 +1,4 @@
----
+﻿---
 export const prerender = false;
 
 import { createSupabaseServerClient, createSupabaseAdmin } from '../lib/supabase-server';
@@ -8,7 +8,7 @@ const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
 const { data: { user } } = await supabase.auth.getUser();
 
 if (!user) {
-  return Astro.redirect('/signin?redirect=/dashboard');
+  return Astro.redirect('/sign-in?redirect=/dashboard');
 }
 
 const admin = createSupabaseAdmin();
@@ -33,13 +33,13 @@ function formatDate(iso: string) {
 }
 
 const planLabel: Record<string, string> = {
-  classroom: 'Classroom — $29/mo',
-  pro: 'Pro — $69/mo',
+  classroom: 'Classroom â€” $29/mo',
+  pro: 'Pro â€” $69/mo',
 };
 ---
 
 <Layout
-  title="Dashboard — StandardCraft"
+  title="Dashboard â€” StandardCraft"
   description="Your StandardCraft dashboard."
   noIndex={true}
 >
@@ -47,7 +47,7 @@ const planLabel: Record<string, string> = {
 
     {checkoutSuccess && (
       <div class="mb-6 p-4 rounded-xl bg-teal-950/60 border border-teal-700 text-teal-200 text-sm">
-        🎉 <strong>Subscription active!</strong> Your credits have been added to your account.
+        ðŸŽ‰ <strong>Subscription active!</strong> Your credits have been added to your account.
       </div>
     )}
 
@@ -56,7 +56,7 @@ const planLabel: Record<string, string> = {
         <div class="section-label mb-1">Your Dashboard</div>
         <h1 class="text-3xl font-bold">Welcome back, {firstName}</h1>
       </div>
-      <a href="/free-resource-library" class="btn-primary text-sm py-2 px-5">Browse Library →</a>
+      <a href="/free-resource-library" class="btn-primary text-sm py-2 px-5">Browse Library â†’</a>
     </div>
 
     <!-- Stats row -->
@@ -107,10 +107,10 @@ const planLabel: Record<string, string> = {
         <div class="text-sm text-[#4a5f63]">
           <span class="text-[#e8f0f0] font-medium">{planLabel[subscription.plan] ?? subscription.plan}</span>
           {subscription.status === 'active' && subscription.current_period_end && (
-            <span> · Renews {formatDate(subscription.current_period_end)}</span>
+            <span> Â· Renews {formatDate(subscription.current_period_end)}</span>
           )}
           {subscription.status !== 'active' && (
-            <span class="text-amber-400"> · {subscription.status}</span>
+            <span class="text-amber-400"> Â· {subscription.status}</span>
           )}
         </div>
       )}
@@ -120,12 +120,12 @@ const planLabel: Record<string, string> = {
     <div class="card">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-bold text-lg">Recent Downloads</h2>
-        <a href="/free-resource-library" class="text-sm text-teal-400 hover:underline">View all →</a>
+        <a href="/free-resource-library" class="text-sm text-teal-400 hover:underline">View all â†’</a>
       </div>
       {recentDownloads.length === 0 ? (
         <div class="text-[#4a5f63] text-sm py-4 text-center">
           No downloads yet.
-          <a href="/free-resource-library" class="text-teal-400 hover:underline ml-1">Browse the library →</a>
+          <a href="/free-resource-library" class="text-teal-400 hover:underline ml-1">Browse the library â†’</a>
         </div>
       ) : (
         <ul class="space-y-3">

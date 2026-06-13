@@ -21,3 +21,23 @@
 
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/start-free"
+  to = "/claim-free"
+  status = 301
+
+[[redirects]]
+  from = "/claim-your-free-resource"
+  to = "/claim-free"
+  status = 301
+
+[[redirects]]
+  from = "/get-free-resource"
+  to = "/claim-free"
+  status = 301
+
+[[redirects]]
+  from = "/signin"
+  to = "/sign-in"
+  status = 301

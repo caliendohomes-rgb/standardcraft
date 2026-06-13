@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS profiles_email_normalized_unique
+  ON public.profiles (LOWER(email));
+
 -- 2. user_preferences
 CREATE TABLE IF NOT EXISTS public.user_preferences (
   id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -44,6 +47,10 @@ CREATE TABLE IF NOT EXISTS public.credit_ledger (
   stripe_session_id TEXT,
   created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS credit_ledger_one_signup_bonus_per_user
+  ON public.credit_ledger (user_id)
+  WHERE type = 'signup_bonus';
 
 -- 5. resources
 CREATE TABLE IF NOT EXISTS public.resources (

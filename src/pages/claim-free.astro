@@ -1,4 +1,4 @@
----
+﻿---
 export const prerender = false;
 
 import { createSupabaseServerClient } from '../lib/supabase-server';
@@ -13,13 +13,13 @@ if (user) {
 ---
 
 <Layout
-  title="Claim Your Free Resource — StandardCraft"
-  description="Create a free StandardCraft account and claim one original, educator-reviewed NYS-aligned resource. No payment required. No student data required."
+  title="Claim Your Free Resource | StandardCraft"
+  description="Create a free StandardCraft account or sign in to browse 50 resources and download one with your signup credit."
 >
   <section class="max-w-xl mx-auto px-4 py-20">
-    <div class="section-label mb-3">Free trial — 1 credit, no card required</div>
-    <h1 class="text-4xl font-bold mb-3">Claim your free verified resource</h1>
-    <p class="text-[#4a5f63] mb-4">Create a free account to download one original, educator-reviewed, NYS-standards-aligned classroom resource. No payment required. No student data required.</p>
+    <div class="section-label mb-3">Free account - 1 signup credit, no card required</div>
+    <h1 class="text-4xl font-bold mb-3 text-[#172438]">Browse 50 resources and download one free.</h1>
+    <p class="text-[#4a5f63] mb-4">Create a free account to browse the full StandardCraft launch library and download one original, NYS-aligned classroom resource with your signup credit. No payment required. No student data required.</p>
 
     <!-- Reassurance strip -->
     <div class="flex flex-wrap gap-3 mb-6">
@@ -33,7 +33,7 @@ if (user) {
     <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
 
     <form id="register-form" class="space-y-4" novalidate>
-      <!-- Honeypot — hidden from humans, traps bots -->
+      <!-- Honeypot â€” hidden from humans, traps bots -->
       <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
         class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
 
@@ -64,7 +64,7 @@ if (user) {
 
       <div>
         <label class="block text-sm font-medium mb-1">Subjects you teach</label>
-        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources — nothing else.</p>
+        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources â€” nothing else.</p>
         <div class="grid grid-cols-2 gap-2 text-sm">
           {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
             <label class="flex items-center gap-2 cursor-pointer">
@@ -103,13 +103,13 @@ if (user) {
       </div>
 
       <button type="submit" id="submit-btn" class="btn-primary w-full py-3 text-base">
-        Create account &amp; claim free resource →
+        Create account and browse resources
       </button>
     </form>
 
     <p class="mt-6 text-center text-sm text-[#4a5f63]">
       Already have an account?
-      <a href="/signin" class="text-teal-400 hover:underline">Sign in</a>
+      <a href="/sign-in?redirect=/free-resource-library" class="text-teal-400 hover:underline">Sign in to browse the free library</a>
     </p>
   </section>
 </Layout>
@@ -131,7 +131,7 @@ if (user) {
     e.preventDefault();
     errorMsg.classList.add('hidden');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Creating account…';
+    submitBtn.textContent = 'Creating accountâ€¦';
 
     const fd = new FormData(form);
     const payload = {
@@ -157,12 +157,12 @@ if (user) {
       if (!res.ok) {
         showError(data.error || 'Registration failed. Please try again.');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Create account & claim free resource →';
+        submitBtn.textContent = 'Create account and browse resources';
         return;
       }
 
       // Sign in client-side to establish session cookie
-      submitBtn.textContent = 'Signing you in…';
+      submitBtn.textContent = 'Signing you inâ€¦';
       const supabase = createSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: payload.email,
@@ -171,7 +171,7 @@ if (user) {
 
       if (signInError) {
         showError('Account created! Please sign in to continue.');
-        window.location.href = '/signin';
+        window.location.href = '/sign-in';
         return;
       }
 
@@ -179,7 +179,7 @@ if (user) {
     } catch {
       showError('Network error. Please try again.');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account & claim free resource →';
+      submitBtn.textContent = 'Create account and browse resources';
     }
   });
 </script>

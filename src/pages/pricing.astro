@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 
 const plans = [
@@ -70,7 +70,7 @@ const plans = [
     features: [
       'Pooled credit allocation',
       'Multi-teacher admin panel',
-      'Ed Law §2-d FERPA data agreement',
+      'Ed Law Â§2-d FERPA data agreement',
       'Dedicated onboarding',
       'Custom resource requests',
       'Invoice / PO billing available',
@@ -84,21 +84,21 @@ const plans = [
 ---
 
 <Layout
-  title="Pricing — StandardCraft | Original NYS-Aligned Classroom Resources"
-  description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo · Pro $69/mo · School plans available."
+  title="Pricing â€” StandardCraft | Original NYS-Aligned Classroom Resources"
+  description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo Â· Pro $69/mo Â· School plans available."
 >
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="text-center mb-10">
       <div class="section-label mb-4">Simple, credit-based pricing</div>
       <h1 class="text-4xl font-bold mb-4">Start free. Download what you need.</h1>
       <p class="text-[#4a5f63] max-w-xl mx-auto mb-6">
-        Credits never expire within your billing period. Each resource costs 1–3 credits depending on type. Lesson plans cost 2 credits; most worksheets and exit tickets cost 1.
+        Browse the full launch library with a free account. Each launch resource costs 1 credit to download, and your signup credit covers one resource.
       </p>
       <!-- Trust chips -->
       <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#5a7478]">
         {['No student data required', 'Original resources', 'Alignment notes included', 'Educator-reviewed', 'Cancel anytime', 'School & district plans available'].map(item => (
           <span class="flex items-center gap-1.5">
-            <span class="text-teal-500 font-bold">✓</span>{item}
+            <span class="text-teal-500 font-bold">âœ“</span>{item}
           </span>
         ))}
       </div>
@@ -120,7 +120,7 @@ const plans = [
           <ul class="space-y-2 flex-1">
             {p.features.map(f => (
               <li class="flex items-start gap-2 text-sm text-[#4a5f63]">
-                <span class="text-teal-400 mt-0.5 shrink-0">✓</span>
+                <span class="text-teal-400 mt-0.5 shrink-0">âœ“</span>
                 {f}
               </li>
             ))}
@@ -151,7 +151,7 @@ const plans = [
 
     <!-- Credit cost table -->
     <div class="max-w-2xl mx-auto mb-16">
-      <h2 class="text-xl font-bold mb-6 text-center">Credit costs by resource type</h2>
+      <h2 class="text-xl font-bold mb-6 text-center">Launch download rule</h2>
       <div class="card overflow-hidden p-0">
         <table class="w-full text-sm">
           <thead>
@@ -162,20 +162,9 @@ const plans = [
           </thead>
           <tbody>
             {[
-              ['Worksheet', '1 credit'],
-              ['Exit Ticket', '1 credit'],
-              ['Graphic Organizer', '1 credit'],
-              ['Anchor Chart', '1 credit'],
-              ['Teacher Reference', '1 credit'],
-              ['Lesson Plan', '2 credits'],
-              ['Task Card Set', '2 credits'],
-              ['Co-Teaching Frame', '2 credits'],
-              ['CDOS Transition Material', '2 credits'],
-              ['Mini-Assessment', '2 credits'],
-              ['SDI Planning Frame', '2 credits'],
-              ['Station Activity', '2 credits'],
-              ['IEP Goal-Support Resource', '3 credits'],
-              ['Rubric', '1 credit'],
+              ['Any launch resource', '1 credit'],
+              ['Your free signup account', '1 included credit'],
+              ['Re-downloads of claimed resources', '0 additional credits'],
             ].map(([type, cost]) => (
               <tr class="border-t border-[#1e2a2d] first:border-0">
                 <td class="px-4 py-2.5 text-[#4a5f63]">{type}</td>
@@ -185,7 +174,7 @@ const plans = [
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-[#4a5f63] mt-3 text-center">Re-downloads of already-purchased resources are always free.</p>
+      <p class="text-xs text-[#4a5f63] mt-3 text-center">The free account lets you browse all 50 resources and download one with your signup credit.</p>
     </div>
 
     <!-- FAQ with schema -->
@@ -203,7 +192,7 @@ const plans = [
           },
           {
             q: 'Are the resources original?',
-            a: 'Yes. StandardCraft resources are created as original instructional supports — not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.',
+            a: 'Yes. StandardCraft resources are created as original instructional supports â€” not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.',
           },
           {
             q: 'Do these resources replace my district curriculum?',
@@ -241,7 +230,7 @@ const plans = [
 
     <div class="mt-12 text-center text-sm text-[#4a5f63]">
       Questions about school or district pricing?
-      <a href="/school-inquiry" class="text-teal-400 hover:underline ml-1">Contact us →</a>
+      <a href="/school-inquiry" class="text-teal-400 hover:underline ml-1">Contact us â†’</a>
     </div>
   </section>
 </Layout>
@@ -253,13 +242,13 @@ const plans = [
     btn.addEventListener('click', async () => {
       const plan = btn.getAttribute('data-plan')!;
       (btn as HTMLButtonElement).disabled = true;
-      (btn as HTMLButtonElement).textContent = 'Redirecting…';
+      (btn as HTMLButtonElement).textContent = 'Redirectingâ€¦';
 
       const supabase = createSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();
 
       if (!user) {
-        window.location.href = `/signin?redirect=/pricing`;
+        window.location.href = `/sign-in?redirect=/pricing`;
         return;
       }
 

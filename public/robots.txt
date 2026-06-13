@@ -3,6 +3,8 @@ Allow: /
 Disallow: /dashboard
 Disallow: /account
 Disallow: /free-resource-library
+Disallow: /sign-in
+Disallow: /signin
 Disallow: /api/
 
 Sitemap: https://standardcraft.netlify.app/sitemap.xml

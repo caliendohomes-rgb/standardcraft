@@ -33,6 +33,8 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ error: 'Resource not found.' }, 404);
     }
 
+    const creditCost = 1;
+
     // Check if already downloaded (allow re-download without credit cost)
     const { data: existingDownload } = await admin
       .from('downloads')
@@ -49,7 +51,7 @@ export const POST: APIRoute = async ({ request }) => {
         .createSignedUrl(resource.file_path, 120); // 2-minute expiry
 
       if (urlError || !signedUrlData) {
-        return json({ error: 'Could not generate download link. Please try again.' }, 500);
+        return json({ success: true, url: `/downloads/${resource.slug}.md`, redownload: true, fallback: true });
       }
 
       return json({ success: true, url: signedUrlData.signedUrl, redownload: true });
@@ -62,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
       .eq('user_id', user.id)
       .single();
 
-    if (!credits || credits.balance < resource.credit_cost) {
+    if (!credits || credits.balance < creditCost) {
       return json({
         error: 'Insufficient credits.',
         code: 'INSUFFICIENT_CREDITS',
@@ -75,7 +77,7 @@ export const POST: APIRoute = async ({ request }) => {
       p_user_id: user.id,
       p_resource_id: resource.id,
       p_resource_slug: resource_slug,
-      p_credit_cost: resource.credit_cost,
+      p_credit_cost: creditCost,
     });
 
     if (txError || !txResult?.success) {
@@ -92,10 +94,20 @@ export const POST: APIRoute = async ({ request }) => {
     if (urlError || !signedUrlData) {
       // Transaction committed but URL failed — log but don't re-deduct
       console.error('Signed URL error:', urlError);
-      return json({ error: 'Download ready but link generation failed. Contact support.' }, 500);
+      return json({
+        success: true,
+        url: `/downloads/${resource.slug}.md`,
+        title: resource.title,
+        fallback: true,
+      });
     }
 
-    return json({ success: true, url: signedUrlData.signedUrl, title: resource.title });
+    return json({
+      success: true,
+      url: signedUrlData.signedUrl,
+      title: resource.title,
+      redownload: txResult?.redownload === true,
+    });
 
   } catch (err: any) {
     console.error('Download API error:', err);
