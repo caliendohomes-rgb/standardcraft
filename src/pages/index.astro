@@ -1,0 +1,256 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const allResources = await getCollection('resources');
+const featuredResources = allResources.slice(0, 6);
+
+const subjects = [
+  { icon: '📚', name: 'ELA / Literacy', desc: 'Next Gen ELA Standards' },
+  { icon: '➕', name: 'Mathematics', desc: 'NYS Next Gen Math + Review Pilot' },
+  { icon: '🔬', name: 'Science / NYSSLS', desc: '3-Dimensional NYSSLS' },
+  { icon: '🗺️', name: 'Social Studies', desc: 'NYS SS Framework Key Ideas' },
+  { icon: '💻', name: 'CS & Digital Fluency', desc: 'NYS CS 2020 Standards' },
+  { icon: '🎨', name: 'Arts', desc: 'NYS Arts Learning Standards' },
+  { icon: '🌍', name: 'World Languages', desc: 'Proficiency-Oriented Standards' },
+  { icon: '🏥', name: 'Health / PE', desc: 'NYS Health & PE Standards' },
+  { icon: '💼', name: 'CDOS / Transition', desc: 'Career & IEP Pathways' },
+  { icon: '♿', name: 'SDI / Special Education', desc: '8 NYCRR Part 200 · IDEA' },
+];
+
+const resourceTypes = [
+  { icon: '📄', name: 'Lesson Plans', desc: '~60% of library', credit: '2 credits' },
+  { icon: '📋', name: 'Worksheets', desc: 'Printable, classroom-ready', credit: '1 credit' },
+  { icon: '🚪', name: 'Exit Tickets', desc: 'Formative assessment', credit: '1 credit' },
+  { icon: '🗂️', name: 'Graphic Organizers', desc: 'Visual scaffolds', credit: '1 credit' },
+  { icon: '🎯', name: 'Task Card Sets', desc: 'Station activities', credit: '2 credits' },
+  { icon: '🧾', name: 'Co-Teaching Frames', desc: 'ICT-ready structures', credit: '2 credits' },
+  { icon: '📌', name: 'IEP Goal-Support', desc: 'SDI-embedded resources', credit: '3 credits' },
+  { icon: '🔁', name: 'CDOS Materials', desc: 'Transition planning tools', credit: '2 credits' },
+];
+
+const plans = [
+  { name: 'Sampler', price: 'Free', credits: '1 trial credit', best: false, cta: 'Start free', ctaHref: '#start' },
+  { name: 'Classroom', price: '$29/mo', credits: '8 credits/month', best: false, cta: 'Choose Classroom', ctaHref: '#start' },
+  { name: 'Pro', price: '$69/mo', credits: '20 credits/month', best: true, cta: 'Choose Pro', ctaHref: '#start' },
+  { name: 'School', price: '$249+/mo', credits: 'Pooled credits + admin dashboard', best: false, cta: 'Talk to us', ctaHref: '#contact' },
+];
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+    <div class="max-w-4xl">
+      <div class="section-label mb-5">NYS Next Generation standards engine</div>
+      <h1 class="text-5xl sm:text-6xl font-bold leading-[1.08] tracking-tight mb-8">
+        Standards-grounded lessons,<br />
+        <em class="text-teal-400 not-italic">finished</em> for New York classrooms.
+      </h1>
+      <p class="text-xl text-[#4a5f63] max-w-2xl mb-10">
+        Not a marketplace draft. Not generic AI filler. Every StandardCraft resource arrives aligned to official NYS standards — with SDI blocks, MLL/ELL scaffolds, and an alignment record teachers can hand an administrator.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="#start" class="btn-primary text-base py-3.5 px-8">Start free →</a>
+        <a href="/resources" class="btn-outline text-base py-3.5 px-8">Browse Resource Library</a>
+      </div>
+    </div>
+
+    <!-- Trust stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 pt-16 border-t border-[#1e2a2d]">
+      {[
+        { value: '0', label: 'invented standard codes', sub: 'grounded to official NYSED data' },
+        { value: '9+', label: 'NYS frameworks covered', sub: 'ELA · Math · NYSSLS · SS · CS · Arts · more' },
+        { value: '50', label: 'seed resources available', sub: 'K–12 · all subjects · sale-ready' },
+      ].map(s => (
+        <div class="flex flex-col gap-1">
+          <div class="text-4xl font-bold text-teal-400">{s.value}</div>
+          <div class="font-semibold text-[#e8f0f0]">{s.label}</div>
+          <div class="text-sm text-[#4a5f63]">{s.sub}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Triple-Lock Framework -->
+  <section id="why-us" class="border-t border-[#1e2a2d] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">Triple-Lock Alignment Framework</div>
+      <h2 class="text-3xl font-bold mb-12 max-w-2xl">Three layers before a resource reaches a classroom</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          {
+            num: '01',
+            name: 'Grounded Generation',
+            desc: 'Every resource begins from the exact standard code, text, and framework — never from a generic topic. No standard is assumed or invented.',
+          },
+          {
+            num: '02',
+            name: 'Automated Validation',
+            desc: 'Alignment records are checked against the official NYS standards source. Any unverified standard moves to a blocked queue — not to your download.',
+          },
+          {
+            num: '03',
+            name: 'Human Review (Math Pilot)',
+            desc: 'Mathematics resources are eligible for NYS-certified Math teacher review before release. Other subjects: automated validation + founder oversight.',
+          },
+        ].map(l => (
+          <div class="card">
+            <div class="font-mono text-teal-400 text-sm mb-3">{l.num}</div>
+            <h3 class="font-bold text-lg mb-2">{l.name}</h3>
+            <p class="text-sm text-[#4a5f63]">{l.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards Frameworks -->
+  <section id="standards" class="border-t border-[#1e2a2d] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">What NY teachers are actually accountable to</div>
+      <h2 class="text-3xl font-bold mb-12">9+ NYS frameworks. One engine.</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {subjects.map(s => (
+          <div class="card text-center hover:border-teal-700/60">
+            <div class="text-2xl mb-2">{s.icon}</div>
+            <div class="font-semibold text-sm mb-1">{s.name}</div>
+            <div class="text-xs text-[#4a5f63]">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+      <div class="mt-6 text-sm text-[#4a5f63]">
+        ELA: NYS Next Generation ELA Standards (Revised 2017) — not Common Core.
+        Math: NYS Next Generation Mathematics Learning Standards (2017) — not Common Core.
+      </div>
+    </div>
+  </section>
+
+  <!-- SDI & MLL -->
+  <section id="sdi" class="border-t border-[#1e2a2d] py-20 bg-[#111618]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <div class="section-label mb-4">SDI — Specially Designed Instruction</div>
+          <h2 class="text-3xl font-bold mb-6">Every resource includes a full SDI block</h2>
+          <p class="text-[#4a5f63] mb-6">Aligned to 8 NYCRR Part 200 and IDEA. Each SDI block names the adaptation dimension (content, methodology, and/or delivery) and identifies suggested placement: ICT, Resource Room, or Self-Contained.</p>
+          <ul class="space-y-3 text-sm">
+            {[
+              'ICT (Integrated Co-Teaching) adaptations',
+              'Resource Room reteach scaffolds',
+              'Self-Contained modified versions',
+              'IEP goal-support references (teacher reference only — not legal IEP)',
+              'Chunked directions + executive function supports',
+              'Response choice and graphic organizer supports',
+            ].map(item => (
+              <li class="flex items-start gap-2 text-[#4a5f63]">
+                <span class="text-teal-400 mt-0.5">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div id="mll">
+          <div class="section-label mb-4">MLL/ELL — Multilingual Learner Supports</div>
+          <h2 class="text-3xl font-bold mb-6">NYSESLAT-tiered scaffolds in every resource</h2>
+          <p class="text-[#4a5f63] mb-6">MLL/ELL supports are differentiated across at least two NYSESLAT proficiency bands — not generic "extra time." Each resource includes tiered vocabulary, sentence frames, and visual support suggestions.</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              { level: 'Entering', color: 'bg-slate-800/60' },
+              { level: 'Emerging', color: 'bg-slate-800/60' },
+              { level: 'Transitioning', color: 'bg-teal-900/40' },
+              { level: 'Expanding', color: 'bg-teal-900/40' },
+              { level: 'Commanding', color: 'bg-teal-800/40' },
+            ].map(l => (
+              <div class={`rounded-lg px-3 py-2 text-center text-sm font-medium ${l.color}`}>
+                {l.level}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resource Library Preview -->
+  <section class="border-t border-[#1e2a2d] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <div class="section-label mb-2">From the Library</div>
+          <h2 class="text-3xl font-bold">50 classroom-ready resources</h2>
+        </div>
+        <a href="/resources" class="btn-outline text-sm py-2 px-5">Browse all →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {featuredResources.map(resource => (
+          <a href={`/resources/${resource.slug}`} class="card group hover:border-teal-700/60 transition-colors cursor-pointer no-underline">
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="tag tag-teal">{resource.data.subject}</span>
+              <span class="tag tag-gray">Grade {resource.data.grade}</span>
+            </div>
+            <h3 class="font-semibold mb-2 group-hover:text-teal-300 transition-colors">{resource.data.title}</h3>
+            <div class="flex items-center gap-2 mt-3 text-xs">
+              <span class="font-mono text-teal-400 bg-teal-900/30 px-2 py-0.5 rounded border border-teal-800/50">
+                {resource.data.standards[0]?.code}
+              </span>
+              <span class="text-[#4a5f63]">{resource.data.resource_type}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Produce -->
+  <section class="border-t border-[#1e2a2d] py-20 bg-[#111618]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">What We Produce</div>
+      <h2 class="text-3xl font-bold mb-10">Every format a classroom needs</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {resourceTypes.map(rt => (
+          <div class="card">
+            <div class="text-xl mb-2">{rt.icon}</div>
+            <div class="font-semibold text-sm mb-1">{rt.name}</div>
+            <div class="text-xs text-[#4a5f63] mb-3">{rt.desc}</div>
+            <div class="tag tag-gray self-start">{rt.credit}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="border-t border-[#1e2a2d] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">Monthly Access · Credits</div>
+      <h2 class="text-3xl font-bold mb-10">Choose your plan</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {plans.map(p => (
+          <div class={`card flex flex-col gap-4 ${p.best ? 'border-teal-600 bg-teal-950/30' : ''}`}>
+            {p.best && <div class="tag tag-teal self-start">Most Popular</div>}
+            <div>
+              <div class="font-bold text-lg">{p.name}</div>
+              <div class="text-3xl font-bold text-teal-400 mt-1">{p.price}</div>
+            </div>
+            <div class="text-sm text-[#4a5f63] flex-1">{p.credits}</div>
+            <a href={p.ctaHref} class={p.best ? 'btn-primary text-sm py-2.5' : 'btn-outline text-sm py-2.5'}>
+              {p.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-sm text-[#4a5f63]">Need district-wide access? <a href="#contact" class="text-teal-400 hover:underline">Request an Empire/District quote →</a></p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section id="start" class="border-t border-[#1e2a2d] py-24 bg-[#111618]">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <div class="section-label mb-4">Enter the Engine</div>
+      <h2 class="text-4xl font-bold mb-6">Your first verified resource is free.</h2>
+      <p class="text-[#4a5f63] mb-10">Start with 1 trial credit. No card required. See exactly what an alignment record looks like in your hands.</p>
+      <a href="#" class="btn-primary text-lg py-4 px-10">Claim your free verified resource →</a>
+      <p class="mt-6 text-xs text-[#4a5f63]">Not affiliated with NYSED. Resources are original content aligned to official NYS standards.</p>
+    </div>
+  </section>
+</Layout>

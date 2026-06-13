@@ -1,0 +1,102 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title = 'StandardCraft — NYS Standards-Aligned Classroom Resources',
+  description = 'Classroom-ready lesson plans and worksheets grounded in NYS Next Generation Standards. Zero invented codes. Verified alignment records. Built for New York educators.',
+  canonical,
+} = Astro.props;
+
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title}</title>
+
+    <!-- Favicon placeholder -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+
+    <!-- No NYSED affiliation claim -->
+    <meta name="robots" content="index, follow" />
+  </head>
+  <body class="bg-[#0a0e0f] text-[#e8f0f0] font-sans antialiased">
+    <!-- Nav -->
+    <header class="border-b border-[#1e2a2d] sticky top-0 z-50 bg-[#0a0e0f]/95 backdrop-blur">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="/" class="font-bold text-lg tracking-tight text-[#e8f0f0] hover:text-teal-400 transition-colors">
+          Standard<span class="text-teal-400">Craft</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <a href="/#why-us" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Why us</a>
+          <a href="/#standards" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Standards</a>
+          <a href="/#sdi" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">SDI</a>
+          <a href="/#mll" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">MLL Plans</a>
+          <a href="/resources" class="text-[#4a5f63] hover:text-teal-400 transition-colors font-medium">Resource Library</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="/#pricing" class="hidden sm:inline text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Plans</a>
+          <a href="/#start" class="btn-primary text-sm py-2 px-4">Start free →</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#1e2a2d] mt-24 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between gap-8">
+          <div>
+            <div class="font-bold text-lg mb-2">Standard<span class="text-teal-400">Craft</span></div>
+            <p class="text-sm text-[#4a5f63] max-w-xs">
+              NYS Next Generation standards engine. Classroom-ready resources for New York educators. Not affiliated with, endorsed by, or sponsored by NYSED.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-8 text-sm">
+            <div>
+              <div class="font-semibold mb-3 text-[#e8f0f0]">Product</div>
+              <ul class="space-y-2 text-[#4a5f63]">
+                <li><a href="/#why-us" class="hover:text-teal-400 transition-colors">Why StandardCraft</a></li>
+                <li><a href="/#standards" class="hover:text-teal-400 transition-colors">Standards Alignment</a></li>
+                <li><a href="/resources" class="hover:text-teal-400 transition-colors">Resource Library</a></li>
+                <li><a href="/#pricing" class="hover:text-teal-400 transition-colors">Pricing</a></li>
+              </ul>
+            </div>
+            <div>
+              <div class="font-semibold mb-3 text-[#e8f0f0]">Standards</div>
+              <ul class="space-y-2 text-[#4a5f63]">
+                <li><a href="/resources?subject=ELA" class="hover:text-teal-400 transition-colors">ELA / Literacy</a></li>
+                <li><a href="/resources?subject=Math" class="hover:text-teal-400 transition-colors">Mathematics</a></li>
+                <li><a href="/resources?subject=Science" class="hover:text-teal-400 transition-colors">Science / NYSSLS</a></li>
+                <li><a href="/resources?subject=Social+Studies" class="hover:text-teal-400 transition-colors">Social Studies</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs text-[#4a5f63]">
+          <p>© 2024 StandardCraft. All rights reserved. Not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED).</p>
+          <p>All content is original. NYS standard codes cited from official NYSED sources.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const resources = await getCollection('resources');
+  return resources.map(r => ({ params: { slug: r.slug }, props: { resource: r } }));
+}
+
+const { resource } = Astro.props;
+const { data } = resource;
+const { Content } = await resource.render();
+
+const confidenceColors = {
+  'Full Trust': 'text-teal-400 border-teal-700/40 bg-teal-900/30',
+  'High Confidence': 'text-amber-300 border-amber-700/40 bg-amber-900/20',
+  'Needs Human Review': 'text-orange-300 border-orange-700/40 bg-orange-900/20',
+  'Blocked': 'text-red-400 border-red-700/40 bg-red-900/20',
+};
+const confColor = confidenceColors[data.alignment_confidence];
+---
+
+<Layout
+  title={`${data.title} — StandardCraft`}
+  description={`${data.resource_type} for Grade ${data.grade} ${data.subject}. Aligned to ${data.standards_framework}. Includes SDI and MLL/ELL scaffolds.`}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-[#4a5f63] mb-8 no-print">
+      <a href="/" class="hover:text-teal-400">Home</a>
+      <span>›</span>
+      <a href="/resources" class="hover:text-teal-400">Resource Library</a>
+      <span>›</span>
+      <span class="text-[#e8f0f0]">{data.title}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="tag tag-teal">{data.subject}</span>
+        <span class="tag tag-gray">Grade {data.grade}</span>
+        <span class="tag tag-gray">{data.grade_band}</span>
+        <span class="tag tag-gray">{data.resource_type}</span>
+        {data.human_review === 'Math teacher review pilot eligible' && (
+          <span class="tag tag-teal">Math Review Pilot</span>
+        )}
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">{data.title}</h1>
+      <p class="text-[#4a5f63]">Duration: {data.duration} · {data.standards_framework}</p>
+    </div>
+
+    <!-- Alignment Record Box -->
+    <div class={`rounded-xl border p-5 mb-8 ${confColor}`}>
+      <div class="font-semibold text-sm mb-3 uppercase tracking-wide">Alignment Record</div>
+      {data.standards.map(std => (
+        <div class="mb-3">
+          <div class="font-mono text-sm font-semibold">{std.code}</div>
+          <div class="text-sm opacity-90 mt-1">{std.text}</div>
+          <div class="text-xs opacity-60 mt-1">Source: {std.source}</div>
+        </div>
+      ))}
+      <div class="mt-3 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
+        <span>Confidence: <strong>{data.alignment_confidence}</strong></span>
+        <span>{data.human_review}</span>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      {data.marketplace_tags.map(tag => (
+        <span class="tag tag-gray">#{tag}</span>
+      ))}
+    </div>
+
+    <!-- Content -->
+    <article class="prose prose-invert prose-teal max-w-none
+      prose-headings:text-[#e8f0f0] prose-headings:font-bold
+      prose-h2:text-xl prose-h2:border-b prose-h2:border-[#1e2a2d] prose-h2:pb-2
+      prose-h3:text-base prose-h3:text-teal-300
+      prose-p:text-[#b8cbcd] prose-li:text-[#b8cbcd]
+      prose-strong:text-[#e8f0f0]
+      prose-code:text-teal-300 prose-code:bg-teal-900/30 prose-code:rounded prose-code:px-1
+      prose-blockquote:border-teal-600 prose-blockquote:text-[#b8cbcd]
+      prose-hr:border-[#1e2a2d]
+    ">
+      <Content />
+    </article>
+
+    <!-- Footer actions -->
+    <div class="mt-12 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
+      <div class="text-sm text-[#4a5f63]">
+        Resource ID: {data.resource_id} · Created for {data.created_for}
+      </div>
+      <div class="flex gap-3">
+        <button onclick="window.print()" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
+        <a href="/resources" class="btn-primary text-sm py-2 px-4">← Back to Library</a>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="mt-6 text-xs text-[#4a5f63] no-print">
+      StandardCraft is not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED). All content is original. Standard codes cited from official NYSED sources.
+    </div>
+  </div>
+</Layout>

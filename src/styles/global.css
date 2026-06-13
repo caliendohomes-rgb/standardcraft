@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0a0e0f;
+    color: #e8f0f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #14b8a6;
+    color: #0a0e0f;
+  }
+}
+
+@layer components {
+  .tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .tag-teal {
+    @apply tag bg-teal-900/60 text-teal-300 border border-teal-700/40;
+  }
+
+  .tag-gray {
+    @apply tag bg-gray-800/60 text-gray-300 border border-gray-600/40;
+  }
+
+  .tag-amber {
+    @apply tag bg-amber-900/40 text-amber-300 border border-amber-700/40;
+  }
+
+  .tag-purple {
+    @apply tag bg-purple-900/40 text-purple-300 border border-purple-700/40;
+  }
+
+  .card {
+    @apply rounded-xl border border-[#1e2a2d] bg-[#111618] p-6 hover:border-teal-700/60 transition-colors;
+  }
+
+  .section-label {
+    @apply text-xs font-semibold tracking-widest text-teal-400 uppercase;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-[#0a0e0f] font-semibold rounded-lg hover:bg-teal-400 transition-colors;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-[#1e2a2d] text-[#e8f0f0] font-semibold rounded-lg hover:border-teal-600 hover:text-teal-300 transition-colors;
+  }
+}
+
+/* Print styles for resource pages */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+}

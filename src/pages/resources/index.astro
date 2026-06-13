@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ResourceCard from '../../components/ResourceCard.astro';
+
+const allResources = await getCollection('resources');
+
+const subjects = [...new Set(allResources.map(r => r.data.subject))].sort();
+const gradeBands = ['K-2', '3-5', '6-8', '9-12'];
+const resourceTypes = [...new Set(allResources.map(r => r.data.resource_type))].sort();
+
+const stats = {
+  total: allResources.length,
+  saleReady: allResources.filter(r => r.data.is_sale_ready).length,
+  withSDI: allResources.filter(r => r.data.has_sdi_block).length,
+  withMLL: allResources.filter(r => r.data.has_mll_block).length,
+};
+
+const bySubject = subjects.map(s => ({
+  subject: s,
+  resources: allResources.filter(r => r.data.subject === s),
+}));
+---
+
+<Layout
+  title="NYS Resource Library — StandardCraft"
+  description="50 classroom-ready NYS Next Generation standards-aligned lesson plans and worksheets. ELA, Math, Science, Social Studies, CS, Arts, Health, World Languages, CDOS, and SDI resources."
+>
+  <!-- Hero -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+    <div class="section-label mb-4">Resource Library</div>
+    <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6">
+      50 NYS-Aligned Classroom Resources
+    </h1>
+    <p class="text-lg text-[#4a5f63] max-w-3xl mb-8">
+      Every resource is grounded in official NYS Next Generation standards — zero invented codes. Includes SDI blocks, MLL/ELL scaffolds, and alignment records teachers can use with administrators, IEP teams, and evaluators.
+    </p>
+
+    <!-- Stat row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+      {[
+        { label: 'Total Resources', value: stats.total },
+        { label: 'Sale-Ready', value: stats.saleReady },
+        { label: 'Include SDI Block', value: stats.withSDI },
+        { label: 'Include MLL/ELL Scaffolds', value: stats.withMLL },
+      ].map(s => (
+        <div class="card text-center">
+          <div class="text-3xl font-bold text-teal-400">{s.value}</div>
+          <div class="text-xs text-[#4a5f63] mt-1">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Coverage chips -->
+    <div class="flex flex-wrap gap-2 mb-2">
+      <span class="section-label self-center mr-2">Covers:</span>
+      {subjects.map(s => (
+        <span class="tag-teal tag">{s}</span>
+      ))}
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span class="section-label self-center mr-2">Grades:</span>
+      {gradeBands.map(b => (
+        <span class="tag-gray tag">{b}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <div class="rounded-xl border border-amber-800/40 bg-amber-950/20 p-4 text-sm text-amber-300/80">
+      <strong>Alignment note:</strong> NYS standard codes are cited from official NYSED sources. Math resources are eligible for the Math Teacher Review Pilot. All other subjects are produced through standards-grounded generation and founder oversight. StandardCraft is not affiliated with, sponsored by, or endorsed by NYSED.
+    </div>
+  </div>
+
+  <!-- Resource grid by subject -->
+  {bySubject.map(({ subject, resources }) => (
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+      <div class="flex items-center gap-4 mb-6">
+        <h2 class="text-xl font-bold">{subject}</h2>
+        <span class="tag-gray tag">{resources.length} resources</span>
+        <div class="flex-1 h-px bg-[#1e2a2d]"></div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {resources.map(resource => (
+          <ResourceCard resource={resource} />
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <!-- Bottom CTA -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+    <div class="max-w-2xl mx-auto">
+      <div class="section-label mb-4">Ready to Access?</div>
+      <h2 class="text-3xl font-bold mb-4">Start with a free verified resource</h2>
+      <p class="text-[#4a5f63] mb-8">Every StandardCraft resource includes an Alignment Record with exact NYS standard codes, SDI blocks, and MLL/ELL scaffolds. No editing required.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/#start" class="btn-primary">Claim your free resource →</a>
+        <a href="/#pricing" class="btn-outline">Compare plans</a>
+      </div>
+    </div>
+  </section>
+</Layout>
