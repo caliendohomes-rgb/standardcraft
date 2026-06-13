@@ -1,0 +1,144 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import TrustModule from '../components/TrustModule.astro';
+import FaqSection from '../components/FaqSection.astro';
+
+const allResources = await getCollection('resources');
+const mathResources = allResources.filter(r =>
+  r.data.subject === 'Math' || r.data.subject === 'Mathematics'
+);
+
+const faqItems = [
+  {
+    q: 'Are these Common Core Math resources?',
+    a: 'No. StandardCraft Math resources are aligned to the NYS Next Generation Mathematics Learning Standards (2017) — the standards currently required in New York State. These replace the Common Core State Standards for Mathematics and are not tagged as Common Core.',
+  },
+  {
+    q: 'Are Math resources educator-reviewed?',
+    a: 'Yes. Math resources are eligible for the StandardCraft Math Teacher Review Pilot — review by NYS-certified Math teachers for instructional accuracy, classroom usability, and standards connection. Resources in the pilot carry the "Math Review Pilot" label.',
+  },
+  {
+    q: 'Which Math domains are covered?',
+    a: 'Resources cover NYS Next Generation Math domains across K–12: Counting and Cardinality, Operations and Algebraic Thinking, Number and Operations, Measurement and Data, Geometry, Ratios and Proportional Relationships, Expressions and Equations, Functions, Statistics and Probability, and Number and Quantity through high school.',
+  },
+  {
+    q: 'Is StandardCraft affiliated with NYSED?',
+    a: 'No. StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department.',
+  },
+  {
+    q: 'Do Math resources replace district curriculum?',
+    a: 'No. StandardCraft Math resources support planning, practice, intervention, and enrichment — they do not replace district curriculum, pacing calendars, or teacher professional judgment.',
+  },
+  {
+    q: 'Do I need student data to access Math resources?',
+    a: 'No. Teachers browse and download Math resources without entering student personally identifiable information.',
+  },
+];
+---
+
+<Layout
+  title="NYS Next Generation Math Resources — Not Common Core | StandardCraft"
+  description="Original, educator-reviewed NYS Next Generation Mathematics Learning Standards resources. Not Common Core. Math Teacher Review Pilot eligible. Includes alignment notes and SDI blocks."
+>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+    <div class="max-w-3xl">
+      <div class="section-label mb-4">NYS Next Generation Math Resources</div>
+      <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6">
+        Math resources built from NYS Next Generation standards — not Common Core
+      </h1>
+      <p class="text-lg text-[#4a5f63] mb-4 leading-relaxed">
+        Original Math lesson plans, worksheets, and practice resources grounded in the NYS Next Generation Mathematics Learning Standards (2017).
+        Math Teacher Review Pilot eligible. Includes alignment notes, SDI blocks, and MLL/ELL scaffolds.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="tag tag-teal text-xs">NYS Next Gen Math — Not Common Core</span>
+        <span class="tag tag-teal text-xs">Math Review Pilot eligible</span>
+        <span class="tag tag-gray text-xs">Grades K–12</span>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/claim-free" class="btn-primary py-3 px-8">Get 1 free Math resource →</a>
+        <a href="/resources" class="btn-outline py-3 px-8">Browse all resources</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Math Review Pilot callout -->
+  <div class="border-y border-teal-800/40 bg-teal-950/20 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div class="tag tag-teal text-xs shrink-0">Math Review Pilot</div>
+      <p class="text-sm text-[#4a5f63]">
+        StandardCraft Math resources are eligible for review by NYS-certified Math teachers as part of our Math Teacher Review Pilot —
+        checking for instructional accuracy, pacing, and standards connection before publication.
+      </p>
+    </div>
+  </div>
+
+  <section class="border-t border-[#1e2a2d] py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">Grade bands covered</div>
+      <h2 class="text-2xl font-bold mb-8">K–12 NYS Math domains</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { band: 'K–2', domains: ['Counting & Cardinality', 'Operations & Algebraic Thinking', 'Number & Operations in Base Ten', 'Measurement & Data', 'Geometry'] },
+          { band: '3–5', domains: ['Operations & Algebraic Thinking', 'Number & Operations', 'Fractions', 'Measurement & Data', 'Geometry'] },
+          { band: '6–8', domains: ['Ratios & Proportional Relationships', 'Number System', 'Expressions & Equations', 'Functions', 'Statistics & Probability'] },
+          { band: '9–12', domains: ['Number & Quantity', 'Algebra', 'Functions', 'Modeling', 'Geometry', 'Statistics & Probability'] },
+        ].map(gb => (
+          <div class="card">
+            <div class="font-bold text-teal-400 mb-3">Grades {gb.band}</div>
+            <ul class="space-y-1.5">
+              {gb.domains.map(d => (
+                <li class="text-xs text-[#4a5f63] flex items-start gap-1.5">
+                  <span class="text-teal-600 mt-0.5">·</span>{d}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {mathResources.length > 0 && (
+    <section class="border-t border-[#1e2a2d] py-16 bg-[#111618]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-6">
+          <h2 class="text-2xl font-bold">Available Math resources</h2>
+          <a href="/resources" class="text-sm text-teal-400 hover:underline">Browse all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {mathResources.map(r => (
+            <a href={`/resources/${r.slug}`} class="card group hover:border-teal-700/60 transition-colors no-underline cursor-pointer">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="tag tag-purple">Math</span>
+                <span class="tag tag-gray">Grade {r.data.grade}</span>
+                {r.data.human_review === 'Math teacher review pilot eligible' && (
+                  <span class="tag tag-teal">Review Pilot</span>
+                )}
+              </div>
+              <h3 class="font-semibold text-sm leading-snug mb-2 group-hover:text-teal-300 transition-colors">{r.data.title}</h3>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="font-mono text-teal-400 bg-teal-900/30 px-2 py-0.5 rounded border border-teal-800/50">
+                  {r.data.standards[0]?.code}
+                </span>
+                <span class="text-[#4a5f63]">NYS Next Gen Math</span>
+              </div>
+              <p class="text-[11px] text-[#3a5055] mt-3 pt-2 border-t border-[#1e2a2d]">
+                Not Common Core · Alignment note included · Original resource
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TrustModule heading="Built for trust, not just search." subjectContext="Math" />
+
+  <FaqSection
+    heading="Questions about StandardCraft NYS Math resources"
+    items={faqItems}
+    id="faq-math"
+  />
+</Layout>

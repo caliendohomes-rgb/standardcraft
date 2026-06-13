@@ -14,12 +14,21 @@ if (user) {
 
 <Layout
   title="Claim Your Free Resource — StandardCraft"
-  description="Create a free StandardCraft account and claim one verified NYS-aligned resource. No card required."
+  description="Create a free StandardCraft account and claim one original, educator-reviewed NYS-aligned resource. No payment required. No student data required."
 >
   <section class="max-w-xl mx-auto px-4 py-20">
     <div class="section-label mb-3">Free trial — 1 credit, no card required</div>
     <h1 class="text-4xl font-bold mb-3">Claim your free verified resource</h1>
-    <p class="text-[#4a5f63] mb-8">Create an account and get instant access to your first NYS-aligned resource — SDI block, MLL scaffolds, and alignment record included.</p>
+    <p class="text-[#4a5f63] mb-4">Create a free account to download one original, educator-reviewed, NYS-standards-aligned classroom resource. No payment required. No student data required.</p>
+
+    <!-- Reassurance strip -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      {['No payment required', 'No student data required', 'Original resource', 'Alignment notes included'].map(item => (
+        <span class="flex items-center gap-1.5 text-xs text-[#5a7478]">
+          <span class="text-teal-500 font-bold">✓</span>{item}
+        </span>
+      ))}
+    </div>
 
     <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
 
@@ -54,7 +63,8 @@ if (user) {
       </div>
 
       <div>
-        <label class="block text-sm font-medium mb-2">Subjects you teach</label>
+        <label class="block text-sm font-medium mb-1">Subjects you teach</label>
+        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources — nothing else.</p>
         <div class="grid grid-cols-2 gap-2 text-sm">
           {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
             <label class="flex items-center gap-2 cursor-pointer">
@@ -84,10 +94,12 @@ if (user) {
         </label>
       </div>
 
-      <div class="text-xs text-[#4a5f63] border-t border-[#1e2a2d] pt-4">
-        By creating an account you agree to our
-        <a href="/terms" class="text-teal-400 hover:underline">Terms of Service</a> and
-        <a href="/privacy" class="text-teal-400 hover:underline">Privacy Policy</a>.
+      <div class="text-xs text-[#3a5055] border-t border-[#1e2a2d] pt-4 space-y-1.5">
+        <p>By creating an account you agree to our
+          <a href="/terms" class="text-teal-500 hover:underline">Terms of Service</a> and
+          <a href="/privacy" class="text-teal-500 hover:underline">Privacy Policy</a>.
+        </p>
+        <p>You confirm that you understand StandardCraft is an independent resource platform and is not affiliated with or endorsed by the New York State Education Department.</p>
       </div>
 
       <button type="submit" id="submit-btn" class="btn-primary w-full py-3 text-base">

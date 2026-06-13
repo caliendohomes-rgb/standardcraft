@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import FaqSection from '../components/FaqSection.astro';
 
 const allResources = await getCollection('resources');
 const featuredResources = allResources.slice(0, 6);
@@ -19,14 +21,14 @@ const subjects = [
 ];
 
 const resourceTypes = [
-  { icon: '📄', name: 'Lesson Plans', desc: '~60% of library', credit: '2 credits' },
-  { icon: '📋', name: 'Worksheets', desc: 'Printable, classroom-ready', credit: '1 credit' },
+  { icon: '📄', name: 'Lesson Plans', desc: 'Classroom use, intervention, enrichment', credit: '2 credits' },
+  { icon: '📋', name: 'Worksheets', desc: 'Practice, review, independent work', credit: '1 credit' },
   { icon: '🚪', name: 'Exit Tickets', desc: 'Formative assessment', credit: '1 credit' },
-  { icon: '🗂️', name: 'Graphic Organizers', desc: 'Visual scaffolds', credit: '1 credit' },
-  { icon: '🎯', name: 'Task Card Sets', desc: 'Station activities', credit: '2 credits' },
-  { icon: '🧾', name: 'Co-Teaching Frames', desc: 'ICT-ready structures', credit: '2 credits' },
-  { icon: '📌', name: 'IEP Goal-Support', desc: 'SDI-embedded resources', credit: '3 credits' },
-  { icon: '🔁', name: 'CDOS Materials', desc: 'Transition planning tools', credit: '2 credits' },
+  { icon: '🗂️', name: 'Graphic Organizers', desc: 'Visual scaffolds, planning support', credit: '1 credit' },
+  { icon: '🎯', name: 'Task Card Sets', desc: 'Station activities, small-group support', credit: '2 credits' },
+  { icon: '🧾', name: 'Co-Teaching Frames', desc: 'ICT-ready, SDI-embedded', credit: '2 credits' },
+  { icon: '📌', name: 'IEP Goal-Support', desc: 'SDI references, teacher use only', credit: '3 credits' },
+  { icon: '🔁', name: 'CDOS Materials', desc: 'Transition planning supports', credit: '2 credits' },
 ];
 
 const plans = [
@@ -35,32 +37,71 @@ const plans = [
   { name: 'Pro', price: '$69/mo', credits: '20 credits/month', best: true, cta: 'Choose Pro', ctaHref: '/pricing' },
   { name: 'School', price: '$249+/mo', credits: 'Pooled credits + admin dashboard', best: false, cta: 'Talk to us', ctaHref: '/school-inquiry' },
 ];
+
+const faqItems = [
+  {
+    q: 'Is StandardCraft affiliated with NYSED?',
+    a: 'No. StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. Our resources are built from publicly available standards frameworks and are designed to support classroom planning.',
+  },
+  {
+    q: 'Do StandardCraft resources replace my district curriculum?',
+    a: 'No. StandardCraft resources are designed to complement district curriculum, teacher expertise, and school-approved instructional programs. They help teachers turn publicly available NYS standards into practical classroom materials for planning, practice, intervention, enrichment, and review.',
+  },
+  {
+    q: 'Do I need to enter student data?',
+    a: 'No. StandardCraft does not require student personally identifiable information to browse, download, or use teacher resources. StandardCraft is designed for teacher resource access, not student data collection.',
+  },
+  {
+    q: 'What does "alignment notes included" mean?',
+    a: 'Each resource includes a plain-English explanation of how the activity connects to the relevant New York State standards framework, along with the exact standard code, text, and source — so teachers can verify alignment and hand the record to an administrator.',
+  },
+  {
+    q: 'Are the resources original?',
+    a: 'Yes. StandardCraft resources are created as original instructional supports — not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.',
+  },
+  {
+    q: 'What NYS standards do you cover?',
+    a: 'StandardCraft covers 9+ NYS frameworks: Next Generation ELA Standards (2017), Next Generation Mathematics Learning Standards (2017), NYSSLS Science Standards, NYS Social Studies Framework, CS & Digital Fluency Standards, Arts Learning Standards, CDOS, Health & PE, and SDI supports under 8 NYCRR Part 200. ELA and Math resources are not tagged as Common Core.',
+  },
+  {
+    q: 'Can I download a resource more than once?',
+    a: 'Yes. Once you download a resource, you can re-download it at any time at no additional credit cost.',
+  },
+];
 ---
 
-<Layout>
+<Layout
+  title="StandardCraft — Original NYS Standards-Aligned Classroom Resources"
+  description="Original, educator-reviewed lesson plans, worksheets, and classroom supports built from publicly available New York State standards. No student data required. Independent from NYSED."
+>
   <!-- Hero -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
     <div class="max-w-4xl">
-      <div class="section-label mb-5">NYS Next Generation standards engine</div>
+      <div class="section-label mb-5">Turn NYS standards into classroom-ready resources</div>
       <h1 class="text-5xl sm:text-6xl font-bold leading-[1.08] tracking-tight mb-8">
-        Standards-grounded lessons,<br />
+        Standards-grounded resources,<br />
         <em class="text-teal-400 not-italic">finished</em> for New York classrooms.
       </h1>
-      <p class="text-xl text-[#4a5f63] max-w-2xl mb-10">
-        Not a marketplace draft. Not generic AI filler. Every StandardCraft resource arrives aligned to official NYS standards — with SDI blocks, MLL/ELL scaffolds, and an alignment record teachers can hand an administrator.
+      <p class="text-xl text-[#4a5f63] max-w-2xl mb-4">
+        Original, educator-reviewed lesson plans, worksheets, and classroom supports built from publicly available New York State standards — designed to help teachers plan faster, teach with confidence, and adapt resources to their students.
+      </p>
+      <p class="text-sm text-[#3a5055] mb-10">
+        Not affiliated with NYSED. Does not replace district curriculum.
+        Resources include alignment notes and SDI + MLL/ELL scaffolds.
       </p>
       <div class="flex flex-col sm:flex-row gap-4">
         <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Start free →</a>
         <a href="/resources" class="btn-outline text-base py-3.5 px-8">Browse Resource Library</a>
       </div>
+      <p class="mt-4 text-xs text-[#3a5055]">1 free credit · No payment required · No student data required</p>
     </div>
 
     <!-- Trust stats -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 pt-16 border-t border-[#1e2a2d]">
       {[
-        { value: '0', label: 'invented standard codes', sub: 'grounded to official NYSED data' },
-        { value: '9+', label: 'NYS frameworks covered', sub: 'ELA · Math · NYSSLS · SS · CS · Arts · more' },
-        { value: '50', label: 'seed resources available', sub: 'K–12 · all subjects · sale-ready' },
+        { value: '0', label: 'invented standard codes', sub: 'Grounded to official publicly available NYSED frameworks' },
+        { value: '9+', label: 'NYS frameworks covered', sub: 'ELA · Math · NYSSLS · SS · CS · Arts · CDOS · SDI · more' },
+        { value: '50', label: 'original resources', sub: 'Educator-reviewed · Classroom-ready · K–12' },
       ].map(s => (
         <div class="flex flex-col gap-1">
           <div class="text-4xl font-bold text-teal-400">{s.value}</div>
@@ -71,27 +112,43 @@ const plans = [
     </div>
   </section>
 
+  <!-- Trust strip -->
+  <TrustStrip />
+
+  <!-- Positioning statement -->
+  <section class="border-b border-[#1e2a2d] py-12 bg-[#0d1314]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-base text-[#5a7478] leading-relaxed max-w-3xl mx-auto">
+        New York State standards describe what students should know and be able to do.
+        <span class="text-[#8aadaf]"> StandardCraft helps teachers turn those expectations into practical classroom resources</span> —
+        lesson plans, worksheets, activities, assessments, and planning supports that are easier to use in daily instruction.
+        Resources are designed to complement, not replace, district curriculum and teacher professional judgment.
+      </p>
+    </div>
+  </section>
+
   <!-- Triple-Lock Framework -->
   <section id="why-us" class="border-t border-[#1e2a2d] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">Triple-Lock Alignment Framework</div>
-      <h2 class="text-3xl font-bold mb-12 max-w-2xl">Three layers before a resource reaches a classroom</h2>
+      <h2 class="text-3xl font-bold mb-3 max-w-2xl">Three layers before a resource reaches a classroom</h2>
+      <p class="text-[#4a5f63] text-sm mb-10 max-w-xl">Each resource is built from a verified NYS standard, validated for alignment, and reviewed for instructional clarity. Educators see the full alignment record before downloading.</p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           {
             num: '01',
-            name: 'Grounded Generation',
-            desc: 'Every resource begins from the exact standard code, text, and framework — never from a generic topic. No standard is assumed or invented.',
+            name: 'Standards-Grounded Creation',
+            desc: 'Every resource starts from the exact standard code, text, and framework — never from a generic topic. No standard is assumed or invented. All codes are cited from publicly available official NYS sources.',
           },
           {
             num: '02',
-            name: 'Automated Validation',
-            desc: 'Alignment records are checked against the official NYS standards source. Any unverified standard moves to a blocked queue — not to your download.',
+            name: 'Automated Alignment Validation',
+            desc: 'Alignment records are checked against official NYS standards sources. Any unverified standard moves to a blocked queue — not to your download. Teachers see the alignment record before using the resource.',
           },
           {
             num: '03',
-            name: 'Human Review (Math Pilot)',
-            desc: 'Mathematics resources are eligible for NYS-certified Math teacher review before release. Other subjects: automated validation + founder oversight.',
+            name: 'Educator Review Before Publication',
+            desc: 'Resources are reviewed for instructional clarity, classroom usability, and standards connection before publication. Math resources are eligible for NYS-certified Math teacher review. All others: automated validation + founder oversight.',
           },
         ].map(l => (
           <div class="card">
@@ -107,8 +164,9 @@ const plans = [
   <!-- Standards Frameworks -->
   <section id="standards" class="border-t border-[#1e2a2d] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="section-label mb-4">What NY teachers are actually accountable to</div>
-      <h2 class="text-3xl font-bold mb-12">9+ NYS frameworks. One engine.</h2>
+      <div class="section-label mb-4">What NY teachers are accountable to</div>
+      <h2 class="text-3xl font-bold mb-4">9+ publicly available NYS frameworks. One engine.</h2>
+      <p class="text-[#4a5f63] text-sm mb-10 max-w-2xl">Resources are grounded in NYS standards frameworks and designed to help teachers translate publicly available standards into usable classroom materials. Standards-informed, classroom-ready, and easy to adapt.</p>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {subjects.map(s => (
           <div class="card text-center hover:border-teal-700/60">
@@ -118,9 +176,10 @@ const plans = [
           </div>
         ))}
       </div>
-      <div class="mt-6 text-sm text-[#4a5f63]">
-        ELA: NYS Next Generation ELA Standards (Revised 2017) — not Common Core.
-        Math: NYS Next Generation Mathematics Learning Standards (2017) — not Common Core.
+      <div class="mt-6 text-xs text-[#3a5055] space-y-1">
+        <p>ELA: NYS Next Generation ELA Standards (Revised 2017) — not tagged as Common Core.</p>
+        <p>Math: NYS Next Generation Mathematics Learning Standards (2017) — not tagged as Common Core.</p>
+        <p>All standard codes sourced from publicly available official NYSED frameworks.</p>
       </div>
     </div>
   </section>
@@ -132,13 +191,13 @@ const plans = [
         <div>
           <div class="section-label mb-4">SDI — Specially Designed Instruction</div>
           <h2 class="text-3xl font-bold mb-6">Every resource includes a full SDI block</h2>
-          <p class="text-[#4a5f63] mb-6">Aligned to 8 NYCRR Part 200 and IDEA. Each SDI block names the adaptation dimension (content, methodology, and/or delivery) and identifies suggested placement: ICT, Resource Room, or Self-Contained.</p>
+          <p class="text-[#4a5f63] mb-6">Aligned to 8 NYCRR Part 200 and IDEA. Each SDI block names the adaptation dimension (content, methodology, and/or delivery) and identifies suggested placement: ICT, Resource Room, or Self-Contained. Resources are designed for classroom use, intervention, enrichment, and planning support.</p>
           <ul class="space-y-3 text-sm">
             {[
               'ICT (Integrated Co-Teaching) adaptations',
               'Resource Room reteach scaffolds',
               'Self-Contained modified versions',
-              'IEP goal-support references (teacher reference only — not legal IEP)',
+              'IEP goal-support references (teacher reference only — not a legal IEP)',
               'Chunked directions + executive function supports',
               'Response choice and graphic organizer supports',
             ].map(item => (
@@ -152,7 +211,7 @@ const plans = [
         <div id="mll">
           <div class="section-label mb-4">MLL/ELL — Multilingual Learner Supports</div>
           <h2 class="text-3xl font-bold mb-6">NYSESLAT-tiered scaffolds in every resource</h2>
-          <p class="text-[#4a5f63] mb-6">MLL/ELL supports are differentiated across at least two NYSESLAT proficiency bands — not generic "extra time." Each resource includes tiered vocabulary, sentence frames, and visual support suggestions.</p>
+          <p class="text-[#4a5f63] mb-6">MLL/ELL supports are differentiated across at least two NYSESLAT proficiency bands — not generic "extra time." Each resource includes tiered vocabulary, sentence frames, and visual support suggestions. Flexible enough to support daily planning, reteaching, intervention blocks, and extension activities.</p>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {[
               { level: 'Entering', color: 'bg-slate-800/60' },
@@ -174,13 +233,14 @@ const plans = [
   <!-- Resource Library Preview -->
   <section class="border-t border-[#1e2a2d] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between mb-8">
+      <div class="flex items-end justify-between mb-3">
         <div>
           <div class="section-label mb-2">From the Library</div>
-          <h2 class="text-3xl font-bold">50 classroom-ready resources</h2>
+          <h2 class="text-3xl font-bold">50 original, educator-reviewed resources</h2>
         </div>
         <a href="/resources" class="btn-outline text-sm py-2 px-5">Browse all →</a>
       </div>
+      <p class="text-sm text-[#4a5f63] mb-8">Each resource includes an alignment note, SDI block, and MLL/ELL scaffolds. Designed for classroom use, intervention, enrichment, and planning support.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {featuredResources.map(resource => (
           <a href={`/resources/${resource.slug}`} class="card group hover:border-teal-700/60 transition-colors cursor-pointer no-underline">
@@ -195,6 +255,9 @@ const plans = [
               </span>
               <span class="text-[#4a5f63]">{resource.data.resource_type}</span>
             </div>
+            <p class="text-xs text-[#3a5055] mt-3 border-t border-[#1e2a2d] pt-3">
+              Includes alignment note · Original resource · Educator-reviewed
+            </p>
           </a>
         ))}
       </div>
@@ -205,7 +268,8 @@ const plans = [
   <section class="border-t border-[#1e2a2d] py-20 bg-[#111618]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">What We Produce</div>
-      <h2 class="text-3xl font-bold mb-10">Every format a classroom needs</h2>
+      <h2 class="text-3xl font-bold mb-3">Every format classroom planning needs</h2>
+      <p class="text-[#4a5f63] text-sm mb-10 max-w-xl">Use resources for whole-class instruction, small-group support, review, enrichment, or independent practice. Flexible enough to support daily planning, reteaching, intervention blocks, and extension activities.</p>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {resourceTypes.map(rt => (
           <div class="card">
@@ -223,7 +287,8 @@ const plans = [
   <section id="pricing" class="border-t border-[#1e2a2d] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">Monthly Access · Credits</div>
-      <h2 class="text-3xl font-bold mb-10">Choose your plan</h2>
+      <h2 class="text-3xl font-bold mb-3">Choose your plan</h2>
+      <p class="text-[#4a5f63] text-sm mb-10">No student data required. Original resources. Alignment notes included. Cancel anytime.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {plans.map(p => (
           <div class={`card flex flex-col gap-4 ${p.best ? 'border-teal-600 bg-teal-950/30' : ''}`}>
@@ -239,9 +304,12 @@ const plans = [
           </div>
         ))}
       </div>
-      <p class="mt-6 text-sm text-[#4a5f63]">
+      <p class="mt-4 text-xs text-[#3a5055]">
+        StandardCraft is designed to complement approved curriculum and instructional programs — not replace them.
+      </p>
+      <p class="mt-2 text-sm text-[#4a5f63]">
         Need district-wide access?
-        <a href="/school-inquiry" class="text-teal-400 hover:underline">Request an Empire/District quote →</a>
+        <a href="/school-inquiry" class="text-teal-400 hover:underline">Request a quote →</a>
       </p>
       <div class="mt-4">
         <a href="/pricing" class="text-sm text-teal-400 hover:underline">See full pricing details →</a>
@@ -249,14 +317,24 @@ const plans = [
     </div>
   </section>
 
+  <!-- FAQ -->
+  <FaqSection
+    heading="Questions teachers ask about StandardCraft"
+    items={faqItems}
+  />
+
   <!-- Final CTA -->
-  <section class="border-t border-[#1e2a2d] py-24 bg-[#111618]">
+  <section class="border-t border-[#1e2a2d] py-24 bg-[#0d1314]">
     <div class="max-w-3xl mx-auto px-4 text-center">
-      <div class="section-label mb-4">Enter the Engine</div>
+      <div class="section-label mb-4">Start today</div>
       <h2 class="text-4xl font-bold mb-6">Your first verified resource is free.</h2>
-      <p class="text-[#4a5f63] mb-10">Start with 1 trial credit. No card required. See exactly what an alignment record looks like in your hands.</p>
-      <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Claim your free verified resource →</a>
-      <p class="mt-6 text-xs text-[#4a5f63]">Not affiliated with NYSED. Resources are original content aligned to official NYS standards.</p>
+      <p class="text-[#4a5f63] mb-3">Start with 1 trial credit. See exactly what an alignment record, SDI block, and MLL scaffold look like in your hands before you commit to a plan.</p>
+      <p class="text-sm text-[#3a5055] mb-8">No payment required. No student data required.</p>
+      <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Claim your free resource →</a>
+      <p class="mt-6 text-xs text-[#3a5055]">
+        StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department.
+        Resources are original and designed to support teacher planning — not replace district curriculum or professional judgment.
+      </p>
     </div>
   </section>
 </Layout>

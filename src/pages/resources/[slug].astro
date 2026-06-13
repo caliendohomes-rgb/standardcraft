@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -17,13 +17,44 @@ const confidenceColors = {
   'Needs Human Review': 'text-orange-300 border-orange-700/40 bg-orange-900/20',
   'Blocked': 'text-red-400 border-red-700/40 bg-red-900/20',
 };
-const confColor = confidenceColors[data.alignment_confidence];
+const confColor = confidenceColors[data.alignment_confidence] ?? confidenceColors['High Confidence'];
+
+const metaDescription = `Original ${data.resource_type} for Grade ${data.grade} ${data.subject}. Built from publicly available ${data.standards_framework}. Educator-reviewed. Includes alignment notes, SDI block, and MLL/ELL scaffolds.`;
+
+const learningResourceSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  name: data.title,
+  description: metaDescription,
+  learningResourceType: data.resource_type,
+  educationalLevel: `Grade ${data.grade}`,
+  teaches: data.standards.map(s => s.code).join(', '),
+  educationalUse: [
+    'classroom instruction',
+    'intervention',
+    'enrichment',
+    'planning support',
+  ],
+  audience: {
+    '@type': 'EducationalAudience',
+    educationalRole: 'teacher',
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'StandardCraft',
+    url: 'https://standardcraft.netlify.app',
+  },
+  isAccessibleForFree: false,
+  inLanguage: 'en',
+});
 ---
 
 <Layout
   title={`${data.title} — StandardCraft`}
-  description={`${data.resource_type} for Grade ${data.grade} ${data.subject}. Aligned to ${data.standards_framework}. Includes SDI and MLL/ELL scaffolds.`}
+  description={metaDescription}
 >
+  <script type="application/ld+json" set:html={learningResourceSchema} slot="head-schema" />
+
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-sm text-[#4a5f63] mb-8 no-print">
@@ -51,15 +82,16 @@ const confColor = confidenceColors[data.alignment_confidence];
 
     <!-- Alignment Record Box -->
     <div class={`rounded-xl border p-5 mb-8 ${confColor}`}>
-      <div class="font-semibold text-sm mb-3 uppercase tracking-wide">Alignment Record</div>
+      <div class="font-semibold text-sm mb-1 uppercase tracking-wide">Alignment Record</div>
+      <p class="text-xs opacity-70 mb-4">Built from publicly available New York State standards. Standard codes cited from official NYSED sources.</p>
       {data.standards.map(std => (
-        <div class="mb-3">
+        <div class="mb-3 last:mb-0">
           <div class="font-mono text-sm font-semibold">{std.code}</div>
           <div class="text-sm opacity-90 mt-1">{std.text}</div>
           <div class="text-xs opacity-60 mt-1">Source: {std.source}</div>
         </div>
       ))}
-      <div class="mt-3 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
+      <div class="mt-4 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
         <span>Confidence: <strong>{data.alignment_confidence}</strong></span>
         <span>{data.human_review}</span>
       </div>
@@ -86,20 +118,43 @@ const confColor = confidenceColors[data.alignment_confidence];
       <Content />
     </article>
 
-    <!-- Footer actions -->
-    <div class="mt-12 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
-      <div class="text-sm text-[#4a5f63]">
-        Resource ID: {data.resource_id} · Created for {data.created_for}
-      </div>
-      <div class="flex gap-3">
-        <button onclick="window.print()" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
-        <a href="/resources" class="btn-primary text-sm py-2 px-4">← Back to Library</a>
+    <!-- Why teachers can trust this resource -->
+    <div class="mt-12 rounded-xl border border-[#1e2a2d] bg-[#0d1314] p-6 no-print">
+      <div class="section-label mb-4">Why teachers can trust this resource</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {[
+          { label: 'Original resource', detail: 'Created as an original instructional support — not copied from marketplace content.' },
+          { label: 'Built from publicly available NYS standards', detail: `Standard codes and text sourced from ${data.standards_framework} — a publicly available official framework.` },
+          { label: 'Educator-reviewed', detail: 'Reviewed for instructional clarity, classroom usability, and standards connection before publication.' },
+          { label: 'Alignment notes included', detail: 'The alignment record above explains how this resource connects to the relevant NYS framework, with the exact standard code and source.' },
+          { label: 'Designed for classroom use', detail: 'Supports whole-class instruction, small-group work, intervention, enrichment, independent practice, and planning support.' },
+          { label: 'No student data required', detail: 'Teachers download and use this resource without entering student personally identifiable information.' },
+        ].map(item => (
+          <div class="flex items-start gap-2.5">
+            <span class="text-teal-500 mt-0.5 shrink-0 text-sm">✓</span>
+            <div>
+              <div class="text-sm font-medium text-[#e8f0f0]">{item.label}</div>
+              <div class="text-xs text-[#4a5f63] mt-0.5 leading-relaxed">{item.detail}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
 
-    <!-- Disclaimer -->
-    <div class="mt-6 text-xs text-[#4a5f63] no-print">
-      StandardCraft is not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED). All content is original. Standard codes cited from official NYSED sources.
+    <!-- Footer actions -->
+    <div class="mt-8 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
+      <div class="text-sm text-[#4a5f63]">
+        Resource ID: {data.resource_id} · {data.created_for}
+      </div>
+      <div class="flex gap-3">
+        <button onclick="window.print()" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
+        <a href="/free-resource-library" class="btn-primary text-sm py-2 px-4">Download this resource →</a>
+      </div>
+    </div>
+
+    <!-- NYSED disclaimer -->
+    <div class="mt-6 p-4 rounded-lg bg-[#0d1314] border border-[#1e2a2d] text-xs text-[#3a5055] leading-relaxed no-print">
+      <strong class="text-[#4a5f63]">Independence notice:</strong> StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource is original content aligned to publicly available NYS standards. It is designed to support classroom planning and instruction and does not replace district curriculum, school-approved instructional programs, or teacher professional judgment.
     </div>
   </div>
 </Layout>

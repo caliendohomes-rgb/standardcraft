@@ -1,0 +1,47 @@
+---
+interface Props {
+  heading?: string;
+  subjectContext?: string; // e.g. "ELA", "Math", "Science"
+}
+
+const {
+  heading = 'Built for trust, not just search.',
+  subjectContext,
+} = Astro.props;
+
+const points = [
+  'Original resources — not recycled worksheets or marketplace reposts.',
+  'Educator-reviewed for instructional clarity, classroom usability, and standards connection.',
+  'Built from publicly available New York State learning standards frameworks.',
+  'Alignment notes included — each resource explains how it connects to the relevant NYS framework.',
+  'Designed to support classroom planning, intervention, enrichment, and daily instruction.',
+  'No student data required. Teachers access resources without entering student PII.',
+];
+---
+
+<section class="border-t border-[#1e2a2d] py-16 bg-[#0d1314]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div>
+        <div class="section-label mb-4">Why educators trust StandardCraft</div>
+        <h2 class="text-2xl font-bold mb-5 leading-snug">{heading}</h2>
+        <p class="text-[#4a5f63] text-sm leading-relaxed mb-6">
+          StandardCraft {subjectContext ? `${subjectContext} ` : ''}resources are original, educator-reviewed, and built from publicly available New York State standards frameworks.
+          Each resource includes alignment notes and is designed to support classroom planning, intervention, enrichment, and daily instruction.
+        </p>
+        <p class="text-xs text-[#3a5055] leading-relaxed">
+          StandardCraft is independent and is not affiliated with or endorsed by the New York State Education Department.
+          Resources complement district curriculum and teacher professional judgment — they do not replace either.
+        </p>
+      </div>
+      <div class="space-y-3">
+        {points.map(p => (
+          <div class="flex items-start gap-3">
+            <span class="text-teal-500 mt-0.5 shrink-0 text-sm font-bold">✓</span>
+            <span class="text-sm text-[#4a5f63] leading-relaxed">{p}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

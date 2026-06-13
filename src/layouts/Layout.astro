@@ -36,6 +36,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       ? <meta name="robots" content="noindex, nofollow" />
       : <meta name="robots" content="index, follow" />
     }
+    <slot name="head-schema" />
   </head>
   <body class="bg-[#0a0e0f] text-[#e8f0f0] font-sans antialiased">
 
@@ -70,8 +71,9 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         <div class="flex flex-col md:flex-row justify-between gap-8">
           <div>
             <div class="font-bold text-lg mb-2">Standard<span class="text-teal-400">Craft</span></div>
-            <p class="text-sm text-[#4a5f63] max-w-xs">
-              NYS Next Generation standards engine. Classroom-ready resources for New York educators. Not affiliated with, endorsed by, or sponsored by NYSED.
+            <p class="text-sm text-[#4a5f63] max-w-xs leading-relaxed">
+              Original, educator-reviewed resources built from publicly available New York State standards frameworks.
+              Designed to support classroom planning and instruction.
             </p>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
@@ -105,9 +107,16 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
             </div>
           </div>
         </div>
-        <div class="mt-10 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs text-[#4a5f63]">
-          <p>© {new Date().getFullYear()} StandardCraft. All rights reserved. Not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED).</p>
-          <p>All content is original. NYS standard codes cited from official NYSED sources.</p>
+        <div class="mt-10 pt-8 border-t border-[#1e2a2d] space-y-3 text-xs text-[#3a5055] leading-relaxed">
+          <p>
+            StandardCraft provides original, educator-reviewed resources built from publicly available New York State standards frameworks.
+            StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department.
+            Resources are designed to support classroom planning and instruction and do not replace district curriculum or teacher professional judgment.
+          </p>
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <p>© {new Date().getFullYear()} StandardCraft. All rights reserved.</p>
+            <p>NYS standard codes cited from official publicly available NYSED sources.</p>
+          </div>
         </div>
       </div>
     </footer>
