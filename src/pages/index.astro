@@ -30,10 +30,10 @@ const resourceTypes = [
 ];
 
 const plans = [
-  { name: 'Sampler', price: 'Free', credits: '1 trial credit', best: false, cta: 'Start free', ctaHref: '#start' },
-  { name: 'Classroom', price: '$29/mo', credits: '8 credits/month', best: false, cta: 'Choose Classroom', ctaHref: '#start' },
-  { name: 'Pro', price: '$69/mo', credits: '20 credits/month', best: true, cta: 'Choose Pro', ctaHref: '#start' },
-  { name: 'School', price: '$249+/mo', credits: 'Pooled credits + admin dashboard', best: false, cta: 'Talk to us', ctaHref: '#contact' },
+  { name: 'Sampler', price: 'Free', credits: '1 trial credit', best: false, cta: 'Start free', ctaHref: '/claim-free' },
+  { name: 'Classroom', price: '$29/mo', credits: '8 credits/month', best: false, cta: 'Choose Classroom', ctaHref: '/pricing' },
+  { name: 'Pro', price: '$69/mo', credits: '20 credits/month', best: true, cta: 'Choose Pro', ctaHref: '/pricing' },
+  { name: 'School', price: '$249+/mo', credits: 'Pooled credits + admin dashboard', best: false, cta: 'Talk to us', ctaHref: '/school-inquiry' },
 ];
 ---
 
@@ -50,7 +50,7 @@ const plans = [
         Not a marketplace draft. Not generic AI filler. Every StandardCraft resource arrives aligned to official NYS standards — with SDI blocks, MLL/ELL scaffolds, and an alignment record teachers can hand an administrator.
       </p>
       <div class="flex flex-col sm:flex-row gap-4">
-        <a href="#start" class="btn-primary text-base py-3.5 px-8">Start free →</a>
+        <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Start free →</a>
         <a href="/resources" class="btn-outline text-base py-3.5 px-8">Browse Resource Library</a>
       </div>
     </div>
@@ -219,7 +219,7 @@ const plans = [
     </div>
   </section>
 
-  <!-- Pricing -->
+  <!-- Pricing preview -->
   <section id="pricing" class="border-t border-[#1e2a2d] py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">Monthly Access · Credits</div>
@@ -239,17 +239,23 @@ const plans = [
           </div>
         ))}
       </div>
-      <p class="mt-6 text-sm text-[#4a5f63]">Need district-wide access? <a href="#contact" class="text-teal-400 hover:underline">Request an Empire/District quote →</a></p>
+      <p class="mt-6 text-sm text-[#4a5f63]">
+        Need district-wide access?
+        <a href="/school-inquiry" class="text-teal-400 hover:underline">Request an Empire/District quote →</a>
+      </p>
+      <div class="mt-4">
+        <a href="/pricing" class="text-sm text-teal-400 hover:underline">See full pricing details →</a>
+      </div>
     </div>
   </section>
 
   <!-- Final CTA -->
-  <section id="start" class="border-t border-[#1e2a2d] py-24 bg-[#111618]">
+  <section class="border-t border-[#1e2a2d] py-24 bg-[#111618]">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <div class="section-label mb-4">Enter the Engine</div>
       <h2 class="text-4xl font-bold mb-6">Your first verified resource is free.</h2>
       <p class="text-[#4a5f63] mb-10">Start with 1 trial credit. No card required. See exactly what an alignment record looks like in your hands.</p>
-      <a href="#" class="btn-primary text-lg py-4 px-10">Claim your free verified resource →</a>
+      <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Claim your free verified resource →</a>
       <p class="mt-6 text-xs text-[#4a5f63]">Not affiliated with NYSED. Resources are original content aligned to official NYS standards.</p>
     </div>
   </section>

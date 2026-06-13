@@ -1,0 +1,173 @@
+---
+export const prerender = false;
+
+import { createSupabaseServerClient } from '../lib/supabase-server';
+import Layout from '../layouts/Layout.astro';
+
+// If already signed in, redirect to the library
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+if (user) {
+  return Astro.redirect('/free-resource-library');
+}
+---
+
+<Layout
+  title="Claim Your Free Resource — StandardCraft"
+  description="Create a free StandardCraft account and claim one verified NYS-aligned resource. No card required."
+>
+  <section class="max-w-xl mx-auto px-4 py-20">
+    <div class="section-label mb-3">Free trial — 1 credit, no card required</div>
+    <h1 class="text-4xl font-bold mb-3">Claim your free verified resource</h1>
+    <p class="text-[#4a5f63] mb-8">Create an account and get instant access to your first NYS-aligned resource — SDI block, MLL scaffolds, and alignment record included.</p>
+
+    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
+
+    <form id="register-form" class="space-y-4" novalidate>
+      <!-- Honeypot — hidden from humans, traps bots -->
+      <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
+        class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
+
+      <div>
+        <label for="full_name" class="block text-sm font-medium mb-1.5">Full name <span class="text-red-400">*</span></label>
+        <input type="text" id="full_name" name="full_name" required autocomplete="name"
+          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1.5">School email address <span class="text-red-400">*</span></label>
+        <input type="email" id="email" name="email" required autocomplete="email"
+          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+      </div>
+
+      <div>
+        <label for="phone" class="block text-sm font-medium mb-1.5">Phone <span class="text-[#4a5f63] font-normal">(optional)</span></label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel"
+          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium mb-1.5">Password <span class="text-red-400">*</span></label>
+        <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8"
+          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+        <p class="text-xs text-[#4a5f63] mt-1">Minimum 8 characters</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2">Subjects you teach</label>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="subjects" value={s} class="accent-teal-500" />
+              <span class="text-[#4a5f63]">{s}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2">Grade levels</label>
+        <div class="flex flex-wrap gap-2 text-sm">
+          {['K-2', '3-5', '6-8', '9-12'].map(g => (
+            <label class="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" name="grade_levels" value={g} class="accent-teal-500" />
+              <span class="text-[#4a5f63]">{g}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="checkbox" id="marketing_consent" name="marketing_consent" class="accent-teal-500 mt-0.5" />
+          <span class="text-xs text-[#4a5f63]">I'd like to receive updates about new resources and NYS standards changes. (Optional)</span>
+        </label>
+      </div>
+
+      <div class="text-xs text-[#4a5f63] border-t border-[#1e2a2d] pt-4">
+        By creating an account you agree to our
+        <a href="/terms" class="text-teal-400 hover:underline">Terms of Service</a> and
+        <a href="/privacy" class="text-teal-400 hover:underline">Privacy Policy</a>.
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn-primary w-full py-3 text-base">
+        Create account &amp; claim free resource →
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-[#4a5f63]">
+      Already have an account?
+      <a href="/signin" class="text-teal-400 hover:underline">Sign in</a>
+    </p>
+  </section>
+</Layout>
+
+<script>
+  import { createSupabaseBrowserClient } from '../lib/supabase';
+
+  const form = document.getElementById('register-form') as HTMLFormElement;
+  const errorMsg = document.getElementById('error-msg') as HTMLDivElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+
+  function showError(msg: string) {
+    errorMsg.textContent = msg;
+    errorMsg.classList.remove('hidden');
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.classList.add('hidden');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating account…';
+
+    const fd = new FormData(form);
+    const payload = {
+      full_name: (fd.get('full_name') as string)?.trim(),
+      email: (fd.get('email') as string)?.trim(),
+      phone: (fd.get('phone') as string)?.trim() || null,
+      password: fd.get('password') as string,
+      subjects: fd.getAll('subjects') as string[],
+      grade_levels: fd.getAll('grade_levels') as string[],
+      marketing_consent: fd.has('marketing_consent'),
+      honeypot: (fd.get('website') as string) || '',
+    };
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(data.error || 'Registration failed. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create account & claim free resource →';
+        return;
+      }
+
+      // Sign in client-side to establish session cookie
+      submitBtn.textContent = 'Signing you in…';
+      const supabase = createSupabaseBrowserClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: payload.email,
+        password: payload.password,
+      });
+
+      if (signInError) {
+        showError('Account created! Please sign in to continue.');
+        window.location.href = '/signin';
+        return;
+      }
+
+      window.location.href = '/free-resource-library';
+    } catch {
+      showError('Network error. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create account & claim free resource →';
+    }
+  });
+</script>

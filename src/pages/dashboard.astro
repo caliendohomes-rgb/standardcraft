@@ -1,0 +1,163 @@
+---
+export const prerender = false;
+
+import { createSupabaseServerClient, createSupabaseAdmin } from '../lib/supabase-server';
+import Layout from '../layouts/Layout.astro';
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+
+if (!user) {
+  return Astro.redirect('/signin?redirect=/dashboard');
+}
+
+const admin = createSupabaseAdmin();
+
+const [profileResult, creditsResult, downloadsResult, subResult] = await Promise.all([
+  admin.from('profiles').select('full_name, email').eq('id', user.id).single(),
+  admin.from('credits').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).single(),
+  admin.from('downloads').select('resource_slug, downloaded_at').eq('user_id', user.id).order('downloaded_at', { ascending: false }).limit(5),
+  admin.from('subscriptions').select('plan, status, current_period_end').eq('user_id', user.id).maybeSingle(),
+]);
+
+const profile = profileResult.data;
+const credits = creditsResult.data ?? { balance: 0, lifetime_earned: 0, lifetime_spent: 0 };
+const recentDownloads = downloadsResult.data ?? [];
+const subscription = subResult.data;
+
+const checkoutSuccess = Astro.url.searchParams.get('checkout') === 'success';
+const firstName = profile?.full_name?.split(' ')[0] ?? 'Teacher';
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+const planLabel: Record<string, string> = {
+  classroom: 'Classroom — $29/mo',
+  pro: 'Pro — $69/mo',
+};
+---
+
+<Layout
+  title="Dashboard — StandardCraft"
+  description="Your StandardCraft dashboard."
+  noIndex={true}
+>
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+
+    {checkoutSuccess && (
+      <div class="mb-6 p-4 rounded-xl bg-teal-950/60 border border-teal-700 text-teal-200 text-sm">
+        🎉 <strong>Subscription active!</strong> Your credits have been added to your account.
+      </div>
+    )}
+
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <div class="section-label mb-1">Your Dashboard</div>
+        <h1 class="text-3xl font-bold">Welcome back, {firstName}</h1>
+      </div>
+      <a href="/free-resource-library" class="btn-primary text-sm py-2 px-5">Browse Library →</a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+      {[
+        { label: 'Credits remaining', value: credits.balance, color: 'text-teal-400' },
+        { label: 'Lifetime credits earned', value: credits.lifetime_earned, color: 'text-[#e8f0f0]' },
+        { label: 'Resources downloaded', value: credits.lifetime_spent, color: 'text-[#e8f0f0]' },
+        { label: 'Current plan', value: subscription ? (planLabel[subscription.plan] ?? subscription.plan) : 'Free trial', color: 'text-[#e8f0f0]', small: true },
+      ].map(s => (
+        <div class="card">
+          <div class={`${s.small ? 'text-base' : 'text-3xl'} font-bold ${s.color} mb-1`}>{s.value}</div>
+          <div class="text-xs text-[#4a5f63]">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Plan & subscription -->
+    <div class="card mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-bold text-lg">Subscription</h2>
+        {(!subscription || subscription.status !== 'active') && (
+          <a href="/pricing" class="btn-primary text-sm py-1.5 px-4">Upgrade plan</a>
+        )}
+        {subscription?.status === 'active' && (
+          <a href="/account" class="btn-outline text-sm py-1.5 px-4">Manage</a>
+        )}
+      </div>
+      {!subscription && (
+        <div>
+          <div class="text-[#4a5f63] text-sm mb-4">You're on the free trial. Upgrade to get monthly credits every month.</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href="/pricing" class="card border-[#1e2a2d] hover:border-teal-700/60 transition-colors cursor-pointer no-underline block">
+              <div class="font-semibold mb-1">Classroom</div>
+              <div class="text-2xl font-bold text-teal-400 mb-1">$29<span class="text-base text-[#4a5f63]">/mo</span></div>
+              <div class="text-sm text-[#4a5f63]">8 credits/month</div>
+            </a>
+            <a href="/pricing" class="card border-teal-700/60 bg-teal-950/20 hover:border-teal-600 transition-colors cursor-pointer no-underline block">
+              <div class="tag tag-teal mb-2 self-start inline-block">Most Popular</div>
+              <div class="font-semibold mb-1">Pro</div>
+              <div class="text-2xl font-bold text-teal-400 mb-1">$69<span class="text-base text-[#4a5f63]">/mo</span></div>
+              <div class="text-sm text-[#4a5f63]">20 credits/month</div>
+            </a>
+          </div>
+        </div>
+      )}
+      {subscription && (
+        <div class="text-sm text-[#4a5f63]">
+          <span class="text-[#e8f0f0] font-medium">{planLabel[subscription.plan] ?? subscription.plan}</span>
+          {subscription.status === 'active' && subscription.current_period_end && (
+            <span> · Renews {formatDate(subscription.current_period_end)}</span>
+          )}
+          {subscription.status !== 'active' && (
+            <span class="text-amber-400"> · {subscription.status}</span>
+          )}
+        </div>
+      )}
+    </div>
+
+    <!-- Recent downloads -->
+    <div class="card">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-bold text-lg">Recent Downloads</h2>
+        <a href="/free-resource-library" class="text-sm text-teal-400 hover:underline">View all →</a>
+      </div>
+      {recentDownloads.length === 0 ? (
+        <div class="text-[#4a5f63] text-sm py-4 text-center">
+          No downloads yet.
+          <a href="/free-resource-library" class="text-teal-400 hover:underline ml-1">Browse the library →</a>
+        </div>
+      ) : (
+        <ul class="space-y-3">
+          {recentDownloads.map((d: any) => (
+            <li class="flex items-center justify-between text-sm border-t border-[#1e2a2d] pt-3 first:border-0 first:pt-0">
+              <span class="font-mono text-teal-300 text-xs">{d.resource_slug}</span>
+              <span class="text-[#4a5f63] text-xs">{formatDate(d.downloaded_at)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <!-- Quick links -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+      {[
+        { href: '/free-resource-library', label: 'Resource Library', desc: '50 verified resources' },
+        { href: '/account', label: 'Account Settings', desc: 'Profile, password, billing' },
+        { href: '/contact', label: 'Get Help', desc: 'Contact our team' },
+      ].map(l => (
+        <a href={l.href} class="card hover:border-teal-700/60 transition-colors cursor-pointer no-underline block">
+          <div class="font-semibold text-sm mb-1">{l.label}</div>
+          <div class="text-xs text-[#4a5f63]">{l.desc}</div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Sign out -->
+    <div class="mt-10 text-center">
+      <form method="POST" action="/api/signout">
+        <button type="submit" class="text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Sign out</button>
+      </form>
+    </div>
+  </section>
+</Layout>

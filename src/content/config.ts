@@ -22,6 +22,7 @@ const resources = defineCollection({
       'CDOS Transition Material',
       'Literacy-in-Content-Area Resource',
       'SDI Planning Frame',
+      'Teacher Reference',
     ]),
     duration: z.string(),
     standards_framework: z.string(),

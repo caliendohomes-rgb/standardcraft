@@ -1,16 +1,22 @@
 {
   "name": "standardcraft",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "seed": "node scripts/seed-resources.js",
+    "seed:dry": "node scripts/seed-resources.js --dry-run"
   },
   "dependencies": {
     "astro": "^4.15.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/netlify": "^5.5.4",
+    "@supabase/supabase-js": "^2.45.4",
+    "@supabase/ssr": "^0.5.2",
+    "stripe": "^17.3.1",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {

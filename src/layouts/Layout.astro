@@ -3,12 +3,14 @@ interface Props {
   title?: string;
   description?: string;
   canonical?: string;
+  noIndex?: boolean;
 }
 
 const {
   title = 'StandardCraft — NYS Standards-Aligned Classroom Resources',
   description = 'Classroom-ready lesson plans and worksheets grounded in NYS Next Generation Standards. Zero invented codes. Verified alignment records. Built for New York educators.',
   canonical,
+  noIndex = false,
 } = Astro.props;
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
@@ -23,20 +25,20 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
 
-    <!-- Favicon placeholder -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
 
-    <!-- No NYSED affiliation claim -->
-    <meta name="robots" content="index, follow" />
+    {noIndex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow" />
+    }
   </head>
   <body class="bg-[#0a0e0f] text-[#e8f0f0] font-sans antialiased">
-    <!-- Nav -->
+
     <header class="border-b border-[#1e2a2d] sticky top-0 z-50 bg-[#0a0e0f]/95 backdrop-blur">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <a href="/" class="font-bold text-lg tracking-tight text-[#e8f0f0] hover:text-teal-400 transition-colors">
@@ -50,18 +52,19 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
           <a href="/resources" class="text-[#4a5f63] hover:text-teal-400 transition-colors font-medium">Resource Library</a>
         </div>
         <div class="flex items-center gap-3">
-          <a href="/#pricing" class="hidden sm:inline text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Plans</a>
-          <a href="/#start" class="btn-primary text-sm py-2 px-4">Start free →</a>
+          <a href="/pricing" class="hidden sm:inline text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Plans</a>
+          <!-- Auth-aware nav: both rendered, JS shows correct one -->
+          <a id="nav-signin" href="/signin" class="hidden text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Sign in</a>
+          <a id="nav-dashboard" href="/dashboard" class="hidden text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Dashboard</a>
+          <a id="nav-start" href="/claim-free" class="btn-primary text-sm py-2 px-4">Start free →</a>
         </div>
       </nav>
     </header>
 
-    <!-- Main Content -->
     <main>
       <slot />
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-[#1e2a2d] mt-24 py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between gap-8">
@@ -71,14 +74,14 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
               NYS Next Generation standards engine. Classroom-ready resources for New York educators. Not affiliated with, endorsed by, or sponsored by NYSED.
             </p>
           </div>
-          <div class="grid grid-cols-2 gap-8 text-sm">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
             <div>
               <div class="font-semibold mb-3 text-[#e8f0f0]">Product</div>
               <ul class="space-y-2 text-[#4a5f63]">
                 <li><a href="/#why-us" class="hover:text-teal-400 transition-colors">Why StandardCraft</a></li>
-                <li><a href="/#standards" class="hover:text-teal-400 transition-colors">Standards Alignment</a></li>
                 <li><a href="/resources" class="hover:text-teal-400 transition-colors">Resource Library</a></li>
-                <li><a href="/#pricing" class="hover:text-teal-400 transition-colors">Pricing</a></li>
+                <li><a href="/pricing" class="hover:text-teal-400 transition-colors">Pricing</a></li>
+                <li><a href="/school-inquiry" class="hover:text-teal-400 transition-colors">Schools &amp; Districts</a></li>
               </ul>
             </div>
             <div>
@@ -90,13 +93,39 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
                 <li><a href="/resources?subject=Social+Studies" class="hover:text-teal-400 transition-colors">Social Studies</a></li>
               </ul>
             </div>
+            <div>
+              <div class="font-semibold mb-3 text-[#e8f0f0]">Legal</div>
+              <ul class="space-y-2 text-[#4a5f63]">
+                <li><a href="/privacy" class="hover:text-teal-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms" class="hover:text-teal-400 transition-colors">Terms of Service</a></li>
+                <li><a href="/data-security" class="hover:text-teal-400 transition-colors">Data Security</a></li>
+                <li><a href="/refunds-and-assurance" class="hover:text-teal-400 transition-colors">Refunds &amp; Assurance</a></li>
+                <li><a href="/contact" class="hover:text-teal-400 transition-colors">Contact</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="mt-10 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs text-[#4a5f63]">
-          <p>© 2024 StandardCraft. All rights reserved. Not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED).</p>
+          <p>© {new Date().getFullYear()} StandardCraft. All rights reserved. Not affiliated with, sponsored by, or endorsed by the New York State Education Department (NYSED).</p>
           <p>All content is original. NYS standard codes cited from official NYSED sources.</p>
         </div>
       </div>
     </footer>
+
+    <script>
+      // Auth-aware nav: check for active Supabase session cookie client-side
+      (function () {
+        const hasCookie = document.cookie.split(';').some(c => c.trim().startsWith('sb-') && c.includes('-auth-token='));
+        const signIn = document.getElementById('nav-signin');
+        const dashboard = document.getElementById('nav-dashboard');
+        const start = document.getElementById('nav-start');
+        if (hasCookie) {
+          if (dashboard) dashboard.classList.remove('hidden');
+          if (start) start.classList.add('hidden');
+        } else {
+          if (signIn) signIn.classList.remove('hidden');
+        }
+      })();
+    </script>
   </body>
 </html>

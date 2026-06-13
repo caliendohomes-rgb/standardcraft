@@ -1,0 +1,257 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const plans = [
+  {
+    key: 'free',
+    name: 'Sampler',
+    price: 'Free',
+    priceNote: 'No card required',
+    credits: 1,
+    creditsLabel: '1 trial credit',
+    features: [
+      '1 resource download',
+      'All subjects covered',
+      'SDI + MLL blocks included',
+      'Alignment record included',
+    ],
+    cta: 'Start free',
+    ctaHref: '/claim-free',
+    primary: false,
+    badge: null,
+  },
+  {
+    key: 'classroom',
+    name: 'Classroom',
+    price: '$29',
+    priceNote: '/month',
+    credits: 8,
+    creditsLabel: '8 credits/month',
+    features: [
+      '8 resource downloads/month',
+      'All 9+ NYS frameworks',
+      'SDI + MLL blocks on every resource',
+      'Alignment records for admin',
+      'Email support',
+    ],
+    cta: 'Start Classroom',
+    ctaHref: null,
+    ctaPlan: 'classroom',
+    primary: false,
+    badge: null,
+  },
+  {
+    key: 'pro',
+    name: 'Pro',
+    price: '$69',
+    priceNote: '/month',
+    credits: 20,
+    creditsLabel: '20 credits/month',
+    features: [
+      '20 resource downloads/month',
+      'All 9+ NYS frameworks',
+      'SDI + MLL blocks on every resource',
+      'Priority email support',
+      'Early access to new resources',
+    ],
+    cta: 'Start Pro',
+    ctaHref: null,
+    ctaPlan: 'pro',
+    primary: true,
+    badge: 'Most Popular',
+  },
+  {
+    key: 'school',
+    name: 'School',
+    price: '$249+',
+    priceNote: '/month',
+    credits: null,
+    creditsLabel: 'Pooled credits, admin dashboard',
+    features: [
+      'Pooled credit allocation',
+      'Multi-teacher admin panel',
+      'Ed Law §2-d FERPA data agreement',
+      'Dedicated onboarding',
+      'Custom resource requests',
+      'Invoice / PO billing available',
+    ],
+    cta: 'Request a quote',
+    ctaHref: '/school-inquiry',
+    primary: false,
+    badge: null,
+  },
+];
+---
+
+<Layout
+  title="Pricing — StandardCraft"
+  description="StandardCraft plans start free. Upgrade to Classroom ($29/mo) or Pro ($69/mo) for monthly credits. School plans available."
+>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="text-center mb-14">
+      <div class="section-label mb-4">Simple, credit-based pricing</div>
+      <h1 class="text-4xl font-bold mb-4">Start free. Download what you need.</h1>
+      <p class="text-[#4a5f63] max-w-xl mx-auto">
+        Credits never expire within your billing period. Each resource costs 1–3 credits depending on type. Lesson plans cost 2 credits; most worksheets and exit tickets cost 1.
+      </p>
+    </div>
+
+    <!-- Plan cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      {plans.map(p => (
+        <div class={`card flex flex-col gap-5 ${p.primary ? 'border-teal-600 bg-teal-950/20' : ''}`}>
+          {p.badge && <div class="tag tag-teal self-start">{p.badge}</div>}
+          <div>
+            <div class="font-bold text-lg">{p.name}</div>
+            <div class="flex items-end gap-1 mt-2">
+              <span class="text-3xl font-bold text-teal-400">{p.price}</span>
+              <span class="text-[#4a5f63] text-sm pb-1">{p.priceNote}</span>
+            </div>
+            <div class="text-sm text-[#4a5f63] mt-1">{p.creditsLabel}</div>
+          </div>
+          <ul class="space-y-2 flex-1">
+            {p.features.map(f => (
+              <li class="flex items-start gap-2 text-sm text-[#4a5f63]">
+                <span class="text-teal-400 mt-0.5 shrink-0">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          {p.ctaHref ? (
+            <a href={p.ctaHref} class={p.primary ? 'btn-primary py-2.5' : 'btn-outline py-2.5'}>
+              {p.cta}
+            </a>
+          ) : (
+            <button
+              class={`checkout-btn ${p.primary ? 'btn-primary' : 'btn-outline'} py-2.5`}
+              data-plan={p.ctaPlan}
+            >
+              {p.cta}
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Credit cost table -->
+    <div class="max-w-2xl mx-auto mb-16">
+      <h2 class="text-xl font-bold mb-6 text-center">Credit costs by resource type</h2>
+      <div class="card overflow-hidden p-0">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-[#1e2a2d]">
+              <th class="text-left px-4 py-3 font-semibold">Resource Type</th>
+              <th class="text-right px-4 py-3 font-semibold">Credits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              ['Worksheet', '1 credit'],
+              ['Exit Ticket', '1 credit'],
+              ['Graphic Organizer', '1 credit'],
+              ['Anchor Chart', '1 credit'],
+              ['Teacher Reference', '1 credit'],
+              ['Lesson Plan', '2 credits'],
+              ['Task Card Set', '2 credits'],
+              ['Co-Teaching Frame', '2 credits'],
+              ['CDOS Transition Material', '2 credits'],
+              ['Mini-Assessment', '2 credits'],
+              ['SDI Planning Frame', '2 credits'],
+              ['Station Activity', '2 credits'],
+              ['IEP Goal-Support Resource', '3 credits'],
+              ['Rubric', '1 credit'],
+            ].map(([type, cost]) => (
+              <tr class="border-t border-[#1e2a2d] first:border-0">
+                <td class="px-4 py-2.5 text-[#4a5f63]">{type}</td>
+                <td class="px-4 py-2.5 text-right font-mono text-teal-400">{cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-[#4a5f63] mt-3 text-center">Re-downloads of already-purchased resources are always free.</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-bold mb-6 text-center">Common questions</h2>
+      <div class="space-y-4">
+        {[
+          {
+            q: 'Do credits roll over?',
+            a: 'Credits do not roll over to the next billing month. Use your credits each month or upgrade to Pro for a larger monthly allocation.',
+          },
+          {
+            q: 'Can I re-download a resource I already purchased?',
+            a: 'Yes. Once you download a resource, you can re-download it at any time at no additional credit cost.',
+          },
+          {
+            q: 'What NYS standards are covered?',
+            a: 'All NYS Next Generation ELA Standards (2017), Next Generation Mathematics Learning Standards (2017), NYSSLS Science Standards, NYS Social Studies Framework, CS & Digital Fluency, Arts Learning Standards, CDOS, Health & PE, and SDI/Special Education frameworks under 8 NYCRR Part 200.',
+          },
+          {
+            q: 'Are these Common Core resources?',
+            a: 'No. StandardCraft does not tag any resources as Common Core. ELA and Math resources align to the NYS Next Generation Standards (2017), which replaced Common Core in New York.',
+          },
+          {
+            q: 'Is StandardCraft affiliated with NYSED?',
+            a: 'No. StandardCraft is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). All content is original, grounded in publicly available official NYS standards.',
+          },
+          {
+            q: 'How do I cancel?',
+            a: 'You can cancel anytime from your Account page. Your subscription stays active until the end of the billing period.',
+          },
+        ].map(faq => (
+          <div class="card">
+            <h3 class="font-semibold text-sm mb-2">{faq.q}</h3>
+            <p class="text-sm text-[#4a5f63]">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-12 text-center text-sm text-[#4a5f63]">
+      Questions about school or district pricing?
+      <a href="/school-inquiry" class="text-teal-400 hover:underline ml-1">Contact us →</a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { createSupabaseBrowserClient } from '../lib/supabase';
+
+  document.querySelectorAll('.checkout-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const plan = btn.getAttribute('data-plan')!;
+      (btn as HTMLButtonElement).disabled = true;
+      (btn as HTMLButtonElement).textContent = 'Redirecting…';
+
+      const supabase = createSupabaseBrowserClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        window.location.href = `/signin?redirect=/pricing`;
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan, billing: 'monthly' }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || 'Could not start checkout. Please try again.');
+          (btn as HTMLButtonElement).disabled = false;
+          (btn as HTMLButtonElement).textContent = `Start ${plan.charAt(0).toUpperCase() + plan.slice(1)}`;
+        }
+      } catch {
+        alert('Network error. Please try again.');
+        (btn as HTMLButtonElement).disabled = false;
+      }
+    });
+  });
+</script>
