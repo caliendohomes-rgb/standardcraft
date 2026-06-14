@@ -1,6 +1,6 @@
-# StandardCraft
+﻿# StandardCraft
 
-NYS Next Generation standards-aligned classroom resources — production-ready full-stack Astro v4 site.
+NYS Next Generation standards-aligned classroom resources â€” production-ready full-stack Astro v4 site.
 
 ## Stack
 
@@ -31,14 +31,14 @@ cp .env.example .env
 |---|---|
 | `PUBLIC_SUPABASE_URL` | Your Supabase project URL |
 | `PUBLIC_SUPABASE_ANON_KEY` | Supabase anon (public) key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key — **never expose to browser** |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key â€” **never expose to browser** |
 | `STRIPE_SECRET_KEY` | Stripe secret key (`sk_test_...` or `sk_live_...`) |
 | `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret (`whsec_...`) |
 | `STRIPE_PRICE_CLASSROOM_MONTHLY` | Stripe Price ID for Classroom monthly |
 | `STRIPE_PRICE_CLASSROOM_ANNUAL` | Stripe Price ID for Classroom annual |
 | `STRIPE_PRICE_PRO_MONTHLY` | Stripe Price ID for Pro monthly |
 | `STRIPE_PRICE_PRO_ANNUAL` | Stripe Price ID for Pro annual |
-| `PUBLIC_SITE_URL` | Your site URL (e.g. `https://standardcraft.netlify.app`) |
+| `PUBLIC_SITE_URL` | Your site URL (e.g. `https://standardcraftny.com`) |
 
 ### 3. Run dev server
 
@@ -52,12 +52,12 @@ npm run dev
 
 ### Create project
 
-1. Go to [supabase.com](https://supabase.com) → New project
+1. Go to [supabase.com](https://supabase.com) â†’ New project
 2. Copy your Project URL and API keys into `.env`
 
 ### Run migrations
 
-In the Supabase dashboard → **SQL Editor**, run the three migration files in order:
+In the Supabase dashboard â†’ **SQL Editor**, run the three migration files in order:
 
 ```
 supabase/migrations/001_schema.sql    # Tables + triggers
@@ -67,13 +67,13 @@ supabase/migrations/003_functions.sql # Atomic credit functions
 
 ### Create Storage bucket
 
-1. Dashboard → **Storage** → **New bucket**
+1. Dashboard â†’ **Storage** â†’ **New bucket**
 2. Name: `resources`
-3. **Public**: OFF (private — files delivered via signed URLs only)
+3. **Public**: OFF (private â€” files delivered via signed URLs only)
 
 ### Disable email confirmation
 
-Dashboard → **Authentication** → **Email** → turn off "Confirm email" for frictionless signup.
+Dashboard â†’ **Authentication** â†’ **Email** â†’ turn off "Confirm email" for frictionless signup.
 
 ---
 
@@ -82,7 +82,7 @@ Dashboard → **Authentication** → **Email** → turn off "Confirm email" for 
 After Supabase is configured and the `resources` bucket exists:
 
 ```bash
-npm run seed:dry   # Preview — no changes
+npm run seed:dry   # Preview â€” no changes
 npm run seed       # Live upload + DB seed
 ```
 
@@ -94,26 +94,26 @@ The seed script reads all `.md` files from `src/content/resources/`, uploads the
 
 ### Create products and prices
 
-1. Dashboard → **Products** → Add **Classroom** ($29/mo) and **Pro** ($69/mo)
+1. Dashboard â†’ **Products** â†’ Add **Classroom** ($29/mo) and **Pro** ($69/mo)
 2. Create recurring monthly prices for each; copy Price IDs into `.env`
 
 ### Configure webhook
 
-1. Dashboard → **Developers** → **Webhooks** → Add endpoint
+1. Dashboard â†’ **Developers** â†’ **Webhooks** â†’ Add endpoint
 2. URL: `https://your-site.netlify.app/api/webhook`
 3. Events: `checkout.session.completed`, `invoice.payment_succeeded`, `customer.subscription.updated`, `customer.subscription.deleted`
-4. Copy signing secret → `STRIPE_WEBHOOK_SECRET`
+4. Copy signing secret â†’ `STRIPE_WEBHOOK_SECRET`
 
 ---
 
 ## Netlify Deployment
 
 1. Push to GitHub
-2. Netlify → **Add site** → Import from Git
+2. Netlify â†’ **Add site** â†’ Import from Git
 3. Build settings are pre-configured in `netlify.toml`
-4. In Netlify → **Environment variables**, add all variables from `.env`
+4. In Netlify â†’ **Environment variables**, add all variables from `.env`
 
-> `SUPABASE_SERVICE_ROLE_KEY` and `STRIPE_SECRET_KEY` are server-side only — never set as `PUBLIC_` prefixed variables.
+> `SUPABASE_SERVICE_ROLE_KEY` and `STRIPE_SECRET_KEY` are server-side only â€” never set as `PUBLIC_` prefixed variables.
 
 ---
 
@@ -146,7 +146,7 @@ src/
     api/
       register.ts         # POST: create account + grant 1 credit
       signout.ts          # POST: sign out + clear cookies
-      download.ts         # POST: verify auth + credits → signed URL
+      download.ts         # POST: verify auth + credits â†’ signed URL
       checkout.ts         # POST: create Stripe Checkout session
       webhook.ts          # POST: Stripe webhook handler
       school-inquiry.ts   # POST: save inquiry
@@ -161,10 +161,10 @@ public/robots.txt
 ## User Flow
 
 ```
-/ → /claim-free → POST /api/register → sign in → /free-resource-library
-                                                      └── Download → POST /api/download → signed URL
-                                                      └── (no credits) → /pricing → POST /api/checkout → Stripe
-                                                                                         └── success → /dashboard
+/ â†’ /claim-free â†’ POST /api/register â†’ sign in â†’ /free-resource-library
+                                                      â””â”€â”€ Download â†’ POST /api/download â†’ signed URL
+                                                      â””â”€â”€ (no credits) â†’ /pricing â†’ POST /api/checkout â†’ Stripe
+                                                                                         â””â”€â”€ success â†’ /dashboard
 ```
 
 ---
@@ -172,6 +172,7 @@ public/robots.txt
 ## Brand Compliance
 
 - Not affiliated with, endorsed by, or sponsored by NYSED
-- ELA: NYS Next Generation ELA Standards (2017) — not tagged as Common Core
-- Math: NYS Next Generation Mathematics Learning Standards (2017) — not tagged as Common Core
-- No standard code is ever invented — all codes verified against official NYSED source documents
+- ELA: NYS Next Generation ELA Standards (2017) â€” not tagged as Common Core
+- Math: NYS Next Generation Mathematics Learning Standards (2017) â€” not tagged as Common Core
+- No standard code is ever invented â€” all codes verified against official NYSED source documents
+

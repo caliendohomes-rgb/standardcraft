@@ -1,4 +1,4 @@
-import type { APIRoute } from 'astro';
+﻿import type { APIRoute } from 'astro';
 import { getStripe, PLANS, type PlanKey } from '../../lib/stripe';
 import { createSupabaseApiClient, createSupabaseAdmin } from '../../lib/supabase-server';
 
@@ -54,7 +54,7 @@ export const POST: APIRoute = async ({ request }) => {
       customerId = customer.id;
     }
 
-    const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://standardcraft.netlify.app';
+    const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://standardcraftny.com';
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -85,3 +85,4 @@ function json(data: object, status = 200) {
     headers: { 'Content-Type': 'application/json' },
   });
 }
+
