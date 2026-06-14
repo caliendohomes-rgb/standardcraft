@@ -14,8 +14,8 @@ if (!user) {
 const admin = createSupabaseAdmin();
 
 const [profileResult, creditsResult, downloadsResult, subResult] = await Promise.all([
-  admin.from('profiles').select('full_name, email').eq('id', user.id).single(),
-  admin.from('credits').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).single(),
+  admin.from('profiles').select('full_name, email').eq('id', user.id).maybeSingle(),
+  admin.from('credits').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).maybeSingle(),
   admin.from('downloads').select('resource_slug, downloaded_at').eq('user_id', user.id).order('downloaded_at', { ascending: false }).limit(5),
   admin.from('subscriptions').select('plan, status, current_period_end').eq('user_id', user.id).maybeSingle(),
 ]);
@@ -35,6 +35,7 @@ function formatDate(iso: string) {
 const planLabel: Record<string, string> = {
   classroom: 'Classroom — $29/mo',
   pro: 'Pro — $69/mo',
+  school: 'School — contact billing',
 };
 ---
 
@@ -56,7 +57,7 @@ const planLabel: Record<string, string> = {
         <div class="section-label mb-1">Your Dashboard</div>
         <h1 class="text-3xl font-bold">Welcome back, {firstName}</h1>
       </div>
-      <a href="/free-resource-library" class="btn-primary text-sm py-2 px-5">Browse Library →</a>
+      <a href="/resources" class="btn-primary text-sm py-2 px-5">Browse Library →</a>
     </div>
 
     <!-- Stats row -->
@@ -120,12 +121,12 @@ const planLabel: Record<string, string> = {
     <div class="card">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-bold text-lg">Recent Downloads</h2>
-        <a href="/free-resource-library" class="text-sm text-teal-400 hover:underline">View all →</a>
+        <a href="/resources" class="text-sm text-teal-400 hover:underline">View all →</a>
       </div>
       {recentDownloads.length === 0 ? (
         <div class="text-[#4a5f63] text-sm py-4 text-center">
           No downloads yet.
-          <a href="/free-resource-library" class="text-teal-400 hover:underline ml-1">Browse the library →</a>
+          <a href="/resources" class="text-teal-400 hover:underline ml-1">Browse the library →</a>
         </div>
       ) : (
         <ul class="space-y-3">
@@ -142,7 +143,7 @@ const planLabel: Record<string, string> = {
     <!-- Quick links -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
       {[
-        { href: '/free-resource-library', label: 'Resource Library', desc: '50 verified resources' },
+        { href: '/resources', label: 'Resource Library', desc: '50 verified resources' },
         { href: '/account', label: 'Account Settings', desc: 'Profile, password, billing' },
         { href: '/contact', label: 'Get Help', desc: 'Contact our team' },
       ].map(l => (

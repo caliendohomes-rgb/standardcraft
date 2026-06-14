@@ -13,7 +13,7 @@ if (!user) {
 
 const admin = createSupabaseAdmin();
 const { data: profile } = await admin.from('profiles').select('full_name, email, phone').eq('id', user.id).single();
-const { data: prefs } = await admin.from('user_preferences').select('subjects, grade_levels, marketing_consent').eq('user_id', user.id).single();
+const { data: prefs } = await admin.from('user_preferences').select('subjects, grade_levels, marketing_consent').eq('user_id', user.id).maybeSingle();
 const { data: sub } = await admin.from('subscriptions').select('plan, status, stripe_subscription_id, current_period_end').eq('user_id', user.id).maybeSingle();
 
 function formatDate(iso: string) {

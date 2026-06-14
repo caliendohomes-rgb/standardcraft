@@ -41,3 +41,13 @@
   from = "/signin"
   to = "/sign-in"
   status = 301
+
+[[redirects]]
+  from = "/free-resource-library"
+  to = "/resources"
+  status = 301
+
+[[redirects]]
+  from = "/library"
+  to = "/resources"
+  status = 301

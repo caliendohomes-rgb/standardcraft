@@ -52,7 +52,11 @@ export const POST: APIRoute = async ({ request }) => {
         });
 
         // Grant initial subscription credits
-        await grantSubscriptionCredits(admin, userId, plan, planCredits, session.subscription);
+        try {
+          await grantSubscriptionCredits(admin, userId, plan, planCredits, session.subscription);
+        } catch (grantErr) {
+          console.error('CREDIT_GRANT_FAILED checkout.session.completed', { userId, plan, planCredits }, grantErr);
+        }
         break;
       }
 
@@ -76,7 +80,11 @@ export const POST: APIRoute = async ({ request }) => {
           })
           .eq('stripe_subscription_id', invoice.subscription);
 
-        await grantSubscriptionCredits(admin, userId, plan, planCredits, invoice.subscription);
+        try {
+          await grantSubscriptionCredits(admin, userId, plan, planCredits, invoice.subscription);
+        } catch (grantErr) {
+          console.error('CREDIT_GRANT_FAILED invoice.payment_succeeded', { userId, plan, planCredits }, grantErr);
+        }
         break;
       }
 
