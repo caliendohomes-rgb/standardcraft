@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && npm run seed || echo '[seed] Skipped or failed — site still deploys'"
   publish = "dist"
 
 [build.environment]
