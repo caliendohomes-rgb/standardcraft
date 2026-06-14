@@ -70,7 +70,7 @@ const plans = [
     features: [
       'Pooled credit allocation',
       'Multi-teacher admin panel',
-      'Ed Law Â§2-d FERPA data agreement',
+      'Ed Law §2-d FERPA data agreement',
       'Dedicated onboarding',
       'Custom resource requests',
       'Invoice / PO billing available',
@@ -84,8 +84,8 @@ const plans = [
 ---
 
 <Layout
-  title="Pricing â€” StandardCraft | Original NYS-Aligned Classroom Resources"
-  description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo Â· Pro $69/mo Â· School plans available."
+  title="Pricing — StandardCraft | Original NYS-Aligned Classroom Resources"
+  description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo · Pro $69/mo · School plans available."
 >
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="text-center mb-10">
@@ -98,7 +98,7 @@ const plans = [
       <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#5a7478]">
         {['No student data required', 'Original resources', 'Alignment notes included', 'Educator-reviewed', 'Cancel anytime', 'School & district plans available'].map(item => (
           <span class="flex items-center gap-1.5">
-            <span class="text-teal-500 font-bold">âœ“</span>{item}
+            <span class="text-teal-500 font-bold">✓</span>{item}
           </span>
         ))}
       </div>
@@ -120,7 +120,7 @@ const plans = [
           <ul class="space-y-2 flex-1">
             {p.features.map(f => (
               <li class="flex items-start gap-2 text-sm text-[#4a5f63]">
-                <span class="text-teal-400 mt-0.5 shrink-0">âœ“</span>
+                <span class="text-teal-400 mt-0.5 shrink-0">✓</span>
                 {f}
               </li>
             ))}
@@ -192,7 +192,7 @@ const plans = [
           },
           {
             q: 'Are the resources original?',
-            a: 'Yes. StandardCraft resources are created as original instructional supports â€” not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.',
+            a: 'Yes. StandardCraft resources are created as original instructional supports — not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.',
           },
           {
             q: 'Do these resources replace my district curriculum?',
@@ -230,7 +230,7 @@ const plans = [
 
     <div class="mt-12 text-center text-sm text-[#4a5f63]">
       Questions about school or district pricing?
-      <a href="/school-inquiry" class="text-teal-400 hover:underline ml-1">Contact us â†’</a>
+      <a href="/school-inquiry" class="text-teal-400 hover:underline ml-1">Contact us →</a>
     </div>
   </section>
 </Layout>
@@ -242,7 +242,7 @@ const plans = [
     btn.addEventListener('click', async () => {
       const plan = btn.getAttribute('data-plan')!;
       (btn as HTMLButtonElement).disabled = true;
-      (btn as HTMLButtonElement).textContent = 'Redirectingâ€¦';
+      (btn as HTMLButtonElement).textContent = 'Redirecting…';
 
       const supabase = createSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();

@@ -33,7 +33,7 @@ if (user) {
     <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
 
     <form id="register-form" class="space-y-4" novalidate>
-      <!-- Honeypot â€” hidden from humans, traps bots -->
+      <!-- Honeypot — hidden from humans, traps bots -->
       <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
         class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
 
@@ -64,7 +64,7 @@ if (user) {
 
       <div>
         <label class="block text-sm font-medium mb-1">Subjects you teach</label>
-        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources â€” nothing else.</p>
+        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources — nothing else.</p>
         <div class="grid grid-cols-2 gap-2 text-sm">
           {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
             <label class="flex items-center gap-2 cursor-pointer">
@@ -131,7 +131,7 @@ if (user) {
     e.preventDefault();
     errorMsg.classList.add('hidden');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Creating accountâ€¦';
+    submitBtn.textContent = 'Creating account…';
 
     const fd = new FormData(form);
     const payload = {
@@ -162,7 +162,7 @@ if (user) {
       }
 
       // Sign in client-side to establish session cookie
-      submitBtn.textContent = 'Signing you inâ€¦';
+      submitBtn.textContent = 'Signing you in…';
       const supabase = createSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: payload.email,

@@ -21,19 +21,20 @@ export const POST: APIRoute = async ({ request }) => {
 
     const admin = createSupabaseAdmin();
 
-    // Load resource
-    const { data: resource, error: resourceError } = await admin
+    // Try to load resource from DB (optional — table may not be seeded yet)
+    const { data: resource } = await admin
       .from('resources')
       .select('id, title, slug, file_path, credit_cost, status')
       .eq('slug', resource_slug)
       .eq('status', 'published')
-      .single();
+      .maybeSingle();
 
-    if (resourceError || !resource) {
+    // If resource not in DB, validate slug format as a safety check
+    if (!resource && !/^[a-z0-9-]+$/.test(resource_slug)) {
       return json({ error: 'Resource not found.' }, 404);
     }
 
-    const creditCost = 1;
+    const creditCost = resource?.credit_cost ?? 1;
 
     // Check if already downloaded (allow re-download without credit cost)
     const { data: existingDownload } = await admin
@@ -45,13 +46,16 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (existingDownload) {
       // Re-download: generate signed URL without deducting credits
+      if (!resource?.file_path) {
+        return json({ success: true, url: `/downloads/${resource_slug}.md`, redownload: true, fallback: true });
+      }
       const { data: signedUrlData, error: urlError } = await admin
         .storage
         .from('resources')
         .createSignedUrl(resource.file_path, 120); // 2-minute expiry
 
       if (urlError || !signedUrlData) {
-        return json({ success: true, url: `/downloads/${resource.slug}.md`, redownload: true, fallback: true });
+        return json({ success: true, url: `/downloads/${resource_slug}.md`, redownload: true, fallback: true });
       }
 
       return json({ success: true, url: signedUrlData.signedUrl, redownload: true });
@@ -72,10 +76,10 @@ export const POST: APIRoute = async ({ request }) => {
       }, 402);
     }
 
-    // Atomic deduction via RPC function
+    // Atomic deduction via RPC function (resource_id is nullable)
     const { data: txResult, error: txError } = await admin.rpc('redeem_credit_for_download', {
       p_user_id: user.id,
-      p_resource_id: resource.id,
+      p_resource_id: resource?.id ?? null,
       p_resource_slug: resource_slug,
       p_credit_cost: creditCost,
     });
@@ -85,18 +89,26 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ error: txResult?.error ?? 'Download transaction failed.', code: 'TX_FAILED' }, 500);
     }
 
-    // Generate signed URL (2-minute expiry)
+    // Generate signed URL (2-minute expiry) — only possible if resource has a file_path
+    if (!resource?.file_path) {
+      return json({
+        success: true,
+        url: `/downloads/${resource_slug}.md`,
+        title: resource?.title ?? resource_slug,
+        fallback: true,
+      });
+    }
+
     const { data: signedUrlData, error: urlError } = await admin
       .storage
       .from('resources')
       .createSignedUrl(resource.file_path, 120);
 
     if (urlError || !signedUrlData) {
-      // Transaction committed but URL failed — log but don't re-deduct
       console.error('Signed URL error:', urlError);
       return json({
         success: true,
-        url: `/downloads/${resource.slug}.md`,
+        url: `/downloads/${resource_slug}.md`,
         title: resource.title,
         fallback: true,
       });

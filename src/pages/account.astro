@@ -22,7 +22,7 @@ function formatDate(iso: string) {
 ---
 
 <Layout
-  title="Account Settings â€” StandardCraft"
+  title="Account Settings — StandardCraft"
   description="Manage your StandardCraft account, preferences, and subscription."
   noIndex={true}
 >
@@ -65,7 +65,7 @@ function formatDate(iso: string) {
       {!sub ? (
         <div>
           <p class="text-[#4a5f63] text-sm mb-4">You're on the free plan.</p>
-          <a href="/pricing" class="btn-primary text-sm py-2 px-4">Upgrade plan â†’</a>
+          <a href="/pricing" class="btn-primary text-sm py-2 px-4">Upgrade plan →</a>
         </div>
       ) : (
         <div class="text-sm space-y-2">
@@ -130,7 +130,7 @@ function formatDate(iso: string) {
 
     <!-- Sign out -->
     <div class="flex items-center justify-between text-sm pt-4">
-      <a href="/dashboard" class="text-teal-400 hover:underline">â† Back to Dashboard</a>
+      <a href="/dashboard" class="text-teal-400 hover:underline">← Back to Dashboard</a>
       <form method="POST" action="/api/signout">
         <button type="submit" class="text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Sign out</button>
       </form>
@@ -163,7 +163,7 @@ function formatDate(iso: string) {
     const fd = new FormData(e.target as HTMLFormElement);
     const btn = document.getElementById('profile-btn') as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = 'Savingâ€¦';
+    btn.textContent = 'Saving…';
 
     const supabase = createSupabaseBrowserClient();
     const { data: { user } } = await supabase.auth.getUser();
