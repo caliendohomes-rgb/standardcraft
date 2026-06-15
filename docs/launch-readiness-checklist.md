@@ -6,11 +6,25 @@ Legend: ✅ done · 🟡 needs verification · 🔧 owner action (outside code) 
 
 ---
 
-## 🚨 TOP BLOCKER — Netlify environment variables are NOT set
-As of 2026-06-15, `manage-env-vars getAllEnvVars` returns `[]` — **no env vars exist on
-the site.** Consequence: every SSR page (`/sign-in`, `/claim-free`, `/dashboard`,
-`/free-resource-library`) and every `/api/*` route returns **HTTP 500** because the
-Supabase client initializes with `undefined`. Static marketing pages still render.
+## ✅ RESOLVED — site-wide SSR 500s (was the top blocker)
+Two stacked causes, both fixed on 2026-06-15:
+1. **Netlify had no env vars** — now set (Supabase URL + publishable + service-role keys +
+   `PUBLIC_SITE_URL`). Both Supabase keys verified working.
+2. **Node 20 lacked native WebSocket** — newer `@supabase/supabase-js` throws at client
+   construction on Node < 22. Fixed via `netlify.toml` `NODE_VERSION = "22"`.
+
+Result: `/sign-in` & `/claim-free` = **200**, gated pages **302→sign-in**, `/api/register`
+clean **400**. Signup/login/dashboard/library are functional. **Keep Node ≥ 22.**
+
+### Still open before full launch
+- **Stripe not working yet:** `STRIPE_SECRET_KEY` currently holds a wrong value (`mk_…`,
+  must be `sk_live_…`); still missing `STRIPE_WEBHOOK_SECRET` + the 4 `STRIPE_PRICE_…` IDs.
+  Free signup works without these; paid checkout will 500/fail until fixed.
+- **SSL cert** for the apex (below).
+
+---
+
+### (historical) original env-var blocker
 
 **Fix (owner action — entering keys):** In Netlify → Site configuration → Environment
 variables, add all of the following with **"Same value for all contexts"** and **all
