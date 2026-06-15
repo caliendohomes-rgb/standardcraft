@@ -65,12 +65,15 @@ API routes (`src/pages/api/`, all `prerender = false`)
 
 | # | Blocker | Status |
 |---|---------|--------|
-| 1 | Custom domain SSL: `ERR_CERT_COMMON_NAME_INVALID` — apex served the `*.netlify.app` wildcard cert | **DNS verified by owner; Let's Encrypt cert provisioning.** Needs "Provision certificate" click in Netlify if not auto-issued. The site itself returns **HTTP 200** — the reported "502" is stale. |
-| 2 | `resources` DB table empty → downloads would 404 | **Resolved.** `download.ts` is now null-safe (falls back to slug URL); seed runs on every Netlify build (`npm run seed`). |
+| 0 | **Netlify env vars are EMPTY** — every SSR page + `/api/*` returns 500 (Supabase client gets `undefined`). | **OPEN — top priority.** Owner must set the 10 env vars (all scopes incl. Builds) and redeploy. See launch-readiness-checklist. |
+| 1 | Custom domain SSL: `ERR_CERT_COMMON_NAME_INVALID` — apex serves the `*.netlify.app` wildcard cert | **OPEN (owner action).** DNS verified + on Netlify DNS; cert not yet issued for the custom hostname. Provision in Netlify → Domain management. Static site returns HTTP 200; reported "502" is stale. |
+| 2 | `resources` DB table empty → downloads would 404 | **Resolved in code.** `download.ts` null-safe; seed runs on build — but the seed currently no-ops because env vars are missing (blocker 0). |
 | 3 | UTF-8 mojibake in 6 templates | **Resolved.** |
 | 4 | Crash-on-missing-row (`.single()`) in dashboard/account/free-resource-library | **Resolved** → `.maybeSingle()`. |
 
-No remaining hard blockers in code. Remaining item is the SSL cert finishing provisioning (owner action in Netlify dashboard).
+**The code has no hard blockers — but the deployment is unconfigured.** Until the Netlify
+env vars are set (blocker 0), the entire app layer (auth, dashboard, library, checkout,
+webhooks) is down. SSL (blocker 1) is secondary. Both are owner dashboard actions.
 
 ---
 

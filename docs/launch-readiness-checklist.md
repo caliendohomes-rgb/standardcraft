@@ -6,6 +6,35 @@ Legend: ✅ done · 🟡 needs verification · 🔧 owner action (outside code) 
 
 ---
 
+## 🚨 TOP BLOCKER — Netlify environment variables are NOT set
+As of 2026-06-15, `manage-env-vars getAllEnvVars` returns `[]` — **no env vars exist on
+the site.** Consequence: every SSR page (`/sign-in`, `/claim-free`, `/dashboard`,
+`/free-resource-library`) and every `/api/*` route returns **HTTP 500** because the
+Supabase client initializes with `undefined`. Static marketing pages still render.
+
+**Fix (owner action — entering keys):** In Netlify → Site configuration → Environment
+variables, add all of the following with **"Same value for all contexts"** and **all
+scopes (Builds + Functions + Runtime)**. `PUBLIC_*` MUST include the Builds scope because
+Astro inlines them at build — then **trigger a fresh deploy** (clear cache + deploy).
+
+| Variable | Example / source |
+|----------|------------------|
+| `PUBLIC_SUPABASE_URL` | `https://agdlewezwzdjlzlyzfgz.supabase.co` |
+| `PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project settings → API → anon/publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → API → service_role/secret key (server-only) |
+| `STRIPE_SECRET_KEY` | `sk_live_…` |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_…` (from the live webhook endpoint) |
+| `STRIPE_PRICE_CLASSROOM_MONTHLY` | `price_…` |
+| `STRIPE_PRICE_CLASSROOM_ANNUAL` | `price_…` |
+| `STRIPE_PRICE_PRO_MONTHLY` | `price_…` |
+| `STRIPE_PRICE_PRO_ANNUAL` | `price_…` |
+| `PUBLIC_SITE_URL` | `https://standardcraftny.com` |
+
+Minimum to restore signup/login: the 3 Supabase vars + `PUBLIC_SITE_URL`. The Stripe vars
+unlock paid checkout. After setting + redeploy, all SSR routes should return 200.
+
+---
+
 ## Deployment & domain
 - ✅ Netlify CI builds on push to `main` (Astro hybrid + SSR function deploy).
 - ✅ Production site returns **HTTP 200** (the previously reported "502" is stale).
