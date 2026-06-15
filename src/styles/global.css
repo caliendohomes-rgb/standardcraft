@@ -24,6 +24,34 @@
     scroll-behavior: smooth;
   }
 
+  /* Accessibility: honor reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Accessibility: visible keyboard focus on all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid rgba(55, 107, 155, 0.55);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   body {
     background:
       radial-gradient(circle at top left, rgba(215, 168, 75, 0.16), transparent 34rem),

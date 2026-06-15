@@ -43,11 +43,6 @@
   status = 301
 
 [[redirects]]
-  from = "/free-resource-library"
-  to = "/resources"
-  status = 301
-
-[[redirects]]
   from = "/library"
-  to = "/resources"
+  to = "/free-resource-library"
   status = 301

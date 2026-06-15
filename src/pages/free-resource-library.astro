@@ -15,7 +15,7 @@ if (!user) {
 const admin = createSupabaseAdmin();
 
 const [creditsResult, downloadsResult, allResources] = await Promise.all([
-  admin.from('credits').select('balance').eq('user_id', user.id).single(),
+  admin.from('credits').select('balance').eq('user_id', user.id).maybeSingle(),
   admin.from('downloads').select('resource_slug').eq('user_id', user.id),
   getCollection('resources'),
 ]);
