@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [tailwind({ applyBaseStyles: false })],
   output: 'hybrid',
   adapter: netlify({
     edgeMiddleware: false,
