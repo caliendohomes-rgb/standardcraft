@@ -208,18 +208,208 @@
   outline-offset: 2px;
 }
 
-/* Print styles for resource pages */
+/* ============================================================
+   Resource content typography (web view) — applies to all 50
+   ============================================================ */
+.print-only { display: none; }
+
+.resource-prose {
+  color: var(--sc-slate);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+.resource-prose > :first-child { margin-top: 0; }
+.resource-prose h2 {
+  font-family: var(--sc-font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem);
+  font-weight: 600;
+  color: var(--sc-navy);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin: 2.25rem 0 0.6rem;
+}
+.resource-prose h3 {
+  font-family: var(--sc-font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--sc-navy);
+  margin: 2rem 0 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--sc-border);
+}
+.resource-prose h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sc-blue);
+  margin: 1.6rem 0 0.5rem;
+}
+.resource-prose p { margin: 0.8rem 0; }
+.resource-prose ul, .resource-prose ol { margin: 0.8rem 0; padding-left: 1.4rem; }
+.resource-prose ul li { list-style: disc; margin: 0.35rem 0; }
+.resource-prose ol li { list-style: decimal; margin: 0.35rem 0; }
+.resource-prose li::marker { color: var(--sc-blue); }
+.resource-prose strong { color: var(--sc-navy); font-weight: 600; }
+.resource-prose em { font-style: italic; }
+.resource-prose a { color: var(--sc-blue); text-decoration: underline; text-underline-offset: 2px; }
+.resource-prose hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--sc-border), transparent);
+  margin: 2rem 0;
+}
+.resource-prose blockquote {
+  border-left: 3px solid var(--sc-gold);
+  background: rgba(247, 231, 189, 0.35);
+  padding: 0.85rem 1.1rem;
+  margin: 1.4rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--sc-navy);
+}
+.resource-prose blockquote p { margin: 0.3rem 0; }
+.resource-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.92rem;
+}
+.resource-prose th {
+  background: var(--sc-sage);
+  color: var(--sc-navy);
+  text-align: left;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--sc-border);
+}
+.resource-prose td {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--sc-border);
+  vertical-align: top;
+}
+.resource-prose tr:nth-child(even) td { background: rgba(255, 255, 255, 0.6); }
+.resource-prose code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  background: var(--sc-sage);
+  color: var(--sc-navy);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.resource-prose pre {
+  background: #fffdf7;
+  border: 1px solid var(--sc-border);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.resource-prose pre code {
+  background: none;
+  padding: 0;
+  color: var(--sc-navy);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+/* Print-only branded header & footer (resource detail) */
+.print-header { align-items: center; gap: 0.75rem; }
+.print-header .print-wordmark {
+  font-family: var(--sc-font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--sc-navy);
+  line-height: 1.1;
+}
+.print-header .print-tagline {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sc-blue);
+}
+.print-header .print-framework {
+  margin-left: auto;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--sc-slate);
+  max-width: 16rem;
+}
+.print-footer { font-size: 0.7rem; line-height: 1.5; color: var(--sc-slate); }
+
+/* ============================================================
+   Print styles — professional resource printout (all 50)
+   ============================================================ */
 @media print {
-  body {
-    background-color: white;
-    color: black;
+  @page { margin: 1.5cm; }
+
+  html, body {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    font-size: 10.5pt;
   }
 
-  .no-print {
-    display: none !important;
+  /* Hide all web chrome */
+  header, .no-print, nav { display: none !important; }
+  main { padding: 0 !important; margin: 0 !important; }
+
+  /* Reveal print-only elements */
+  .print-only { display: block !important; }
+  .print-header {
+    display: flex !important;
+    border-bottom: 2pt solid #14233a;
+    padding-bottom: 8pt;
+    margin-bottom: 14pt;
+  }
+  .print-header .print-wordmark,
+  .print-header .print-tagline { color: #14233a !important; }
+
+  /* Print prose */
+  .resource-prose { color: #1a1a1a !important; font-size: 10.5pt; line-height: 1.45; }
+  .resource-prose h2 { font-size: 16pt; color: #111 !important; margin-top: 14pt; page-break-after: avoid; }
+  .resource-prose h3 { font-size: 12.5pt; color: #111 !important; border-bottom: 0.5pt solid #999; page-break-after: avoid; }
+  .resource-prose h4 { color: #333 !important; page-break-after: avoid; }
+  .resource-prose p, .resource-prose li { orphans: 3; widows: 3; }
+  .resource-prose ul, .resource-prose ol, .resource-prose blockquote,
+  .resource-prose pre, .resource-prose table { page-break-inside: avoid; }
+  .resource-prose blockquote {
+    border-left: 3pt solid #888;
+    background: #f4f4f4 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resource-prose table { border: 0.5pt solid #888; }
+  .resource-prose th, .resource-prose td { border: 0.5pt solid #888; padding: 3pt 5pt; }
+  .resource-prose th { background: #ececec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .resource-prose tr:nth-child(even) td { background: #fff !important; }
+  .resource-prose pre {
+    background: #f7f7f7 !important;
+    border: 0.5pt solid #bbb;
+    font-size: 9pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .resource-prose pre code { font-size: 9pt; }
+
+  /* Alignment record stays together as an official-looking record */
+  .alignment-record-print {
+    page-break-inside: avoid;
+    border: 1.25pt solid #14233a !important;
+    color: #1a1a1a !important;
+    background: #fff !important;
   }
 
-  .print-page-break {
-    page-break-before: always;
+  /* Strip link URLs from print */
+  a, a:visited { color: #111 !important; text-decoration: none; }
+
+  /* Print footer carries the required disclaimer on the sheet */
+  .print-footer {
+    display: block !important;
+    margin-top: 16pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid #bbb;
+    color: #444 !important;
+    font-size: 7.8pt;
   }
+
+  .print-page-break { page-break-before: always; }
 }

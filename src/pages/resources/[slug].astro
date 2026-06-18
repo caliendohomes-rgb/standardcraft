@@ -1,6 +1,7 @@
 ﻿---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Seal from '../../components/Seal.astro';
 
 export async function getStaticPaths() {
   const resources = await getCollection('resources');
@@ -62,6 +63,16 @@ const learningResourceSchema = JSON.stringify({
   <script type="application/ld+json" set:html={learningResourceSchema} slot="head-schema" />
 
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Print-only branded header -->
+    <div class="print-only print-header">
+      <Seal size={34} />
+      <div>
+        <div class="print-wordmark">StandardCraft</div>
+        <div class="print-tagline">NYS-Aligned Classroom Resource</div>
+      </div>
+      <div class="print-framework">{data.standards_framework}</div>
+    </div>
+
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-sm text-[#4a5f63] mb-8 no-print">
       <a href="/" class="hover:text-teal-400">Home</a>
@@ -87,7 +98,7 @@ const learningResourceSchema = JSON.stringify({
     </div>
 
     <!-- Alignment Record Box -->
-    <div class={`rounded-xl border p-5 mb-8 ${confColor}`}>
+    <div class={`alignment-record-print rounded-xl border p-5 mb-8 ${confColor}`}>
       <div class="font-semibold text-sm mb-1 uppercase tracking-wide">Alignment Record</div>
       <p class="text-xs opacity-70 mb-4">Built from publicly available New York State standards. Standard codes cited from official NYSED sources.</p>
       {data.standards.map(std => (
@@ -127,16 +138,7 @@ const learningResourceSchema = JSON.stringify({
     </div>
 
     <!-- Content -->
-    <article class="prose prose-invert prose-teal max-w-none
-      prose-headings:text-[#e8f0f0] prose-headings:font-bold
-      prose-h2:text-xl prose-h2:border-b prose-h2:border-[#1e2a2d] prose-h2:pb-2
-      prose-h3:text-base prose-h3:text-teal-300
-      prose-p:text-[#b8cbcd] prose-li:text-[#b8cbcd]
-      prose-strong:text-[#e8f0f0]
-      prose-code:text-teal-300 prose-code:bg-teal-900/30 prose-code:rounded prose-code:px-1
-      prose-blockquote:border-teal-600 prose-blockquote:text-[#b8cbcd]
-      prose-hr:border-[#1e2a2d]
-    ">
+    <article class="resource-prose max-w-none">
       <Content />
     </article>
 
@@ -169,7 +171,7 @@ const learningResourceSchema = JSON.stringify({
         Resource ID: {data.resource_id} · {data.created_for}
       </div>
       <div class="flex gap-3">
-        <button onclick="window.print()" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
+        <button id="print-btn" type="button" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
         <a href="/free-resource-library" class="btn-primary text-sm py-2 px-4">Use your signup credit in the library</a>
       </div>
     </div>
@@ -178,6 +180,16 @@ const learningResourceSchema = JSON.stringify({
     <div class="mt-6 p-4 rounded-lg bg-[#0d1314] border border-[#1e2a2d] text-xs text-[#3a5055] leading-relaxed no-print">
       <strong class="text-[#4a5f63]">Independence notice:</strong> StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource is original content aligned to publicly available NYS standards. It is designed to support classroom planning and instruction and does not replace district curriculum, school-approved instructional programs, or teacher professional judgment.
     </div>
+
+    <!-- Print-only footer (carries the disclaimer onto the printed sheet) -->
+    <div class="print-only print-footer">
+      <strong>StandardCraft</strong> — Original, educator-built resource aligned to publicly available {data.standards_framework}. Resource ID {data.resource_id}.
+      Standard codes are cited from official NYSED sources. StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource supports — and does not replace — district curriculum, school-approved instructional programs, or teacher professional judgment.
+    </div>
   </div>
+
+  <script>
+    document.getElementById('print-btn')?.addEventListener('click', () => window.print());
+  </script>
 </Layout>
 
