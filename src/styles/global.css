@@ -29,7 +29,7 @@
     --sc-shadow-lg: 0 20px 48px rgba(44, 55, 71, 0.13), 0 4px 12px rgba(44, 55, 71, 0.07);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -442,12 +442,13 @@ header a:hover svg { filter: drop-shadow(0 2px 8px rgba(215, 168, 75, 0.5)); tra
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---- Hero carousel ---- */
-.sc-carousel { position: relative; }
+.sc-carousel { position: relative; overflow: hidden; isolation: isolate; }
 .sc-carousel-viewport {
-  overflow: hidden;
+  overflow: clip;
   border-radius: var(--sc-radius);
   perspective: 1200px;
   padding: 6px;
+  contain: paint;
 }
 .sc-carousel-track {
   display: flex;

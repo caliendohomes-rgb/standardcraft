@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import ResourceCard from '../components/ResourceCard.astro';
-import ResourceCarousel from '../components/ResourceCarousel.astro';
 import FaqSection from '../components/FaqSection.astro';
 
 const allResources = await getCollection('resources');
@@ -17,6 +16,19 @@ const carouselSubjects = [
 const carouselResources = carouselSubjects
   .map((s) => allResources.find((r) => r.data.subject === s))
   .filter((r): r is NonNullable<typeof r> => Boolean(r));
+
+// Hero product proof module
+const featuredResource = carouselResources.find(r => r.data.subject === 'Math') ?? carouselResources[0];
+const proofTabResources = carouselResources.filter(r => r !== featuredResource).slice(0, 4);
+const featuredPrimaryStd = featuredResource?.data.standards[0];
+const featuredIsMath = featuredResource?.data.human_review === 'Math teacher review pilot eligible';
+const heroSubjectColors: Record<string, string> = {
+  'ELA': 'tag-teal', 'Math': 'tag-purple', 'Science': 'tag-amber',
+  'Social Studies': 'tag-gray', 'Computer Science & Digital Fluency': 'tag-teal',
+  'World Languages': 'tag-gray', 'Arts': 'tag-amber',
+  'Health & PE': 'tag-gray', 'CDOS & Career Readiness': 'tag-gray',
+  'Cross-Content SDI & IEP Support': 'tag-purple',
+};
 
 const faqItems = [
   {
@@ -55,38 +67,94 @@ const faqItems = [
   description="Browse 50 original New York classroom resources and download one free with your signup credit. No payment required."
 >
   <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10">
-    <div class="grid lg:grid-cols-[2fr_1fr] gap-10 lg:gap-14 items-start">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 lg:pt-14 pb-10">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
 
       <!-- LEFT: Headline + copy + CTAs -->
-      <div class="pt-2">
+      <div class="lg:pt-4">
         <div class="section-label mb-4">Built for New York classrooms · NYS Next Generation aligned</div>
-        <h1 class="text-4xl sm:text-5xl lg:text-[3.35rem] font-semibold leading-[1.12] mb-5 text-[#172438]" style="max-width: 22ch;">
-          NYS-aligned lessons and worksheets — ready to use tomorrow and defend to your administrator.
+        <h1 class="font-display text-[2.15rem] sm:text-[2.6rem] lg:text-[2.75rem] font-semibold leading-[1.1] tracking-tight mb-5 text-[#172438]">
+          NYS-aligned lessons and worksheets teachers can use tomorrow.
         </h1>
-        <p class="text-base sm:text-lg text-[#415066] leading-relaxed mb-7" style="max-width: 48ch;">
-          Every resource is built from real NYS standards — Next Generation, NYSSLS, NYSESLAT, and CDOS — with the exact standard code, an alignment record, SDI supports, and MLL/ELL scaffolds. No invented codes. No student data required.
+        <p class="text-[15px] sm:text-base text-[#415066] leading-relaxed mb-7 max-w-[50ch]">
+          Each resource includes the exact NYS standard code, an alignment record, SDI supports, and MLL/ELL scaffolds — so teachers can use it quickly and explain why it fits.
         </p>
         <div class="flex flex-col sm:flex-row gap-3 mb-5">
           <a href="/claim-free" class="btn-primary text-base py-3.5 px-7">Claim my free resource →</a>
           <a href="/resources" class="btn-outline text-base py-3.5 px-7">Browse all 50 resources</a>
         </div>
-        <p class="text-xs text-[#415066] flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>No credit card required</span>
-          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>50 resources to browse free</span>
-          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>1 free download with signup</span>
-        </p>
+        <div class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-[#415066]">
+          <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>No credit card required</span>
+          <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>50 resources to preview free</span>
+          <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>1 free download with signup</span>
+        </div>
       </div>
 
-      <!-- RIGHT: Carousel in a subtle framed well -->
-      <div class="lg:mt-1">
-        <div class="section-label mb-3 flex items-center gap-2">
-          <span class="inline-block w-1.5 h-1.5 rounded-full" style="background: var(--sc-gold);"></span>
-          Live previews from the library
+      <!-- RIGHT: Product proof module (static, no overflow risk) -->
+      <div class="flex flex-col gap-2.5">
+
+        <!-- Featured resource card -->
+        {featuredResource && (
+          <a href={`/resources/${featuredResource.slug}`}
+             class="card block no-underline group"
+             style="box-shadow: var(--sc-shadow-md);">
+            <div class="flex items-center gap-2 mb-2.5">
+              <span class={`tag ${heroSubjectColors[featuredResource.data.subject] ?? 'tag-gray'} text-[11px]`}>{featuredResource.data.subject}</span>
+              <span class="tag tag-gray text-[11px]">Gr. {featuredResource.data.grade}</span>
+              <span class="tag tag-gray text-[11px] ml-auto shrink-0">{featuredResource.data.resource_type}</span>
+            </div>
+            <h3 class="font-display font-semibold text-[#172438] text-[15px] leading-snug mb-2.5 group-hover:text-[#376b9b] transition-colors">
+              {featuredResource.data.title}
+            </h3>
+            {featuredPrimaryStd && (
+              <div class="flex items-center gap-2 mb-3 px-2.5 py-1.5 rounded-lg" style="background: var(--sc-sage);">
+                <span class="font-mono text-[11px] font-bold text-[#0f766e]">{featuredPrimaryStd.code}</span>
+                <span class="text-[11px] text-[#415066] truncate">{featuredResource.data.standards_framework}</span>
+                <span class="ml-auto text-[10px] font-semibold text-[#376b9b] shrink-0 whitespace-nowrap">from NYSED</span>
+              </div>
+            )}
+            <div class="grid grid-cols-2 gap-x-3 gap-y-1.5 mb-3">
+              {['Alignment record', 'SDI supports', 'MLL/ELL scaffolds', 'Classroom-ready', 'Exact standard code', 'IEP-ready language'].map(item => (
+                <div class="flex items-center gap-1.5 text-[11px] text-[#415066]">
+                  <span class="font-bold text-[10px] shrink-0" style="color: var(--sc-teal);">✓</span>{item}
+                </div>
+              ))}
+            </div>
+            <div class="flex items-center gap-2 pt-2.5 border-t border-[#e4dac8]">
+              {featuredResource.data.has_sdi_block && <span class="tag tag-teal text-[10px]">SDI ✓</span>}
+              {featuredResource.data.has_mll_block && <span class="tag tag-teal text-[10px]">MLL/ELL ✓</span>}
+              {featuredIsMath && <span class="tag tag-amber text-[10px]">Math Review Pilot</span>}
+              <span class="ml-auto text-[11px] font-semibold text-[#376b9b]">Preview resource →</span>
+            </div>
+          </a>
+        )}
+
+        <!-- Subject mini-tabs (2 × 2) -->
+        <div class="grid grid-cols-2 gap-2">
+          {proofTabResources.map(r => {
+            const label = r.data.subject
+              .replace('Computer Science & Digital Fluency', 'CS & Tech')
+              .replace('Cross-Content SDI & IEP Support', 'SDI & IEP');
+            const tc = heroSubjectColors[r.data.subject] ?? 'tag-gray';
+            return (
+              <a href={`/resources/${r.slug}`}
+                 class="rounded-xl border border-[#e4dac8] bg-white/90 px-3 py-2.5 no-underline hover:border-[#b5ceae] hover:shadow-sm transition-all">
+                <span class={`tag ${tc} text-[10px] mb-1 inline-block`}>{label}</span>
+                <div class="text-[11px] text-[#415066] font-semibold leading-snug mt-0.5">
+                  Grade {r.data.grade} · {r.data.resource_type}
+                </div>
+              </a>
+            );
+          })}
         </div>
-        <div class="rounded-2xl p-3 sm:p-4" style="background: rgba(220,232,213,0.28); border: 1px solid var(--sc-border);">
-          <ResourceCarousel resources={carouselResources} />
-        </div>
+
+        <!-- Library browse link -->
+        <a href="/resources"
+           class="flex items-center justify-center gap-2 py-2 text-[11px] font-semibold text-[#415066] hover:text-[#376b9b] transition-colors rounded-xl border border-dashed border-[#e4dac8] hover:border-[#b5ceae]">
+          <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
+          Browse all 50 resources across 10 NYS subjects
+          <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
+        </a>
       </div>
     </div>
   </section>
