@@ -67,7 +67,16 @@
     background-color: var(--sc-gold-soft);
     color: var(--sc-navy);
   }
+
+  /* Editorial display headings (Fraunces) — the brand's typographic voice */
+  h1, h2 {
+    font-family: var(--sc-font-display);
+    letter-spacing: -0.02em;
+  }
 }
+
+.font-display { font-family: var(--sc-font-display); }
+.font-sans-ui { font-family: var(--sc-font-sans); }
 
 @layer components {
   .tag {

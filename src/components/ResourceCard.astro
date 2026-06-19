@@ -31,10 +31,14 @@ const subjectColors: Record<string, string> = {
   'Science': 'tag-amber',
   'Social Studies': 'tag-gray',
   'Computer Science': 'tag-teal',
+  'Computer Science & Digital Fluency': 'tag-teal',
   'Health': 'tag-gray',
+  'Health & PE': 'tag-gray',
   'Arts': 'tag-amber',
   'World Languages': 'tag-gray',
   'CDOS': 'tag-gray',
+  'CDOS & Career Readiness': 'tag-gray',
+  'Cross-Content SDI & IEP Support': 'tag-purple',
 };
 
 const subjectColor = subjectColors[data.subject] ?? 'tag-gray';
@@ -83,6 +87,6 @@ const primaryStandard = data.standards[0];
 
   <!-- Trust line -->
   <p class="text-[11px] text-[#3a5055] leading-relaxed -mt-1">
-    Original resource · Alignment note included · Educator-reviewed
+    Original resource · Alignment record included · {isMathReview ? 'Math teacher review pilot' : 'Validated for classroom use'}
   </p>
 </a>

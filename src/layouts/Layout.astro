@@ -1,5 +1,6 @@
 ﻿---
 import '../styles/global.css';
+import Seal from '../components/Seal.astro';
 
 interface Props {
   title?: string;
@@ -55,9 +56,12 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
     <header class="border-b sticky top-0 z-50 backdrop-blur" style="background: rgba(251, 247, 239, 0.94); border-color: var(--sc-border);">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-16 gap-4">
-        <a href="/" class="font-bold text-lg tracking-tight text-[#172438] hover:text-[#376b9b] transition-colors">
-          Standard<span style="color: var(--sc-blue);">Craft</span>
-          <span class="hidden sm:block text-xs font-semibold text-[#415066]">NYS-aligned classroom resources</span>
+        <a href="/" class="flex items-center gap-2.5 group">
+          <Seal size={34} class="shrink-0" />
+          <span class="leading-tight">
+            <span class="font-display font-semibold text-lg tracking-tight text-[#172438] group-hover:text-[#376b9b] transition-colors">Standard<span style="color: var(--sc-blue);">Craft</span></span>
+            <span class="hidden sm:block text-xs font-semibold text-[#415066]">NYS-aligned classroom resources</span>
+          </span>
         </a>
         <div class="hidden md:flex items-center gap-6 text-sm">
           <a href="/#why-us" class="site-nav-link transition-colors">Why us</a>
@@ -95,7 +99,10 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between gap-8">
           <div>
-            <div class="font-bold text-lg mb-2">Standard<span class="text-teal-400">Craft</span></div>
+            <div class="flex items-center gap-2 mb-2">
+              <Seal size={28} />
+              <span class="font-display font-semibold text-lg">Standard<span class="text-teal-400">Craft</span></span>
+            </div>
             <p class="text-sm text-[#4a5f63] max-w-xs leading-relaxed">
               Original, educator-reviewed resources built from publicly available New York State standards frameworks.
               Designed to support classroom planning and instruction.

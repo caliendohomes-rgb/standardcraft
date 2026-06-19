@@ -26,6 +26,12 @@ const confidenceColors = {
 };
 const confColor = confidenceColors[data.alignment_confidence] ?? confidenceColors['High Confidence'];
 
+// Review claim must match reality: human review is a Mathematics-only pilot.
+const isMathPilot = data.human_review === 'Math teacher review pilot eligible';
+const reviewTrustItem = isMathPilot
+  ? { label: 'Math teacher review pilot', detail: 'Eligible for review by a NYS-certified Mathematics teacher. Human educator review is currently a Mathematics-only pilot.' }
+  : { label: 'Validated for classroom use', detail: 'Checked for instructional clarity, classroom usability, and standards connection through automated validation and founder oversight.' };
+
 const metaDescription = `Original ${data.resource_type} for Grade ${data.grade} ${data.subject}. Built from publicly available ${data.standards_framework}. Educator-reviewed. Includes alignment notes, SDI block, and MLL/ELL scaffolds.`;
 
 const learningResourceSchema = JSON.stringify({
@@ -149,7 +155,7 @@ const learningResourceSchema = JSON.stringify({
         {[
           { label: 'Original resource', detail: 'Created as an original instructional support — not copied from marketplace content.' },
           { label: 'Built from publicly available NYS standards', detail: `Standard codes and text sourced from ${data.standards_framework} — a publicly available official framework.` },
-          { label: 'Educator-reviewed', detail: 'Reviewed for instructional clarity, classroom usability, and standards connection before publication.' },
+          reviewTrustItem,
           { label: 'Alignment notes included', detail: 'The alignment record above explains how this resource connects to the relevant NYS framework, with the exact standard code and source.' },
           { label: 'Designed for classroom use', detail: 'Supports whole-class instruction, small-group work, intervention, enrichment, independent practice, and planning support.' },
           { label: 'No student data required', detail: 'Teachers download and use this resource without entering student personally identifiable information.' },

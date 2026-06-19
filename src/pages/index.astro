@@ -46,31 +46,36 @@ const faqItems = [
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
     <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
       <div>
-        <div class="section-label mb-5">Built for New York classrooms</div>
-        <h1 class="text-5xl sm:text-6xl font-bold leading-[1.05] tracking-tight mb-6 text-[#172438]">
-          Warm, practical resources for standards-aligned teaching days.
+        <div class="section-label mb-5">Built for New York classrooms · NYS Next Generation aligned</div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.06] tracking-tight mb-6 text-[#172438]">
+          NYS-aligned lessons and worksheets you can use tomorrow — and defend to your administrator.
         </h1>
-        <p class="text-xl text-[#415066] max-w-2xl mb-8">
-          Browse 50 resources and download one free with your signup credit. StandardCraft helps teachers move from standards to usable classroom materials without the heavy lift.
+        <p class="text-lg sm:text-xl text-[#415066] max-w-2xl mb-8">
+          Every StandardCraft resource is built from real New York State standards — NYS Next Generation, NYSSLS, NYSESLAT, and CDOS — with the exact standard code, an alignment record, SDI supports, and MLL/ELL scaffolds built in. No invented codes. No student data required.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-          <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Start free</a>
-          <a href="/resources" class="btn-outline text-base py-3.5 px-8">Preview the library</a>
+          <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Claim my free resource</a>
+          <a href="/resources" class="btn-outline text-base py-3.5 px-8">View NYS sample resources</a>
         </div>
         <p class="mt-4 text-sm font-semibold text-[#415066]">
-          Browse 50 resources. Download one free with your signup credit. No payment required.
+          Browse 50 NYS resources. Download one free with your signup credit. <span class="text-[#172438]">No credit card.</span>
+          <a href="#how-its-built" class="text-[#376b9b] hover:underline ml-1">See how every resource is built →</a>
         </p>
       </div>
 
       <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
-        <div class="section-label mb-3">Teacher planning card</div>
-        <h2 class="text-2xl font-bold mb-2 text-[#172438]">Grade 3-5 ELA</h2>
-        <p class="font-semibold text-[#415066] mb-4">Main Idea Evidence Ladder</p>
-        <ul class="space-y-3 text-sm text-[#415066]">
-          <li>Alignment note included</li>
-          <li>Classroom use case included</li>
-          <li>Ready-to-download file</li>
+        <div class="flex items-center justify-between mb-3">
+          <div class="section-label">Inside every resource</div>
+          <span class="tag tag-teal">What you download</span>
+        </div>
+        <h2 class="font-display text-2xl font-semibold mb-4 text-[#172438]">More than a worksheet.</h2>
+        <ul class="space-y-2.5 text-sm text-[#415066] mb-5">
+          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An alignment record with the exact NYS standard code and its official source</li>
+          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> SDI adaptations across content, methodology, and delivery</li>
+          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> MLL/ELL scaffolds by NYSESLAT proficiency level</li>
+          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An answer key or model response</li>
         </ul>
+        <a href="/resources" class="btn-outline w-full justify-center text-sm py-2.5">See the alignment record →</a>
       </div>
     </div>
   </section>
@@ -83,6 +88,35 @@ const faqItems = [
       <span>No student data required</span>
       <span>Independent from NYSED</span>
     </div>
+  </section>
+
+  <!-- How every resource is built: scoped 3-layer trust framework -->
+  <section id="how-its-built" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
+    <div class="max-w-2xl mb-10">
+      <div class="section-label mb-4">How every StandardCraft resource is built</div>
+      <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-3">Three layers between a standard and your classroom.</h2>
+      <p class="text-[#415066]">Not a generic prompt. Every resource moves through a defined pathway before it reaches you — and we're precise about exactly where a human is involved.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="card">
+        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">1</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Grounded in real NYS frameworks</h3>
+        <p class="text-sm text-[#415066]">Built from publicly available New York State standards — NYS Next Generation Learning Standards, NYSSLS, NYSESLAT, and CDOS. Standard codes and text are sourced from official NYSED documents. Never invented.</p>
+      </div>
+      <div class="card">
+        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">2</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Automated validation + founder oversight</h3>
+        <p class="text-sm text-[#415066]">Every resource passes structural and standards-alignment checks, with founder review before it is published to the library.</p>
+      </div>
+      <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
+        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-gold-soft); color: var(--sc-navy);">3</div>
+        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Human educator review — Mathematics pilot</h3>
+        <p class="text-sm text-[#415066]">A NYS-certified math teacher reviews Mathematics resources. This human-review layer is <strong class="text-[#172438]">currently a Mathematics-only pilot</strong>; all other subjects rely on grounded generation, automated validation, and founder oversight.</p>
+      </div>
+    </div>
+    <p class="text-xs text-[#3a5055] mt-6 max-w-3xl leading-relaxed">
+      StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. IEP goal suggestions are teacher-reference material and do not constitute legal IEP documents.
+    </p>
   </section>
 
   <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -137,6 +171,36 @@ const faqItems = [
     </div>
   </section>
 
+  <!-- Differentiation vs. generic AI tools (skeptical-buyer journey) -->
+  <section class="py-20" style="background: rgba(220, 232, 213, 0.30);">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">Why not just use a generic AI tool?</div>
+      <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-8 max-w-2xl">A prompt gives you a guess. StandardCraft gives you a record.</h2>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="card">
+          <div class="font-display font-semibold text-lg text-[#172438] mb-3">A generic AI worksheet</div>
+          <ul class="space-y-2.5 text-sm text-[#415066]">
+            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Standard codes that may be wrong or invented</li>
+            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Not NYS-specific (often outdated Common Core)</li>
+            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> No SDI adaptations or NYSESLAT-leveled scaffolds</li>
+            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Nothing to show an administrator or IEP team</li>
+            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> You verify every claim yourself</li>
+          </ul>
+        </div>
+        <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
+          <div class="font-display font-semibold text-lg text-[#172438] mb-3">A StandardCraft resource</div>
+          <ul class="space-y-2.5 text-sm text-[#415066]">
+            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> The exact NYS Next Gen / NYSSLS code, sourced from NYSED</li>
+            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An alignment record you can hand to an evaluator</li>
+            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> SDI adaptations + MLL/ELL scaffolds by proficiency level</li>
+            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> Original content, validated before publication</li>
+            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> Built only for New York classrooms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="section-label mb-4">Built for New York classrooms</div>
     <h2 class="text-3xl font-bold mb-4 text-[#172438]">Support for daily planning, not a replacement for teacher judgment.</h2>
@@ -149,8 +213,11 @@ const faqItems = [
 
   <section class="max-w-3xl mx-auto px-4 text-center py-20">
     <div class="section-label mb-4">Start today</div>
-    <h2 class="text-4xl font-bold mb-5 text-[#172438]">Browse 50 resources. Download one free.</h2>
-    <p class="text-[#415066] mb-8">No payment required. No student data required. Upgrade only when you need more downloads.</p>
-    <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Start free</a>
+    <h2 class="text-4xl font-semibold mb-5 text-[#172438]">Start with one free verified resource.</h2>
+    <p class="text-[#415066] mb-8">Browse all 50 NYS resources and download one with your signup credit. No payment required. No student data required. Upgrade only when you need more downloads.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Claim my free resource</a>
+      <a href="/school-inquiry" class="btn-outline text-lg py-4 px-10">Request a school quote</a>
+    </div>
   </section>
 </Layout>
