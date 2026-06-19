@@ -5,6 +5,7 @@ import ResourceCard from '../components/ResourceCard.astro';
 import FaqSection from '../components/FaqSection.astro';
 
 const allResources = await getCollection('resources');
+const resourceCount = allResources.length;
 const featuredResources = allResources.slice(0, 3);
 
 // One representative resource per subject area for the hero carousel.
@@ -53,10 +54,10 @@ const faqItems = [
   },
   {
     q: 'What does the free account include?',
-    a: 'A free account lets you browse 50 resources and download one resource with your signup credit.',
+    a: `A free account lets you browse all ${resourceCount} resources and download one resource with your signup credit.`,
   },
   {
-    q: 'Why can I browse 50 resources but download one free?',
+    q: `Why can I browse ${resourceCount} resources but download one free?`,
     a: 'The free signup credit lets you try one resource before choosing whether to upgrade for more downloads.',
   },
 ];
@@ -64,7 +65,7 @@ const faqItems = [
 
 <Layout
   title="StandardCraft | NYS-Aligned Lesson Plans, Worksheets & Resources for New York Teachers"
-  description="50 original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required."
+  description={`${resourceCount} original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers — 8 per subject across 10 NYS subject areas. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -112,11 +113,11 @@ const faqItems = [
         </p>
         <div class="flex flex-col sm:flex-row gap-3 mb-4">
           <a href="/claim-free" class="btn-primary text-base py-3.5 px-7">Claim my free resource →</a>
-          <a href="/resources" class="btn-outline text-base py-3.5 px-7">Browse all 50 resources</a>
+          <a href="/resources" class="btn-outline text-base py-3.5 px-7">Browse all {resourceCount} resources</a>
         </div>
         <div class="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-[#415066] mb-6">
           <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>No credit card required</span>
-          <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>50 resources to preview free</span>
+          <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>{resourceCount} resources to preview free</span>
           <span class="flex items-center gap-1.5"><span style="color:var(--sc-teal);" class="font-bold">✓</span>1 free download with signup</span>
         </div>
         <!-- Subject breadth strip — fills vertical balance, proves coverage -->
@@ -195,7 +196,7 @@ const faqItems = [
         <a href="/resources"
            class="flex items-center justify-center gap-2 py-2 text-[11px] font-semibold text-[#415066] hover:text-[#376b9b] transition-colors rounded-xl border border-dashed border-[#e4dac8] hover:border-[#b5ceae]">
           <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
-          Browse all 50 resources across 10 NYS subjects
+          Browse all {resourceCount} resources across 10 NYS subjects
           <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
         </a>
       </div>
@@ -259,7 +260,7 @@ const faqItems = [
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { n: 1, step: 'Create a free account', detail: 'No credit card required.' },
-          { n: 2, step: 'Browse 50 NYS resources', detail: 'Preview every resource before downloading.' },
+          { n: 2, step: `Browse ${resourceCount} NYS resources`, detail: 'Preview every resource before downloading.' },
           { n: 3, step: 'Download one free', detail: 'Your signup credit covers one resource.' },
           { n: 4, step: 'Upgrade when ready', detail: '8 or 20 credits per month on paid plans.' },
         ].map(s => (
@@ -368,7 +369,7 @@ const faqItems = [
     <div class="max-w-3xl mx-auto px-4 text-center">
       <div class="section-label mb-3">Start today</div>
       <h2 class="text-4xl font-semibold mb-4 text-[#172438]">One free resource, no credit card.</h2>
-      <p class="text-[#415066] mb-8 leading-relaxed">Browse all 50 NYS resources and download one with your signup credit. Upgrade only when you need more downloads.</p>
+      <p class="text-[#415066] mb-8 leading-relaxed">Browse all {resourceCount} NYS resources and download one with your signup credit. Upgrade only when you need more downloads.</p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Claim my free resource →</a>
         <a href="/school-inquiry" class="btn-outline text-base py-3.5 px-8">Request a school quote</a>

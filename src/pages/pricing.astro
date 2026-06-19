@@ -1,5 +1,8 @@
 ﻿---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+const resourceCount = (await getCollection('resources')).length;
 
 const plans = [
   {
@@ -13,7 +16,7 @@ const plans = [
     creditsLabel: '1 signup credit',
     features: [
       '1 resource download',
-      'Browse all 50 resources',
+      `Browse all ${resourceCount} resources`,
       'SDI + MLL/ELL blocks included',
       'Alignment record included',
     ],
@@ -212,7 +215,7 @@ const plans = [
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-[#415066] mt-3 text-center">The free account lets you browse all 50 resources and download one with your signup credit.</p>
+      <p class="text-xs text-[#415066] mt-3 text-center">The free account lets you browse all {resourceCount} resources and download one with your signup credit.</p>
     </div>
 
     <!-- FAQ with schema -->

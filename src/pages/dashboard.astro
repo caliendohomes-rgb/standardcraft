@@ -27,6 +27,7 @@ const credits = creditsResult.data ?? { balance: 0, lifetime_earned: 0, lifetime
 const recentDownloads = downloadsResult.data ?? [];
 const subscription = subResult.data;
 const resourceTitleMap = Object.fromEntries((resourcesResult ?? []).map(r => [r.slug, r.data.title]));
+const resourceCount = (resourcesResult ?? []).length;
 
 const checkoutSuccess = Astro.url.searchParams.get('checkout') === 'success';
 const firstName = profile?.full_name?.split(' ')[0] ?? 'Teacher';
@@ -148,7 +149,7 @@ const planLabel: Record<string, string> = {
     <!-- Quick links -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
       {[
-        { href: '/free-resource-library', label: 'Resource Library', desc: '50 verified resources' },
+        { href: '/free-resource-library', label: 'Resource Library', desc: `${resourceCount} verified resources` },
         { href: '/account', label: 'Account Settings', desc: 'Profile, password, billing' },
         { href: '/contact', label: 'Get Help', desc: 'Contact our team' },
       ].map(l => (
