@@ -16,6 +16,7 @@ const redirectTo = Astro.url.searchParams.get('redirect') ?? '/dashboard';
 <Layout
   title="Sign In — StandardCraft"
   description="Sign in to your StandardCraft account to access your resources and credits."
+  noIndex={true}
 >
   <section class="max-w-md mx-auto px-4 py-16 sm:py-20">
     <div class="section-label mb-3">Your account</div>

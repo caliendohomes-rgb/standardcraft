@@ -92,9 +92,23 @@ const plans = [
 ---
 
 <Layout
-  title="Pricing — StandardCraft | Original NYS-Aligned Classroom Resources"
+  title="Pricing — StandardCraft | NYS-Aligned Classroom Resources from $0"
   description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo · Pro $69/mo · School plans available."
 >
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Is StandardCraft affiliated with NYSED?', acceptedAnswer: { '@type': 'Answer', text: 'No. StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. Our resources are built from publicly available standards frameworks and are designed to support classroom planning.' } },
+      { '@type': 'Question', name: 'Do I need to enter student data?', acceptedAnswer: { '@type': 'Answer', text: 'No. StandardCraft does not require student personally identifiable information to browse, download, or use teacher resources. StandardCraft is designed for teacher resource access, not student data collection.' } },
+      { '@type': 'Question', name: 'Are the resources original?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. StandardCraft resources are created as original instructional supports — not recycled worksheets or copies of marketplace content. Each resource is reviewed for instructional clarity, classroom usability, and standards connection before publication.' } },
+      { '@type': 'Question', name: 'Do these resources replace my district curriculum?', acceptedAnswer: { '@type': 'Answer', text: 'No. StandardCraft resources are designed to complement district curriculum, teacher expertise, and school-approved instructional programs. They help teachers turn publicly available NYS standards into practical classroom materials for planning, practice, intervention, enrichment, and review.' } },
+      { '@type': 'Question', name: 'Are these Common Core resources?', acceptedAnswer: { '@type': 'Answer', text: 'No. StandardCraft does not tag any resources as Common Core. ELA and Math resources align to the NYS Next Generation Standards (2017), which replaced Common Core in New York.' } },
+      { '@type': 'Question', name: 'Do credits roll over?', acceptedAnswer: { '@type': 'Answer', text: 'Credits do not roll over to the next billing month. Use your credits each month or upgrade to Pro for a larger monthly allocation.' } },
+      { '@type': 'Question', name: 'Can I re-download a resource I already purchased?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Once you download a resource, you can re-download it at any time at no additional credit cost.' } },
+      { '@type': 'Question', name: 'How do I cancel?', acceptedAnswer: { '@type': 'Answer', text: 'You can cancel anytime from your Account page. Your subscription stays active until the end of the billing period.' } },
+    ],
+  })} slot="head-schema" />
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="text-center mb-10">
       <div class="section-label mb-4">Simple, credit-based pricing</div>

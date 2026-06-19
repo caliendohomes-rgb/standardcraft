@@ -19,17 +19,17 @@ const points = [
 ];
 ---
 
-<section class="border-t border-[#1e2a2d] py-16 bg-[#0d1314]">
+<section class="border-t py-16" style="border-color: var(--sc-border); background: var(--sc-sage);">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
       <div>
         <div class="section-label mb-4">Why educators trust StandardCraft</div>
-        <h2 class="text-2xl font-bold mb-5 leading-snug">{heading}</h2>
-        <p class="text-[#4a5f63] text-sm leading-relaxed mb-6">
+        <h2 class="text-2xl font-bold mb-5 leading-snug text-[#172438]">{heading}</h2>
+        <p class="text-[#415066] text-sm leading-relaxed mb-6">
           StandardCraft {subjectContext ? `${subjectContext} ` : ''}resources are original, educator-reviewed, and built from publicly available New York State standards frameworks.
           Each resource includes alignment notes and is designed to support classroom planning, intervention, enrichment, and daily instruction.
         </p>
-        <p class="text-xs text-[#3a5055] leading-relaxed">
+        <p class="text-xs text-[#415066] leading-relaxed">
           StandardCraft is independent and is not affiliated with or endorsed by the New York State Education Department.
           Resources complement district curriculum and teacher professional judgment — they do not replace either.
         </p>
@@ -37,8 +37,8 @@ const points = [
       <div class="space-y-3">
         {points.map(p => (
           <div class="flex items-start gap-3">
-            <span class="text-teal-500 mt-0.5 shrink-0 text-sm font-bold">✓</span>
-            <span class="text-sm text-[#4a5f63] leading-relaxed">{p}</span>
+            <span class="mt-0.5 shrink-0 text-sm font-bold" style="color: var(--sc-teal);">✓</span>
+            <span class="text-sm text-[#415066] leading-relaxed">{p}</span>
           </div>
         ))}
       </div>

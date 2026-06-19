@@ -63,9 +63,40 @@ const faqItems = [
 ---
 
 <Layout
-  title="StandardCraft | NYS-Aligned Classroom Resources"
-  description="Browse 50 original New York classroom resources and download one free with your signup credit. No payment required."
+  title="StandardCraft | NYS-Aligned Lesson Plans, Worksheets & Resources for New York Teachers"
+  description="50 original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required."
 >
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': 'https://standardcraftny.com/#organization',
+        name: 'StandardCraft',
+        url: 'https://standardcraftny.com',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://standardcraftny.com/favicon.svg',
+        },
+        description: 'Original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers. Built from publicly available NYS Next Generation Standards. Independent from NYSED.',
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://standardcraftny.com/#website',
+        url: 'https://standardcraftny.com',
+        name: 'StandardCraft',
+        publisher: { '@id': 'https://standardcraftny.com/#organization' },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://standardcraftny.com/resources?subject={search_term_string}',
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  })} slot="head-schema" />
   <!-- HERO -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-12 pb-4">
     <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">

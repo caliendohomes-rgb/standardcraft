@@ -62,7 +62,7 @@ const faqItems = [
   </section>
 
   <!-- Stats -->
-  <section class="border-y border-[#1e2a2d] bg-[#0d1314] py-8">
+  <section class="border-y py-8" style="border-color: var(--sc-border); background: var(--sc-sage);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
         {[
@@ -72,8 +72,8 @@ const faqItems = [
           { value: '100%', label: 'Original content' },
         ].map(s => (
           <div class="text-center">
-            <div class="text-2xl font-bold text-teal-400">{s.value}</div>
-            <div class="text-xs text-[#4a5f63] mt-1">{s.label}</div>
+            <div class="text-2xl font-bold text-[#172438]">{s.value}</div>
+            <div class="text-xs text-[#415066] mt-1">{s.label}</div>
           </div>
         ))}
       </div>
@@ -81,7 +81,7 @@ const faqItems = [
   </section>
 
   <!-- What's included -->
-  <section class="border-t border-[#1e2a2d] py-16">
+  <section class="border-t py-16" style="border-color: var(--sc-border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">What every lesson plan includes</div>
       <h2 class="text-2xl font-bold mb-8 max-w-xl">Standards-grounded from first line to last</h2>
@@ -105,27 +105,27 @@ const faqItems = [
 
   <!-- Resource grid -->
   {lessonPlans.length > 0 && (
-    <section class="border-t border-[#1e2a2d] py-16 bg-[#111618]">
+    <section class="border-t py-16" style="border-color: var(--sc-border); background: #f7f4ee;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-end justify-between mb-6">
-          <h2 class="text-2xl font-bold">Available lesson plans</h2>
-          <a href="/resources" class="text-sm text-teal-400 hover:underline">Browse all resources →</a>
+          <h2 class="text-2xl font-bold text-[#172438]">Available lesson plans</h2>
+          <a href="/resources" class="text-sm text-[#376b9b] hover:underline">Browse all resources →</a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {lessonPlans.slice(0, 9).map(r => (
-            <a href={`/resources/${r.slug}`} class="card group hover:border-teal-700/60 transition-colors no-underline cursor-pointer">
+            <a href={`/resources/${r.slug}`} class="card group hover:border-[#b5ceae] transition-colors no-underline cursor-pointer">
               <div class="flex flex-wrap gap-2 mb-3">
                 <span class="tag tag-teal">{r.data.subject}</span>
                 <span class="tag tag-gray">Grade {r.data.grade}</span>
               </div>
-              <h3 class="font-semibold text-sm leading-snug mb-2 group-hover:text-teal-300 transition-colors">{r.data.title}</h3>
+              <h3 class="font-semibold text-sm leading-snug mb-2 text-[#172438] group-hover:text-[#376b9b] transition-colors">{r.data.title}</h3>
               <div class="flex items-center gap-2 text-xs">
-                <span class="font-mono text-teal-400 bg-teal-900/30 px-2 py-0.5 rounded border border-teal-800/50">
+                <span class="font-mono text-xs text-[#0f766e] bg-[#dce8d5] px-2 py-0.5 rounded border border-[#cadbc2]">
                   {r.data.standards[0]?.code}
                 </span>
-                <span class="text-[#4a5f63]">{r.data.standards_framework}</span>
+                <span class="text-[#415066]">{r.data.standards_framework}</span>
               </div>
-              <p class="text-[11px] text-[#3a5055] mt-3 pt-2 border-t border-[#1e2a2d]">
+              <p class="text-[11px] text-[#415066] mt-3 pt-2 border-t" style="border-color: var(--sc-border);">
                 Alignment note included · SDI + MLL blocks · Original resource
               </p>
             </a>
@@ -136,7 +136,7 @@ const faqItems = [
   )}
 
   <!-- Positioning statement -->
-  <section class="border-t border-[#1e2a2d] py-16">
+  <section class="border-t py-16" style="border-color: var(--sc-border);">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
       <h2 class="text-2xl font-bold mb-4">Standards-based planning support, not curriculum replacement</h2>
       <p class="text-[#4a5f63] leading-relaxed text-sm">

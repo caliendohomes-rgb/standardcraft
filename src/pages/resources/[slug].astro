@@ -32,7 +32,7 @@ const reviewTrustItem = isMathPilot
   ? { label: 'Math teacher review pilot', detail: 'Eligible for review by a NYS-certified Mathematics teacher. Human educator review is currently a Mathematics-only pilot.' }
   : { label: 'Validated for classroom use', detail: 'Checked for instructional clarity, classroom usability, and standards connection through automated validation and founder oversight.' };
 
-const metaDescription = `Original ${data.resource_type} for Grade ${data.grade} ${data.subject}. Built from publicly available ${data.standards_framework}. Educator-reviewed. Includes alignment notes, SDI block, and MLL/ELL scaffolds.`;
+const metaDescription = `NYS-aligned ${data.resource_type} for Grade ${data.grade} ${data.subject}${primaryStandard ? ` (${primaryStandard.code})` : ''}. Includes alignment record, SDI supports, and MLL/ELL scaffolds. Original resource for New York teachers.`;
 
 const learningResourceSchema = JSON.stringify({
   '@context': 'https://schema.org',
@@ -63,10 +63,19 @@ const learningResourceSchema = JSON.stringify({
 ---
 
 <Layout
-  title={`${data.title} — StandardCraft`}
+  title={`${data.title} | NYS-Aligned ${data.resource_type} — StandardCraft`}
   description={metaDescription}
 >
   <script type="application/ld+json" set:html={learningResourceSchema} slot="head-schema" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://standardcraftny.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Resource Library', item: 'https://standardcraftny.com/resources' },
+      { '@type': 'ListItem', position: 3, name: data.title },
+    ],
+  })} slot="head-schema" />
 
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Print-only branded header -->
@@ -176,9 +185,10 @@ const learningResourceSchema = JSON.stringify({
       <div class="text-sm text-[#415066]">
         Resource ID: {data.resource_id} · {data.created_for}
       </div>
-      <div class="flex gap-3">
+      <div class="flex gap-3 flex-wrap">
         <button id="print-btn" type="button" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
-        <a href="/free-resource-library" class="btn-primary text-sm py-2 px-4">Use your signup credit in the library</a>
+        <a href="/claim-free" class="btn-primary text-sm py-2 px-4">Get this resource free →</a>
+        <a href="/pricing" class="btn-outline text-sm py-2 px-4">View plans</a>
       </div>
     </div>
 
