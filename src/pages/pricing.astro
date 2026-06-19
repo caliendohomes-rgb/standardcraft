@@ -5,17 +5,19 @@ const plans = [
   {
     key: 'free',
     name: 'Sampler',
-    price: 'Free',
-    priceNote: 'No card required',
-    credits: 1,
-    creditsLabel: '1 trial credit',
+    monthly: 'Free',
+    annual: 'Free',
+    monthlyNote: 'No card required',
+    annualNote: 'No card required',
+    save: '',
+    creditsLabel: '1 signup credit',
     features: [
       '1 resource download',
-      'All subjects covered',
-      'SDI + MLL blocks included',
+      'Browse all 50 resources',
+      'SDI + MLL/ELL blocks included',
       'Alignment record included',
     ],
-    cta: 'Start free',
+    cta: 'Claim my free resource',
     ctaHref: '/claim-free',
     primary: false,
     badge: null,
@@ -23,14 +25,16 @@ const plans = [
   {
     key: 'classroom',
     name: 'Classroom',
-    price: '$29',
-    priceNote: '/month',
-    credits: 8,
+    monthly: '$29',
+    annual: '$210',
+    monthlyNote: '/month',
+    annualNote: '/year',
+    save: 'Save $138/yr · $17.50/mo',
     creditsLabel: '8 credits/month',
     features: [
       '8 resource downloads/month',
-      'All 9+ NYS frameworks',
-      'SDI + MLL blocks on every resource',
+      'All 10 NYS subject frameworks',
+      'SDI + MLL/ELL blocks on every resource',
       'Alignment records for admin',
       'Email support',
     ],
@@ -43,14 +47,16 @@ const plans = [
   {
     key: 'pro',
     name: 'Pro',
-    price: '$69',
-    priceNote: '/month',
-    credits: 20,
+    monthly: '$69',
+    annual: '$690',
+    monthlyNote: '/month',
+    annualNote: '/year',
+    save: 'Save $138/yr · $57.50/mo',
     creditsLabel: '20 credits/month',
     features: [
       '20 resource downloads/month',
-      'All 9+ NYS frameworks',
-      'SDI + MLL blocks on every resource',
+      'All 10 NYS subject frameworks',
+      'SDI + MLL/ELL blocks on every resource',
       'Priority email support',
       'Early access to new resources',
     ],
@@ -63,10 +69,12 @@ const plans = [
   {
     key: 'school',
     name: 'School',
-    price: '$249+',
-    priceNote: '/month',
-    credits: null,
-    creditsLabel: 'Pooled credits, admin dashboard',
+    monthly: '$249+',
+    annual: '$249+',
+    monthlyNote: '/month',
+    annualNote: '/month',
+    save: 'Annual & PO billing available',
+    creditsLabel: 'Pooled credits · admin panel',
     features: [
       'Pooled credit allocation',
       'Multi-teacher admin panel',
@@ -96,7 +104,7 @@ const plans = [
       </p>
       <!-- Trust chips -->
       <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-[#5a7478]">
-        {['No student data required', 'Original resources', 'Alignment notes included', 'Educator-reviewed', 'Cancel anytime', 'School & district plans available'].map(item => (
+        {['No student data required', 'Original resources', 'Alignment records included', 'Validated for classroom use', 'Cancel anytime', 'School & district plans available'].map(item => (
           <span class="flex items-center gap-1.5">
             <span class="text-teal-500 font-bold">✓</span>{item}
           </span>
@@ -104,34 +112,47 @@ const plans = [
       </div>
     </div>
 
+    <!-- Billing toggle -->
+    <div class="flex items-center justify-center mb-10">
+      <div class="inline-flex items-center rounded-full border p-1" style="border-color: var(--sc-border); background: #fff;" role="tablist" aria-label="Billing period">
+        <button type="button" class="billing-toggle is-active px-5 py-1.5 rounded-full text-sm font-semibold" data-billing="monthly" role="tab" aria-selected="true">Monthly</button>
+        <button type="button" class="billing-toggle px-5 py-1.5 rounded-full text-sm font-semibold" data-billing="annual" role="tab" aria-selected="false">
+          Annual <span class="text-[#0f766e]">· save up to 40%</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Plan cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-4 items-stretch">
       {plans.map(p => (
-        <div class={`card flex flex-col gap-5 ${p.primary ? 'border-teal-600 bg-teal-950/20' : ''}`}>
-          {p.badge && <div class="tag tag-teal self-start">{p.badge}</div>}
+        <div class={`card relative flex flex-col gap-5 ${p.primary ? 'border-t-4 shadow-xl lg:-mt-2 lg:mb-2' : ''}`} style={p.primary ? 'border-top-color: var(--sc-gold);' : ''}>
+          {p.badge && <div class="absolute -top-3 left-1/2 -translate-x-1/2 tag tag-amber font-semibold shadow-sm whitespace-nowrap">{p.badge}</div>}
           <div>
-            <div class="font-bold text-lg">{p.name}</div>
+            <div class="font-display font-semibold text-xl text-[#172438]">{p.name}</div>
             <div class="flex items-end gap-1 mt-2">
-              <span class="text-3xl font-bold text-teal-400">{p.price}</span>
-              <span class="text-[#4a5f63] text-sm pb-1">{p.priceNote}</span>
+              <span class="font-display text-4xl font-semibold text-[#172438]" data-monthly={p.monthly} data-annual={p.annual}>{p.monthly}</span>
+              <span class="text-[#415066] text-sm pb-1.5" data-monthly-note={p.monthlyNote} data-annual-note={p.annualNote}>{p.monthlyNote}</span>
             </div>
-            <div class="text-sm text-[#4a5f63] mt-1">{p.creditsLabel}</div>
+            <div class="h-4 mt-1.5 text-xs font-semibold text-[#0f766e]" data-save-annual={p.save}></div>
+            <div class="inline-flex items-center gap-1.5 mt-3 rounded-full bg-[#dce8d5] border border-[#cadbc2] px-2.5 py-1 text-xs font-semibold text-[#172438]">
+              {p.creditsLabel}
+            </div>
           </div>
-          <ul class="space-y-2 flex-1">
+          <ul class="space-y-2.5 flex-1">
             {p.features.map(f => (
-              <li class="flex items-start gap-2 text-sm text-[#4a5f63]">
-                <span class="text-teal-400 mt-0.5 shrink-0">✓</span>
+              <li class="flex items-start gap-2 text-sm text-[#415066]">
+                <span class="text-teal-600 mt-0.5 shrink-0">✓</span>
                 {f}
               </li>
             ))}
           </ul>
           {p.ctaHref ? (
-            <a href={p.ctaHref} class={p.primary ? 'btn-primary py-2.5' : 'btn-outline py-2.5'}>
+            <a href={p.ctaHref} class={`${p.primary ? 'btn-primary' : 'btn-outline'} justify-center py-2.5`}>
               {p.cta}
             </a>
           ) : (
             <button
-              class={`checkout-btn ${p.primary ? 'btn-primary' : 'btn-outline'} py-2.5`}
+              class={`checkout-btn ${p.primary ? 'btn-primary' : 'btn-outline'} justify-center py-2.5`}
               data-plan={p.ctaPlan}
             >
               {p.cta}
@@ -238,6 +259,29 @@ const plans = [
 <script>
   import { createSupabaseBrowserClient } from '../lib/supabase';
 
+  // Monthly / annual billing toggle
+  let billing: 'monthly' | 'annual' = 'monthly';
+  const toggles = Array.from(document.querySelectorAll<HTMLButtonElement>('.billing-toggle'));
+
+  function setBilling(mode: 'monthly' | 'annual') {
+    billing = mode;
+    document.querySelectorAll<HTMLElement>('[data-monthly]').forEach((el) => {
+      el.textContent = el.dataset[mode] ?? el.textContent;
+    });
+    document.querySelectorAll<HTMLElement>('[data-monthly-note]').forEach((el) => {
+      el.textContent = el.dataset[`${mode}Note`] ?? el.textContent;
+    });
+    document.querySelectorAll<HTMLElement>('[data-save-annual]').forEach((el) => {
+      el.textContent = mode === 'annual' ? (el.dataset.saveAnnual ?? '') : '';
+    });
+    toggles.forEach((t) => {
+      const on = t.dataset.billing === mode;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  toggles.forEach((t) => t.addEventListener('click', () => setBilling(t.dataset.billing as 'monthly' | 'annual')));
+
   document.querySelectorAll('.checkout-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const plan = btn.getAttribute('data-plan')!;
@@ -256,7 +300,7 @@ const plans = [
         const res = await fetch('/api/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan, billing: 'monthly' }),
+          body: JSON.stringify({ plan, billing }),
         });
         const data = await res.json();
         if (data.url) {

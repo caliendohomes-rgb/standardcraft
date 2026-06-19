@@ -520,6 +520,20 @@ header a:hover svg { filter: drop-shadow(0 2px 6px rgba(215, 168, 75, 0.45)); }
 }
 .sc-dot.is-active { background: var(--sc-gold); width: 22px; border-radius: 5px; }
 
+/* Pricing billing toggle */
+.billing-toggle {
+  color: var(--sc-slate);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.billing-toggle.is-active {
+  background: var(--sc-navy);
+  color: #ffffff;
+}
+.billing-toggle.is-active span { color: #f7e7bd !important; }
+
 @media (prefers-reduced-motion: reduce) {
   .card, a.card:hover, .card-interactive:hover { transform: none; }
   .js .reveal { opacity: 1; transform: none; transition: none; }

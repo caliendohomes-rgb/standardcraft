@@ -49,7 +49,7 @@ resources.forEach((entry, i) => {
 featureSlides.slice(fi).forEach((data) => slides.push({ kind: 'feature', data }));
 ---
 
-<div class="sc-carousel" data-interval="4800" aria-roledescription="carousel" aria-label="Sample resources and features">
+<div class="sc-carousel" data-interval="5600" aria-roledescription="carousel" aria-label="Sample resources and features">
   <div class="sc-carousel-viewport">
     <div class="sc-carousel-track">
       {slides.map((slide, i) => (
@@ -159,7 +159,7 @@ featureSlides.slice(fi).forEach((data) => slides.push({ kind: 'feature', data })
         const r = viewport.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width - 0.5;
         const py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = `rotateY(${px * 5}deg) rotateX(${-py * 5}deg)`;
+        card.style.transform = `rotateY(${px * 3.5}deg) rotateX(${-py * 3.5}deg)`;
       });
       viewport.addEventListener('mouseleave', () => {
         const card = slides[index]?.querySelector<HTMLElement>('.sc-card');
