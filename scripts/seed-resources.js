@@ -1,7 +1,7 @@
 /**
  * StandardCraft Resource Seeder
  *
- * Uploads the 50 .md resource files from src/content/resources/ to Supabase Storage
+ * Uploads every .md resource file from src/content/resources/ to Supabase Storage
  * and seeds the public.resources table with metadata extracted from frontmatter.
  *
  * Usage:

@@ -2,7 +2,9 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-const resourceCount = (await getCollection('resources')).length;
+const allResources = await getCollection('resources');
+const resourceCount = allResources.length;
+const subjectCount = new Set(allResources.map(r => r.data.subject)).size;
 
 const plans = [
   {
@@ -36,7 +38,7 @@ const plans = [
     creditsLabel: '8 credits/month',
     features: [
       '8 resource downloads/month',
-      'All 10 NYS subject frameworks',
+      `All ${subjectCount} NYS subject areas`,
       'SDI + MLL/ELL blocks on every resource',
       'Alignment records for admin',
       'Email support',
@@ -58,7 +60,7 @@ const plans = [
     creditsLabel: '20 credits/month',
     features: [
       '20 resource downloads/month',
-      'All 10 NYS subject frameworks',
+      `All ${subjectCount} NYS subject areas`,
       'SDI + MLL/ELL blocks on every resource',
       'Priority email support',
       'Early access to new resources',

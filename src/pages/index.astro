@@ -6,6 +6,7 @@ import FaqSection from '../components/FaqSection.astro';
 
 const allResources = await getCollection('resources');
 const resourceCount = allResources.length;
+const subjectCount = new Set(allResources.map(r => r.data.subject)).size;
 const featuredResources = allResources.slice(0, 3);
 
 // One representative resource per subject area for the hero carousel.
@@ -65,7 +66,7 @@ const faqItems = [
 
 <Layout
   title="StandardCraft | NYS-Aligned Lesson Plans, Worksheets & Resources for New York Teachers"
-  description={`${resourceCount} original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers — 8 per subject across 10 NYS subject areas. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required.`}
+  description={`${resourceCount} original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers across ${subjectCount} NYS subject areas — including a Cybersecurity & AI Education track. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -122,9 +123,9 @@ const faqItems = [
         </div>
         <!-- Subject breadth strip — fills vertical balance, proves coverage -->
         <div class="pt-4 border-t border-[#e4dac8]">
-          <div class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#415066] mb-2">10 NYS subject areas covered</div>
+          <div class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#415066] mb-2">{subjectCount} NYS subject areas covered</div>
           <div class="flex flex-wrap gap-1.5">
-            {['ELA', 'Math', 'Science', 'Social Studies', 'CS & Tech', 'Arts', 'World Languages', 'Health & PE', 'SDI & IEP', 'CDOS'].map(s => (
+            {['ELA', 'Math', 'Science', 'Social Studies', 'CS & Tech', 'Cybersecurity & AI', 'Arts', 'World Languages', 'Health & PE', 'SDI & IEP', 'CDOS'].map(s => (
               <span class="text-[11px] text-[#415066] bg-white/80 border border-[#e4dac8] rounded-full px-2.5 py-0.5 leading-snug">{s}</span>
             ))}
           </div>
@@ -196,7 +197,7 @@ const faqItems = [
         <a href="/resources"
            class="flex items-center justify-center gap-2 py-2 text-[11px] font-semibold text-[#415066] hover:text-[#376b9b] transition-colors rounded-xl border border-dashed border-[#e4dac8] hover:border-[#b5ceae]">
           <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
-          Browse all {resourceCount} resources across 10 NYS subjects
+          Browse all {resourceCount} resources across {subjectCount} NYS subjects
           <span class="inline-block w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
         </a>
       </div>
