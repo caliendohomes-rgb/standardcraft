@@ -55,16 +55,16 @@ const bySubject = subjects.map(s => ({
     <div class="mb-2">
       <div class="flex flex-wrap gap-2 mb-3 items-center">
         <span class="section-label self-center mr-2">Subject:</span>
-        <button class="filter-btn tag tag-teal" data-filter-type="subject" data-filter-value="">All</button>
+        <button class="filter-btn tag tag-teal" data-filter-type="subject" data-filter-value="" aria-pressed="true">All</button>
         {subjects.map(s => (
-          <button class="filter-btn tag tag-gray" data-filter-type="subject" data-filter-value={s}>{s}</button>
+          <button class="filter-btn tag tag-gray" data-filter-type="subject" data-filter-value={s} aria-pressed="false">{s}</button>
         ))}
       </div>
       <div class="flex flex-wrap gap-2 items-center">
         <span class="section-label self-center mr-2">Grades:</span>
-        <button class="filter-btn tag tag-teal" data-filter-type="grade" data-filter-value="">All</button>
+        <button class="filter-btn tag tag-teal" data-filter-type="grade" data-filter-value="" aria-pressed="true">All</button>
         {gradeBands.map(b => (
-          <button class="filter-btn tag tag-gray" data-filter-type="grade" data-filter-value={b}>{b}</button>
+          <button class="filter-btn tag tag-gray" data-filter-type="grade" data-filter-value={b} aria-pressed="false">{b}</button>
         ))}
       </div>
     </div>
@@ -143,11 +143,12 @@ const bySubject = subjects.map(s => ({
   function setFilter(type: 'subject' | 'grade', value: string) {
     state[type] = value;
 
-    // Update active button styles
+    // Update active button styles and aria-pressed
     document.querySelectorAll<HTMLButtonElement>(`.filter-btn[data-filter-type="${type}"]`).forEach(btn => {
       const active = btn.dataset.filterValue === value;
       btn.classList.toggle('tag-teal', active);
       btn.classList.toggle('tag-gray', !active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
     applyFilters();

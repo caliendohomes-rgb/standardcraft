@@ -181,7 +181,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
       if (show) visible += 1;
     }
 
-    resultCount.textContent = `${visible} of 50 resource cards shown.`;
+    resultCount.textContent = `${visible} of ${cards.length} resource cards shown.`;
   }
 
   filters.forEach(filter => {
