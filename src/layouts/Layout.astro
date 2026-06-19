@@ -24,6 +24,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
@@ -166,6 +167,26 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         } else {
           if (signIn) signIn.classList.remove('hidden');
         }
+      })();
+
+      // Scroll-reveal: fade/rise elements with .reveal as they enter the viewport
+      (function () {
+        const els = document.querySelectorAll('.reveal');
+        if (!els.length) return;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || !('IntersectionObserver' in window)) {
+          els.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+        els.forEach((el) => io.observe(el));
       })();
     </script>
   </body>

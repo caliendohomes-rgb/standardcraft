@@ -2,10 +2,21 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import ResourceCard from '../components/ResourceCard.astro';
+import ResourceCarousel from '../components/ResourceCarousel.astro';
 import FaqSection from '../components/FaqSection.astro';
 
 const allResources = await getCollection('resources');
 const featuredResources = allResources.slice(0, 3);
+
+// One representative resource per subject area for the hero carousel.
+const carouselSubjects = [
+  'Math', 'ELA', 'Science', 'Social Studies',
+  'Computer Science & Digital Fluency', 'World Languages',
+  'Arts', 'Cross-Content SDI & IEP Support',
+];
+const carouselResources = carouselSubjects
+  .map((s) => allResources.find((r) => r.data.subject === s))
+  .filter((r): r is NonNullable<typeof r> => Boolean(r));
 
 const faqItems = [
   {
@@ -63,19 +74,12 @@ const faqItems = [
         </p>
       </div>
 
-      <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
-        <div class="flex items-center justify-between mb-3">
-          <div class="section-label">Inside every resource</div>
-          <span class="tag tag-teal">What you download</span>
+      <div class="lg:pl-2">
+        <div class="section-label mb-3 flex items-center gap-2">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#d7a84b]"></span>
+          Live previews from the library
         </div>
-        <h2 class="font-display text-2xl font-semibold mb-4 text-[#172438]">More than a worksheet.</h2>
-        <ul class="space-y-2.5 text-sm text-[#415066] mb-5">
-          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An alignment record with the exact NYS standard code and its official source</li>
-          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> SDI adaptations across content, methodology, and delivery</li>
-          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> MLL/ELL scaffolds by NYSESLAT proficiency level</li>
-          <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An answer key or model response</li>
-        </ul>
-        <a href="/resources" class="btn-outline w-full justify-center text-sm py-2.5">See the alignment record →</a>
+        <ResourceCarousel resources={carouselResources} />
       </div>
     </div>
   </section>
@@ -91,7 +95,7 @@ const faqItems = [
   </section>
 
   <!-- How every resource is built: scoped 3-layer trust framework -->
-  <section id="how-its-built" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
+  <section id="how-its-built" class="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
     <div class="max-w-2xl mb-10">
       <div class="section-label mb-4">How every StandardCraft resource is built</div>
       <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-3">Three layers between a standard and your classroom.</h2>
@@ -119,7 +123,7 @@ const faqItems = [
     </p>
   </section>
 
-  <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <section id="how-it-works" class="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
     <div class="section-label mb-4">How it works</div>
     <h2 class="text-3xl font-bold mb-8 text-[#172438]">Create an account, browse widely, download intentionally.</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -137,7 +141,7 @@ const faqItems = [
     </div>
   </section>
 
-  <section class="py-20" style="background: rgba(220, 232, 213, 0.38);">
+  <section class="reveal py-20" style="background: rgba(220, 232, 213, 0.38);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <div>
@@ -172,7 +176,7 @@ const faqItems = [
   </section>
 
   <!-- Differentiation vs. generic AI tools (skeptical-buyer journey) -->
-  <section class="py-20" style="background: rgba(220, 232, 213, 0.30);">
+  <section class="reveal py-20" style="background: rgba(220, 232, 213, 0.30);">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="section-label mb-4">Why not just use a generic AI tool?</div>
       <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-8 max-w-2xl">A prompt gives you a guess. StandardCraft gives you a record.</h2>

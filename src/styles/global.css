@@ -422,3 +422,106 @@
 
   .print-page-break { page-break-before: always; }
 }
+
+/* ============================================================
+   Depth & motion — tasteful synthesis (no dark mode / particles)
+   ============================================================ */
+
+/* Subtle interactive lift on cards */
+.card { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+a.card:hover,
+.card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 52px rgba(44, 55, 71, 0.14);
+  border-color: #d8ccad;
+}
+
+/* Logo seal: gentle gold glow on hover */
+header a:hover svg,
+.seal-glow { filter: drop-shadow(0 0 0 transparent); transition: filter 0.3s ease; }
+header a:hover svg { filter: drop-shadow(0 2px 6px rgba(215, 168, 75, 0.45)); }
+
+/* Scroll-reveal (only hides when JS is confirmed present — never hides content otherwise) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Hero resource carousel */
+.sc-carousel { position: relative; }
+.sc-carousel-viewport {
+  overflow: hidden;
+  border-radius: 14px;
+  perspective: 1200px;
+  padding: 6px;
+}
+.sc-carousel-track {
+  display: flex;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.sc-slide { min-width: 100%; box-sizing: border-box; padding: 2px; }
+.sc-card {
+  min-height: 268px;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+.sc-slide.is-active .sc-card { box-shadow: 0 24px 50px rgba(44, 55, 71, 0.16); }
+.sc-card .font-mono { letter-spacing: -0.02em; }
+.sc-feature {
+  justify-content: center;
+  background:
+    radial-gradient(circle at top right, rgba(215, 168, 75, 0.12), transparent 60%),
+    rgba(255, 255, 255, 0.96);
+}
+.sc-feature-mark {
+  font-size: 1.1rem;
+  color: var(--sc-gold);
+  margin-bottom: 0.75rem;
+}
+.sc-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+.sc-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--sc-border);
+  background: #fff;
+  color: var(--sc-navy);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.sc-arrow:hover { border-color: var(--sc-blue); color: var(--sc-blue); transform: translateY(-1px); }
+.sc-dots { display: flex; gap: 7px; }
+.sc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--sc-border);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.3s ease, background 0.3s ease, border-radius 0.3s ease;
+}
+.sc-dot.is-active { background: var(--sc-gold); width: 22px; border-radius: 5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, a.card:hover, .card-interactive:hover { transform: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .sc-carousel-track, .sc-card { transition: none; }
+}
