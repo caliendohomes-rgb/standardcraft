@@ -206,9 +206,13 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
       const slug = button.dataset.slug!;
       const title = button.dataset.title!;
 
+      // Open blank tab NOW (synchronous user-gesture context) so browsers don't block it.
+      // We navigate it to the print page only after the API call succeeds.
+      const printWin = window.open('', '_blank');
+
       button.disabled = true;
       button.textContent = 'Preparing...';
-      showToast('Preparing download...');
+      showToast('Verifying your credit...');
 
       try {
         const res = await fetch('/api/download', {
@@ -219,6 +223,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
 
         const data = await res.json();
         if (!res.ok) {
+          printWin?.close();
           showToast(data.error || 'Download failed.', true);
           button.textContent = data.code === 'INSUFFICIENT_CREDITS' ? 'Upgrade to download' : 'Use 1 credit — save as PDF';
           button.disabled = data.code === 'INSUFFICIENT_CREDITS';
@@ -231,14 +236,19 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
           if (nextBalance === 0) exhaustUndownloadedButtons();
         }
 
-        // Open the resource's print-ready page in a new tab — auto-triggers browser print dialog
-        window.open(`/resources/${slug}?print=1`, '_blank');
+        // Navigate the already-open tab — avoids popup-blocker since the window was opened synchronously
+        if (printWin) {
+          printWin.location.href = `/resources/${slug}?print=1`;
+        } else {
+          window.location.href = `/resources/${slug}?print=1`;
+        }
 
-        showToast(`"${title}" opened — choose Print → Save as PDF in the new tab.`, false, 6000);
-        button.textContent = 'Download again';
+        showToast(`"${title}" opened — use Print → Save as PDF in the new tab.`, false, 6000);
+        button.textContent = 'Open & save PDF again';
         button.disabled = false;
         button.classList.remove('opacity-60', 'cursor-not-allowed');
       } catch {
+        printWin?.close();
         showToast('Network error. Please try again.', true);
         button.disabled = false;
         button.textContent = 'Use 1 credit — save as PDF';
