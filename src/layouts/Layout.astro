@@ -55,38 +55,39 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body class="site-shell font-sans antialiased">
 
-    <header class="border-b sticky top-0 z-50 backdrop-blur" style="background: rgba(251, 247, 239, 0.94); border-color: var(--sc-border);">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-16 gap-4">
-        <a href="/" class="flex items-center gap-2.5 group">
-          <Seal size={34} class="shrink-0" />
+    <header class="border-b sticky top-0 z-50 backdrop-blur-md" style="background: rgba(251, 247, 239, 0.96); border-color: var(--sc-border);">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[62px] gap-4">
+        <a href="/" class="flex items-center gap-2.5 group shrink-0">
+          <Seal size={32} class="shrink-0" />
           <span class="leading-tight">
-            <span class="font-display font-semibold text-lg tracking-tight text-[#172438] group-hover:text-[#376b9b] transition-colors">Standard<span style="color: var(--sc-blue);">Craft</span></span>
-            <span class="hidden sm:block text-xs font-semibold text-[#415066]">NYS-aligned classroom resources</span>
+            <span class="font-display font-semibold text-[17px] tracking-tight text-[#172438] group-hover:text-[#376b9b] transition-colors">Standard<span style="color: var(--sc-blue);">Craft</span></span>
+            <span class="hidden sm:block text-[11px] font-semibold text-[#415066] tracking-wide">NYS-aligned resources</span>
           </span>
         </a>
-        <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="/#why-us" class="site-nav-link transition-colors">Why us</a>
-          <a href="/#how-it-works" class="site-nav-link transition-colors">How it works</a>
-          <a href="/resources" class="site-nav-link transition-colors">Preview resources</a>
-          <a href="/free-resource-library" class="site-nav-link transition-colors">Free library</a>
+        <div class="hidden md:flex items-center gap-5">
+          <a href="/#why-us" class="site-nav-link">Why us</a>
+          <a href="/#how-it-works" class="site-nav-link">How it works</a>
+          <a href="/resources" class="site-nav-link">Browse resources</a>
+          <a href="/pricing" class="site-nav-link">Pricing</a>
         </div>
         <div class="hidden md:flex items-center gap-3">
-          <a href="/pricing" class="text-sm site-nav-link transition-colors">Pricing</a>
-          <!-- Auth-aware nav: both rendered, JS shows correct one -->
-          <a id="nav-signin" href="/sign-in" class="hidden text-sm site-nav-link transition-colors">Sign in</a>
-          <a id="nav-dashboard" href="/dashboard" class="hidden text-sm site-nav-link transition-colors">Dashboard</a>
-          <a id="nav-start" href="/claim-free" class="btn-primary text-sm py-2 px-4">Start free</a>
+          <a id="nav-signin" href="/sign-in" class="hidden site-nav-link">Sign in</a>
+          <a id="nav-dashboard" href="/dashboard" class="hidden site-nav-link">Dashboard</a>
+          <a id="nav-start" href="/claim-free" class="btn-primary text-sm py-2 px-4">Start free →</a>
         </div>
         <details class="mobile-menu md:hidden relative">
-          <summary class="list-none cursor-pointer rounded-lg border px-3 py-2 text-sm font-bold" style="border-color: var(--sc-border); background: white;">Menu</summary>
-          <div class="absolute right-0 top-full mt-2 w-64 rounded-lg border bg-white p-4 shadow-xl grid gap-3 text-sm" style="border-color: var(--sc-border);">
-            <a href="/#how-it-works" class="site-nav-link">How it works</a>
-            <a href="/resources" class="site-nav-link">Preview resources</a>
-            <a href="/free-resource-library" class="site-nav-link">Free library</a>
-            <a href="/pricing" class="site-nav-link">Pricing</a>
-            <a href="/school-inquiry" class="site-nav-link">Schools</a>
-            <a href="/sign-in" class="site-nav-link">Sign in</a>
-            <a href="/claim-free" class="btn-primary text-sm py-2 px-4 justify-center">Start free</a>
+          <summary class="list-none cursor-pointer rounded-lg border px-3 py-2 text-sm font-semibold" style="border-color: var(--sc-border); background: white; color: var(--sc-navy);">Menu</summary>
+          <div class="absolute right-0 top-full mt-2 w-60 rounded-xl border bg-white p-4 shadow-2xl grid gap-2 text-sm z-50" style="border-color: var(--sc-border);">
+            <a href="/#why-us" class="site-nav-link py-1">Why us</a>
+            <a href="/#how-it-works" class="site-nav-link py-1">How it works</a>
+            <a href="/resources" class="site-nav-link py-1">Browse resources</a>
+            <a href="/free-resource-library" class="site-nav-link py-1">Free library</a>
+            <a href="/pricing" class="site-nav-link py-1">Pricing</a>
+            <a href="/school-inquiry" class="site-nav-link py-1">Schools</a>
+            <div class="border-t pt-2 mt-1" style="border-color: var(--sc-border);">
+              <a href="/sign-in" class="site-nav-link block py-1">Sign in</a>
+              <a href="/claim-free" class="btn-primary text-sm py-2 px-4 justify-center w-full mt-2">Start free →</a>
+            </div>
           </div>
         </details>
       </nav>

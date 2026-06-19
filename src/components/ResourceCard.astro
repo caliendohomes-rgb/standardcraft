@@ -46,7 +46,7 @@ const isMathReview = data.human_review === 'Math teacher review pilot eligible';
 const primaryStandard = data.standards[0];
 ---
 
-<a href={`/resources/${slug}`} class="card group flex flex-col gap-4 hover:shadow-lg hover:shadow-teal-900/20 transition-all cursor-pointer no-underline">
+<a href={`/resources/${slug}`} class="card group flex flex-col gap-4 cursor-pointer no-underline">
   <div class="flex items-start justify-between gap-3">
     <div class="flex flex-wrap gap-2">
       <span class={subjectColor}>{data.subject}</span>
@@ -57,12 +57,12 @@ const primaryStandard = data.standards[0];
   </div>
 
   <div>
-    <h3 class="font-semibold text-[#e8f0f0] group-hover:text-teal-300 transition-colors leading-snug">
+    <h3 class="font-semibold text-[#172438] group-hover:text-[#376b9b] transition-colors leading-snug">
       {data.title}
     </h3>
     {primaryStandard && (
       <div class="mt-2 flex items-center gap-2">
-        <span class="font-mono text-xs text-teal-400 bg-teal-900/30 px-2 py-0.5 rounded border border-teal-800/50">
+        <span class="font-mono text-xs text-[#0f766e] bg-[#dce8d5] px-2 py-0.5 rounded border border-[#cadbc2]">
           {primaryStandard.code}
         </span>
         <span class="text-xs text-[#4a5f63] truncate">{data.standards_framework}</span>
@@ -70,7 +70,7 @@ const primaryStandard = data.standards[0];
     )}
   </div>
 
-  <div class="flex flex-wrap gap-2 mt-auto pt-2 border-t border-[#1e2a2d]">
+  <div class="flex flex-wrap gap-2 mt-auto pt-2 border-t border-[#e4dac8]">
     {data.has_sdi_block && (
       <span class="tag tag-gray">SDI ✓</span>
     )}

@@ -47,7 +47,7 @@ const planLabel: Record<string, string> = {
   <section class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
 
     {checkoutSuccess && (
-      <div class="mb-6 p-4 rounded-xl bg-teal-950/60 border border-teal-700 text-teal-200 text-sm">
+      <div class="mb-6 p-4 rounded-xl bg-[#dce8d5] border border-[#b5ceae] text-[#172438] text-sm">
         🎉 <strong>Subscription active!</strong> Your credits have been added to your account.
       </div>
     )}
@@ -63,10 +63,10 @@ const planLabel: Record<string, string> = {
     <!-- Stats row -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
       {[
-        { label: 'Credits remaining', value: credits.balance, color: 'text-teal-400' },
-        { label: 'Lifetime credits earned', value: credits.lifetime_earned, color: 'text-[#e8f0f0]' },
-        { label: 'Resources downloaded', value: credits.lifetime_spent, color: 'text-[#e8f0f0]' },
-        { label: 'Current plan', value: subscription ? (planLabel[subscription.plan] ?? subscription.plan) : 'Free trial', color: 'text-[#e8f0f0]', small: true },
+        { label: 'Credits remaining', value: credits.balance, color: 'text-[#376b9b]' },
+        { label: 'Lifetime credits earned', value: credits.lifetime_earned, color: 'text-[#172438]' },
+        { label: 'Resources downloaded', value: credits.lifetime_spent, color: 'text-[#172438]' },
+        { label: 'Current plan', value: subscription ? (planLabel[subscription.plan] ?? subscription.plan) : 'Free trial', color: 'text-[#172438]', small: true },
       ].map(s => (
         <div class="card">
           <div class={`${s.small ? 'text-base' : 'text-3xl'} font-bold ${s.color} mb-1`}>{s.value}</div>
@@ -90,28 +90,28 @@ const planLabel: Record<string, string> = {
         <div>
           <div class="text-[#4a5f63] text-sm mb-4">You're on the free trial. Upgrade to get monthly credits every month.</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <a href="/pricing" class="card border-[#1e2a2d] hover:border-teal-700/60 transition-colors cursor-pointer no-underline block">
-              <div class="font-semibold mb-1">Classroom</div>
-              <div class="text-2xl font-bold text-teal-400 mb-1">$29<span class="text-base text-[#4a5f63]">/mo</span></div>
-              <div class="text-sm text-[#4a5f63]">8 credits/month</div>
+            <a href="/pricing" class="card transition-colors cursor-pointer no-underline block">
+              <div class="font-semibold mb-1 text-[#172438]">Classroom</div>
+              <div class="text-2xl font-bold text-[#376b9b] mb-1">$29<span class="text-base text-[#415066]">/mo</span></div>
+              <div class="text-sm text-[#415066]">8 credits/month</div>
             </a>
-            <a href="/pricing" class="card border-teal-700/60 bg-teal-950/20 hover:border-teal-600 transition-colors cursor-pointer no-underline block">
-              <div class="tag tag-teal mb-2 self-start inline-block">Most Popular</div>
-              <div class="font-semibold mb-1">Pro</div>
-              <div class="text-2xl font-bold text-teal-400 mb-1">$69<span class="text-base text-[#4a5f63]">/mo</span></div>
-              <div class="text-sm text-[#4a5f63]">20 credits/month</div>
+            <a href="/pricing" class="card border-t-4 transition-colors cursor-pointer no-underline block" style="border-top-color: var(--sc-gold);">
+              <div class="tag tag-amber mb-2 self-start inline-block">Most Popular</div>
+              <div class="font-semibold mb-1 text-[#172438]">Pro</div>
+              <div class="text-2xl font-bold text-[#376b9b] mb-1">$69<span class="text-base text-[#415066]">/mo</span></div>
+              <div class="text-sm text-[#415066]">20 credits/month</div>
             </a>
           </div>
         </div>
       )}
       {subscription && (
         <div class="text-sm text-[#4a5f63]">
-          <span class="text-[#e8f0f0] font-medium">{planLabel[subscription.plan] ?? subscription.plan}</span>
+          <span class="text-[#172438] font-semibold">{planLabel[subscription.plan] ?? subscription.plan}</span>
           {subscription.status === 'active' && subscription.current_period_end && (
             <span> · Renews {formatDate(subscription.current_period_end)}</span>
           )}
           {subscription.status !== 'active' && (
-            <span class="text-amber-400"> · {subscription.status}</span>
+            <span class="text-[#b08968]"> · {subscription.status}</span>
           )}
         </div>
       )}
@@ -121,19 +121,19 @@ const planLabel: Record<string, string> = {
     <div class="card">
       <div class="flex items-center justify-between mb-4">
         <h2 class="font-bold text-lg">Recent Downloads</h2>
-        <a href="/free-resource-library" class="text-sm text-teal-400 hover:underline">View all →</a>
+        <a href="/free-resource-library" class="text-sm text-[#376b9b] hover:underline">View all →</a>
       </div>
       {recentDownloads.length === 0 ? (
         <div class="text-[#4a5f63] text-sm py-4 text-center">
           No downloads yet.
-          <a href="/free-resource-library" class="text-teal-400 hover:underline ml-1">Browse the library →</a>
+          <a href="/free-resource-library" class="text-[#376b9b] hover:underline ml-1">Browse the library →</a>
         </div>
       ) : (
         <ul class="space-y-3">
           {recentDownloads.map((d: any) => (
-            <li class="flex items-center justify-between text-sm border-t border-[#1e2a2d] pt-3 first:border-0 first:pt-0">
-              <span class="font-mono text-teal-300 text-xs">{d.resource_slug}</span>
-              <span class="text-[#4a5f63] text-xs">{formatDate(d.downloaded_at)}</span>
+            <li class="flex items-center justify-between text-sm border-t border-[#e4dac8] pt-3 first:border-0 first:pt-0">
+              <span class="font-mono text-[#376b9b] text-xs">{d.resource_slug}</span>
+              <span class="text-[#415066] text-xs">{formatDate(d.downloaded_at)}</span>
             </li>
           ))}
         </ul>
@@ -157,7 +157,7 @@ const planLabel: Record<string, string> = {
     <!-- Sign out -->
     <div class="mt-10 text-center">
       <form method="POST" action="/api/signout">
-        <button type="submit" class="text-sm text-[#4a5f63] hover:text-[#e8f0f0] transition-colors">Sign out</button>
+        <button type="submit" class="text-sm text-[#415066] hover:text-[#172438] transition-colors">Sign out</button>
       </form>
     </div>
   </section>

@@ -30,7 +30,7 @@ if (user) {
       ))}
     </div>
 
-    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
+    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
 
     <form id="register-form" class="space-y-4" novalidate>
       <!-- Honeypot — hidden from humans, traps bots -->
@@ -40,25 +40,25 @@ if (user) {
       <div>
         <label for="full_name" class="block text-sm font-medium mb-1.5">Full name <span class="text-red-400">*</span></label>
         <input type="text" id="full_name" name="full_name" required autocomplete="name"
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+          class="input-field" />
       </div>
 
       <div>
         <label for="email" class="block text-sm font-medium mb-1.5">School email address <span class="text-red-400">*</span></label>
         <input type="email" id="email" name="email" required autocomplete="email"
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+          class="input-field" />
       </div>
 
       <div>
         <label for="phone" class="block text-sm font-medium mb-1.5">Phone <span class="text-[#4a5f63] font-normal">(optional)</span></label>
         <input type="tel" id="phone" name="phone" autocomplete="tel"
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+          class="input-field" />
       </div>
 
       <div>
         <label for="password" class="block text-sm font-medium mb-1.5">Password <span class="text-red-400">*</span></label>
         <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8"
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] placeholder-[#4a5f63] focus:outline-none focus:border-teal-600 text-sm" />
+          class="input-field" />
         <p class="text-xs text-[#4a5f63] mt-1">Minimum 8 characters</p>
       </div>
 
@@ -94,7 +94,7 @@ if (user) {
         </label>
       </div>
 
-      <div class="text-xs text-[#3a5055] border-t border-[#1e2a2d] pt-4 space-y-1.5">
+      <div class="text-xs text-[#415066] border-t border-[#e4dac8] pt-4 space-y-1.5">
         <p>By creating an account you agree to our
           <a href="/terms" class="text-teal-500 hover:underline">Terms of Service</a> and
           <a href="/privacy" class="text-teal-500 hover:underline">Privacy Policy</a>.

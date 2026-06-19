@@ -54,101 +54,123 @@ const faqItems = [
   title="StandardCraft | NYS-Aligned Classroom Resources"
   description="Browse 50 original New York classroom resources and download one free with your signup credit. No payment required."
 >
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12">
-    <div class="grid lg:grid-cols-[2fr_1fr] gap-12 items-center">
-      <div>
-        <div class="section-label mb-5">Built for New York classrooms · NYS Next Generation aligned</div>
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.06] tracking-tight mb-6 text-[#172438]">
-          NYS-aligned lessons and worksheets you can use tomorrow — and defend to your administrator.
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10">
+    <div class="grid lg:grid-cols-[2fr_1fr] gap-10 lg:gap-14 items-start">
+
+      <!-- LEFT: Headline + copy + CTAs -->
+      <div class="pt-2">
+        <div class="section-label mb-4">Built for New York classrooms · NYS Next Generation aligned</div>
+        <h1 class="text-4xl sm:text-5xl lg:text-[3.35rem] font-semibold leading-[1.12] mb-5 text-[#172438]" style="max-width: 22ch;">
+          NYS-aligned lessons and worksheets — ready to use tomorrow and defend to your administrator.
         </h1>
-        <p class="text-lg sm:text-xl text-[#415066] max-w-2xl mb-8">
-          Every StandardCraft resource is built from real New York State standards — NYS Next Generation, NYSSLS, NYSESLAT, and CDOS — with the exact standard code, an alignment record, SDI supports, and MLL/ELL scaffolds built in. No invented codes. No student data required.
+        <p class="text-base sm:text-lg text-[#415066] leading-relaxed mb-7" style="max-width: 48ch;">
+          Every resource is built from real NYS standards — Next Generation, NYSSLS, NYSESLAT, and CDOS — with the exact standard code, an alignment record, SDI supports, and MLL/ELL scaffolds. No invented codes. No student data required.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Claim my free resource</a>
-          <a href="/resources" class="btn-outline text-base py-3.5 px-8">View NYS sample resources</a>
+        <div class="flex flex-col sm:flex-row gap-3 mb-5">
+          <a href="/claim-free" class="btn-primary text-base py-3.5 px-7">Claim my free resource →</a>
+          <a href="/resources" class="btn-outline text-base py-3.5 px-7">Browse all 50 resources</a>
         </div>
-        <p class="mt-4 text-sm font-semibold text-[#415066]">
-          Browse 50 NYS resources. Download one free with your signup credit. <span class="text-[#172438]">No credit card.</span>
-          <a href="#how-its-built" class="text-[#376b9b] hover:underline ml-1">See how every resource is built →</a>
+        <p class="text-xs text-[#415066] flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>No credit card required</span>
+          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>50 resources to browse free</span>
+          <span class="flex items-center gap-1.5"><span class="text-[#4f9a91] font-bold">✓</span>1 free download with signup</span>
         </p>
       </div>
 
-      <div class="lg:pl-2">
+      <!-- RIGHT: Carousel in a subtle framed well -->
+      <div class="lg:mt-1">
         <div class="section-label mb-3 flex items-center gap-2">
-          <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#d7a84b]"></span>
+          <span class="inline-block w-1.5 h-1.5 rounded-full" style="background: var(--sc-gold);"></span>
           Live previews from the library
         </div>
-        <ResourceCarousel resources={carouselResources} />
+        <div class="rounded-2xl p-3 sm:p-4" style="background: rgba(220,232,213,0.28); border: 1px solid var(--sc-border);">
+          <ResourceCarousel resources={carouselResources} />
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="border-y" style="border-color: var(--sc-border); background: rgba(255,255,255,0.62);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 text-center text-sm font-bold text-[#415066]">
-      <span>Original resources</span>
-      <span>Built from publicly available NYS standards</span>
-      <span>Alignment notes included</span>
-      <span>No student data required</span>
-      <span>Independent from NYSED</span>
+  <!-- TRUST BAR -->
+  <section class="border-y" style="border-color: var(--sc-border); background: rgba(255,255,255,0.7);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 text-xs font-semibold text-[#415066]">
+        {[
+          'Original resources',
+          'Publicly available NYS standards only',
+          'Alignment records included',
+          'No student data required',
+          'Independent from NYSED',
+        ].map(item => (
+          <span class="flex items-center gap-1.5">
+            <span class="w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>
+            {item}
+          </span>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- How every resource is built: scoped 3-layer trust framework -->
-  <section id="how-its-built" class="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 scroll-mt-20">
-    <div class="max-w-2xl mb-10">
-      <div class="section-label mb-4">How every StandardCraft resource is built</div>
+  <!-- HOW IT'S BUILT -->
+  <section id="how-its-built" class="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+    <div class="max-w-2xl mb-8">
+      <div class="section-label mb-3">How every StandardCraft resource is built</div>
       <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-3">Three layers between a standard and your classroom.</h2>
-      <p class="text-[#415066]">Not a generic prompt. Every resource moves through a defined pathway before it reaches you — and we're precise about exactly where a human is involved.</p>
+      <p class="text-[#415066] leading-relaxed">Not a generic prompt. Every resource moves through a defined pathway — and we're precise about exactly where a human is involved.</p>
     </div>
-    <div class="grid md:grid-cols-3 gap-5">
+    <div class="grid md:grid-cols-3 gap-4">
       <div class="card">
-        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">1</div>
-        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Grounded in real NYS frameworks</h3>
-        <p class="text-sm text-[#415066]">Built from publicly available New York State standards — NYS Next Generation Learning Standards, NYSSLS, NYSESLAT, and CDOS. Standard codes and text are sourced from official NYSED documents. Never invented.</p>
+        <div class="inline-flex w-8 h-8 rounded-full items-center justify-center text-sm font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">1</div>
+        <h3 class="font-display font-semibold text-[17px] mb-2 text-[#172438]">Grounded in real NYS frameworks</h3>
+        <p class="text-sm text-[#415066] leading-relaxed">Built from publicly available NY standards — NYS Next Generation Learning Standards, NYSSLS, NYSESLAT, and CDOS. Standard codes sourced from official NYSED documents. Never invented.</p>
       </div>
       <div class="card">
-        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">2</div>
-        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Automated validation + founder oversight</h3>
-        <p class="text-sm text-[#415066]">Every resource passes structural and standards-alignment checks, with founder review before it is published to the library.</p>
+        <div class="inline-flex w-8 h-8 rounded-full items-center justify-center text-sm font-bold mb-4 font-mono" style="background: var(--sc-sage); color: var(--sc-navy);">2</div>
+        <h3 class="font-display font-semibold text-[17px] mb-2 text-[#172438]">Automated validation + founder oversight</h3>
+        <p class="text-sm text-[#415066] leading-relaxed">Every resource passes structural and standards-alignment checks, with founder review before publication to the library.</p>
       </div>
       <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
-        <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4 font-mono" style="background: var(--sc-gold-soft); color: var(--sc-navy);">3</div>
-        <h3 class="font-display font-semibold text-lg mb-2 text-[#172438]">Human educator review — Mathematics pilot</h3>
-        <p class="text-sm text-[#415066]">A NYS-certified math teacher reviews Mathematics resources. This human-review layer is <strong class="text-[#172438]">currently a Mathematics-only pilot</strong>; all other subjects rely on grounded generation, automated validation, and founder oversight.</p>
+        <div class="inline-flex w-8 h-8 rounded-full items-center justify-center text-sm font-bold mb-4 font-mono" style="background: var(--sc-gold-soft); color: var(--sc-navy);">3</div>
+        <h3 class="font-display font-semibold text-[17px] mb-2 text-[#172438]">Human educator review — Math pilot</h3>
+        <p class="text-sm text-[#415066] leading-relaxed">A NYS-certified math teacher reviews Mathematics resources. This is <strong class="text-[#172438]">currently a Mathematics-only pilot</strong>; all other subjects use grounded generation, validation, and founder oversight.</p>
       </div>
     </div>
-    <p class="text-xs text-[#3a5055] mt-6 max-w-3xl leading-relaxed">
+    <p class="text-[11px] text-[#415066] mt-5 max-w-3xl leading-relaxed">
       StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. IEP goal suggestions are teacher-reference material and do not constitute legal IEP documents.
     </p>
   </section>
 
-  <section id="how-it-works" class="reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="section-label mb-4">How it works</div>
-    <h2 class="text-3xl font-bold mb-8 text-[#172438]">Create an account, browse widely, download intentionally.</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {[
-        'Create a free account',
-        'Browse 50 NYS-aligned resources',
-        'Download one with your free credit',
-        'Upgrade when you need more',
-      ].map((step, index) => (
-        <div class="card">
-          <div class="inline-flex w-9 h-9 rounded-full items-center justify-center font-bold mb-4" style="background: var(--sc-gold-soft); color: var(--sc-navy);">{index + 1}</div>
-          <h3 class="font-bold text-[#172438]">{step}</h3>
-        </div>
-      ))}
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="reveal py-14" style="background: rgba(220, 232, 213, 0.22);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-3">How it works</div>
+      <h2 class="text-3xl font-bold mb-7 text-[#172438]">Browse widely. Download intentionally.</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { n: 1, step: 'Create a free account', detail: 'No credit card required.' },
+          { n: 2, step: 'Browse 50 NYS resources', detail: 'Preview every resource before downloading.' },
+          { n: 3, step: 'Download one free', detail: 'Your signup credit covers one resource.' },
+          { n: 4, step: 'Upgrade when ready', detail: '8 or 20 credits per month on paid plans.' },
+        ].map(s => (
+          <div class="card">
+            <div class="inline-flex w-8 h-8 rounded-full items-center justify-center text-sm font-bold mb-3" style="background: var(--sc-gold-soft); color: var(--sc-navy);">{s.n}</div>
+            <h3 class="font-semibold text-[#172438] mb-1">{s.step}</h3>
+            <p class="text-xs text-[#415066]">{s.detail}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="reveal py-20" style="background: rgba(220, 232, 213, 0.38);">
+  <!-- SAMPLE RESOURCES -->
+  <section class="reveal py-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-7">
         <div>
-          <div class="section-label mb-3">Sample resources</div>
-          <h2 class="text-3xl font-bold text-[#172438]">Designed to feel useful before the bell rings.</h2>
+          <div class="section-label mb-2">Sample resources</div>
+          <h2 class="text-3xl font-bold text-[#172438]">Useful before the bell rings.</h2>
         </div>
-        <a href="/claim-free" class="btn-primary">Claim your free resource</a>
+        <a href="/claim-free" class="btn-primary shrink-0">Claim your free resource →</a>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {featuredResources.map(resource => (
@@ -158,70 +180,88 @@ const faqItems = [
     </div>
   </section>
 
-  <section id="why-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <!-- WHY US -->
+  <section id="why-us" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
     <div class="grid lg:grid-cols-2 gap-10 items-start">
       <div>
-        <div class="section-label mb-4">Why teachers trust StandardCraft</div>
-        <h2 class="text-3xl font-bold mb-4 text-[#172438]">Clear alignment without pretending to be your curriculum.</h2>
-        <p class="text-[#415066]">
-          Each resource includes a plain-language alignment note, a practical classroom use case, and preview content so teachers can decide quickly whether it fits the lesson in front of them.
+        <div class="section-label mb-3">Why teachers trust StandardCraft</div>
+        <h2 class="text-3xl font-bold mb-4 text-[#172438]">Clear alignment. No pretense about replacing your curriculum.</h2>
+        <p class="text-[#415066] leading-relaxed">
+          Each resource includes a plain-language alignment note, a practical classroom use case, and preview content — so teachers can judge fit in under a minute.
         </p>
+        <a href="/resources" class="btn-outline mt-6 inline-flex">Browse all resources →</a>
       </div>
-      <div class="grid gap-4">
-        <div class="card"><strong>Teacher-centered:</strong> written for real planning constraints and mixed-readiness classrooms.</div>
-        <div class="card"><strong>Transparent:</strong> standards labels and notes are visible before download.</div>
-        <div class="card"><strong>Respectful:</strong> no student data is required to browse or claim the free credit.</div>
+      <div class="grid gap-3">
+        {[
+          { label: 'Teacher-centered', body: 'Written for real planning constraints and mixed-readiness classrooms.' },
+          { label: 'Transparent', body: 'Standards labels and alignment notes are visible before you download.' },
+          { label: 'Respectful of your autonomy', body: 'No student data required to browse or claim your free credit.' },
+        ].map(c => (
+          <div class="card">
+            <strong class="text-[#172438] text-sm">{c.label}</strong>
+            <p class="text-sm text-[#415066] mt-1">{c.body}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Differentiation vs. generic AI tools (skeptical-buyer journey) -->
-  <section class="reveal py-20" style="background: rgba(220, 232, 213, 0.30);">
+  <!-- AI vs StandardCraft comparison -->
+  <section class="reveal py-14" style="background: rgba(220, 232, 213, 0.28);">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="section-label mb-4">Why not just use a generic AI tool?</div>
-      <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-8 max-w-2xl">A prompt gives you a guess. StandardCraft gives you a record.</h2>
-      <div class="grid md:grid-cols-2 gap-5">
+      <div class="section-label mb-3">Why not a generic AI tool?</div>
+      <h2 class="text-3xl sm:text-4xl font-semibold text-[#172438] mb-7 max-w-2xl">A prompt gives you a guess. StandardCraft gives you a record.</h2>
+      <div class="grid md:grid-cols-2 gap-4">
         <div class="card">
-          <div class="font-display font-semibold text-lg text-[#172438] mb-3">A generic AI worksheet</div>
+          <div class="font-display font-semibold text-[17px] text-[#172438] mb-4">A generic AI worksheet</div>
           <ul class="space-y-2.5 text-sm text-[#415066]">
-            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Standard codes that may be wrong or invented</li>
-            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Not NYS-specific (often outdated Common Core)</li>
-            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> No SDI adaptations or NYSESLAT-leveled scaffolds</li>
-            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> Nothing to show an administrator or IEP team</li>
-            <li class="flex items-start gap-2"><span class="text-[#b08968] mt-0.5 shrink-0">—</span> You verify every claim yourself</li>
+            {[
+              'Standard codes that may be wrong or invented',
+              'Not NYS-specific (often outdated Common Core)',
+              'No SDI adaptations or NYSESLAT-leveled scaffolds',
+              'Nothing to show an administrator or IEP team',
+              'You verify every claim yourself',
+            ].map(item => (
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 shrink-0 font-bold" style="color: #b08968;">–</span>
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
         <div class="card border-t-4" style="border-top-color: var(--sc-gold);">
-          <div class="font-display font-semibold text-lg text-[#172438] mb-3">A StandardCraft resource</div>
+          <div class="font-display font-semibold text-[17px] text-[#172438] mb-4">A StandardCraft resource</div>
           <ul class="space-y-2.5 text-sm text-[#415066]">
-            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> The exact NYS Next Gen / NYSSLS code, sourced from NYSED</li>
-            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> An alignment record you can hand to an evaluator</li>
-            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> SDI adaptations + MLL/ELL scaffolds by proficiency level</li>
-            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> Original content, validated before publication</li>
-            <li class="flex items-start gap-2"><span class="text-teal-600 mt-0.5 shrink-0">✓</span> Built only for New York classrooms</li>
+            {[
+              'The exact NYS Next Gen / NYSSLS code, sourced from NYSED',
+              'An alignment record you can hand to an evaluator',
+              'SDI adaptations + MLL/ELL scaffolds by proficiency level',
+              'Original content, validated before publication',
+              'Built only for New York classrooms',
+            ].map(item => (
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 shrink-0 font-bold" style="color: var(--sc-teal);">✓</span>
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     </div>
-  </section>
-
-  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="section-label mb-4">Built for New York classrooms</div>
-    <h2 class="text-3xl font-bold mb-4 text-[#172438]">Support for daily planning, not a replacement for teacher judgment.</h2>
-    <p class="text-[#415066]">
-      StandardCraft resources help teachers interpret publicly available standards, prepare classroom-ready materials, and document alignment. They are designed to complement district curriculum and local instructional decisions.
-    </p>
   </section>
 
   <FaqSection heading="Questions teachers ask about StandardCraft" items={faqItems} />
 
-  <section class="max-w-3xl mx-auto px-4 text-center py-20">
-    <div class="section-label mb-4">Start today</div>
-    <h2 class="text-4xl font-semibold mb-5 text-[#172438]">Start with one free verified resource.</h2>
-    <p class="text-[#415066] mb-8">Browse all 50 NYS resources and download one with your signup credit. No payment required. No student data required. Upgrade only when you need more downloads.</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="/claim-free" class="btn-primary text-lg py-4 px-10">Claim my free resource</a>
-      <a href="/school-inquiry" class="btn-outline text-lg py-4 px-10">Request a school quote</a>
+  <!-- FINAL CTA -->
+  <section class="py-16">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <div class="section-label mb-3">Start today</div>
+      <h2 class="text-4xl font-semibold mb-4 text-[#172438]">One free resource, no credit card.</h2>
+      <p class="text-[#415066] mb-8 leading-relaxed">Browse all 50 NYS resources and download one with your signup credit. Upgrade only when you need more downloads.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/claim-free" class="btn-primary text-base py-3.5 px-8">Claim my free resource →</a>
+        <a href="/school-inquiry" class="btn-outline text-base py-3.5 px-8">Request a school quote</a>
+      </div>
     </div>
   </section>
 </Layout>
