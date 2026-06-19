@@ -30,9 +30,13 @@ export const POST: APIRoute = async ({ request }) => {
         const session = event.data.object as any;
         if (session.mode !== 'subscription') break;
 
-        const userId = session.subscription_data?.metadata?.supabase_user_id
-          || session.metadata?.supabase_user_id;
-        const plan = session.subscription_data?.metadata?.plan || 'classroom';
+        // session.metadata is the reliable source in the webhook payload;
+        // subscription_data.metadata is a creation param, not present in the completed session object.
+        const userId = session.metadata?.supabase_user_id
+          || session.subscription_data?.metadata?.supabase_user_id;
+        const plan = session.metadata?.plan
+          || session.subscription_data?.metadata?.plan
+          || 'classroom';
 
         if (!userId) {
           console.error('No user ID in checkout session metadata');
