@@ -97,51 +97,51 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
 
-    <footer class="border-t border-[#1e2a2d] mt-24 py-12">
+    <footer class="mt-24 py-12" style="background: var(--sc-navy);">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between gap-8">
           <div>
             <div class="flex items-center gap-2 mb-2">
               <Seal size={28} />
-              <span class="font-display font-semibold text-lg">Standard<span class="text-teal-400">Craft</span></span>
+              <span class="font-display font-semibold text-lg text-white">Standard<span style="color: var(--sc-gold);">Craft</span></span>
             </div>
-            <p class="text-sm text-[#4a5f63] max-w-xs leading-relaxed">
+            <p class="text-sm max-w-xs leading-relaxed" style="color: #8fafc4;">
               Original, educator-reviewed resources built from publicly available New York State standards frameworks.
               Designed to support classroom planning and instruction.
             </p>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-sm">
             <div>
-              <div class="font-semibold mb-3 text-[#e8f0f0]">Product</div>
-              <ul class="space-y-2 text-[#4a5f63]">
-                <li><a href="/#why-us" class="hover:text-teal-400 transition-colors">Why StandardCraft</a></li>
-                <li><a href="/resources" class="hover:text-teal-400 transition-colors">Resource Library</a></li>
-                <li><a href="/pricing" class="hover:text-teal-400 transition-colors">Pricing</a></li>
-                <li><a href="/school-inquiry" class="hover:text-teal-400 transition-colors">Schools &amp; Districts</a></li>
+              <div class="font-semibold mb-3 text-white">Product</div>
+              <ul class="space-y-2" style="color: #8fafc4;">
+                <li><a href="/#why-us" class="transition-colors hover:text-white">Why StandardCraft</a></li>
+                <li><a href="/resources" class="transition-colors hover:text-white">Resource Library</a></li>
+                <li><a href="/pricing" class="transition-colors hover:text-white">Pricing</a></li>
+                <li><a href="/school-inquiry" class="transition-colors hover:text-white">Schools &amp; Districts</a></li>
               </ul>
             </div>
             <div>
-              <div class="font-semibold mb-3 text-[#e8f0f0]">Standards</div>
-              <ul class="space-y-2 text-[#4a5f63]">
-                <li><a href="/resources?subject=ELA" class="hover:text-teal-400 transition-colors">ELA / Literacy</a></li>
-                <li><a href="/resources?subject=Math" class="hover:text-teal-400 transition-colors">Mathematics</a></li>
-                <li><a href="/resources?subject=Science" class="hover:text-teal-400 transition-colors">Science / NYSSLS</a></li>
-                <li><a href="/resources?subject=Social+Studies" class="hover:text-teal-400 transition-colors">Social Studies</a></li>
+              <div class="font-semibold mb-3 text-white">Standards</div>
+              <ul class="space-y-2" style="color: #8fafc4;">
+                <li><a href="/resources?subject=ELA" class="transition-colors hover:text-white">ELA / Literacy</a></li>
+                <li><a href="/resources?subject=Math" class="transition-colors hover:text-white">Mathematics</a></li>
+                <li><a href="/resources?subject=Science" class="transition-colors hover:text-white">Science / NYSSLS</a></li>
+                <li><a href="/resources?subject=Social+Studies" class="transition-colors hover:text-white">Social Studies</a></li>
               </ul>
             </div>
             <div>
-              <div class="font-semibold mb-3 text-[#e8f0f0]">Legal</div>
-              <ul class="space-y-2 text-[#4a5f63]">
-                <li><a href="/privacy" class="hover:text-teal-400 transition-colors">Privacy Policy</a></li>
-                <li><a href="/terms" class="hover:text-teal-400 transition-colors">Terms of Service</a></li>
-                <li><a href="/data-security" class="hover:text-teal-400 transition-colors">Data Security</a></li>
-                <li><a href="/refunds-and-assurance" class="hover:text-teal-400 transition-colors">Refunds &amp; Assurance</a></li>
-                <li><a href="/contact" class="hover:text-teal-400 transition-colors">Contact</a></li>
+              <div class="font-semibold mb-3 text-white">Legal</div>
+              <ul class="space-y-2" style="color: #8fafc4;">
+                <li><a href="/privacy" class="transition-colors hover:text-white">Privacy Policy</a></li>
+                <li><a href="/terms" class="transition-colors hover:text-white">Terms of Service</a></li>
+                <li><a href="/data-security" class="transition-colors hover:text-white">Data Security</a></li>
+                <li><a href="/refunds-and-assurance" class="transition-colors hover:text-white">Refunds &amp; Assurance</a></li>
+                <li><a href="/contact" class="transition-colors hover:text-white">Contact</a></li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="mt-10 pt-8 border-t border-[#1e2a2d] space-y-3 text-xs text-[#3a5055] leading-relaxed">
+        <div class="mt-10 pt-8 space-y-3 text-xs leading-relaxed" style="border-top: 1px solid #2a3d5a; color: #5a7a9a;">
           <p>
             StandardCraft provides original, educator-reviewed resources built from publicly available New York State standards frameworks.
             StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department.

@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import { createSupabaseServerClient, createSupabaseAdmin } from '../lib/supabase-server';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
@@ -13,17 +14,19 @@ if (!user) {
 
 const admin = createSupabaseAdmin();
 
-const [profileResult, creditsResult, downloadsResult, subResult] = await Promise.all([
+const [profileResult, creditsResult, downloadsResult, subResult, resourcesResult] = await Promise.all([
   admin.from('profiles').select('full_name, email').eq('id', user.id).maybeSingle(),
   admin.from('credits').select('balance, lifetime_earned, lifetime_spent').eq('user_id', user.id).maybeSingle(),
   admin.from('downloads').select('resource_slug, downloaded_at').eq('user_id', user.id).order('downloaded_at', { ascending: false }).limit(5),
   admin.from('subscriptions').select('plan, status, current_period_end').eq('user_id', user.id).maybeSingle(),
+  getCollection('resources'),
 ]);
 
 const profile = profileResult.data;
 const credits = creditsResult.data ?? { balance: 0, lifetime_earned: 0, lifetime_spent: 0 };
 const recentDownloads = downloadsResult.data ?? [];
 const subscription = subResult.data;
+const resourceTitleMap = Object.fromEntries((resourcesResult ?? []).map(r => [r.slug, r.data.title]));
 
 const checkoutSuccess = Astro.url.searchParams.get('checkout') === 'success';
 const firstName = profile?.full_name?.split(' ')[0] ?? 'Teacher';
@@ -131,9 +134,11 @@ const planLabel: Record<string, string> = {
       ) : (
         <ul class="space-y-3">
           {recentDownloads.map((d: any) => (
-            <li class="flex items-center justify-between text-sm border-t border-[#e4dac8] pt-3 first:border-0 first:pt-0">
-              <span class="font-mono text-[#376b9b] text-xs">{d.resource_slug}</span>
-              <span class="text-[#415066] text-xs">{formatDate(d.downloaded_at)}</span>
+            <li class="flex items-center justify-between gap-3 text-sm border-t border-[#e4dac8] pt-3 first:border-0 first:pt-0">
+              <a href={`/resources/${d.resource_slug}`} class="text-[#172438] font-medium text-xs hover:text-[#376b9b] transition-colors leading-snug">
+                {resourceTitleMap[d.resource_slug] ?? d.resource_slug}
+              </a>
+              <span class="text-[#415066] text-xs shrink-0">{formatDate(d.downloaded_at)}</span>
             </li>
           ))}
         </ul>
