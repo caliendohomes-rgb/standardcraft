@@ -129,7 +129,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
                 data-title={resource.data.title}
                 disabled={!canDownload}
               >
-                {alreadyDownloaded ? 'Download again' : canDownload ? 'Use 1 credit and download' : 'Upgrade to download'}
+                {alreadyDownloaded ? 'Open & save PDF again' : canDownload ? 'Use 1 credit — save as PDF' : 'Upgrade to download'}
               </button>
             </div>
           </article>
@@ -157,11 +157,11 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
   const toastMsg = document.getElementById('toast-msg') as HTMLDivElement;
   const balanceEl = document.getElementById('credit-balance') as HTMLDivElement;
 
-  function showToast(msg: string, isError = false) {
+  function showToast(msg: string, isError = false, duration = 4000) {
     toastMsg.textContent = msg;
     toast.classList.toggle('hidden', false);
     toast.style.borderColor = isError ? '#dc9a9a' : 'var(--sc-border)';
-    setTimeout(() => toast.classList.add('hidden'), 4000);
+    setTimeout(() => toast.classList.add('hidden'), duration);
   }
 
   function applyFilters() {
@@ -192,7 +192,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
   function exhaustUndownloadedButtons() {
     document.querySelectorAll('.download-btn').forEach(button => {
       const btn = button as HTMLButtonElement;
-      if (btn.textContent !== 'Download again') {
+      if (btn.textContent !== 'Open & save PDF again') {
         btn.disabled = true;
         btn.textContent = 'Upgrade to download';
         btn.classList.add('opacity-60', 'cursor-not-allowed');
@@ -220,7 +220,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
         const data = await res.json();
         if (!res.ok) {
           showToast(data.error || 'Download failed.', true);
-          button.textContent = data.code === 'INSUFFICIENT_CREDITS' ? 'Upgrade to download' : 'Use 1 credit and download';
+          button.textContent = data.code === 'INSUFFICIENT_CREDITS' ? 'Upgrade to download' : 'Use 1 credit — save as PDF';
           button.disabled = data.code === 'INSUFFICIENT_CREDITS';
           return;
         }
@@ -231,21 +231,17 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
           if (nextBalance === 0) exhaustUndownloadedButtons();
         }
 
-        const a = document.createElement('a');
-        a.href = data.url;
-        a.download = `${slug}.md`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        // Open the resource's print-ready page in a new tab — auto-triggers browser print dialog
+        window.open(`/resources/${slug}?print=1`, '_blank');
 
-        showToast(`"${title}" is downloading.`);
+        showToast(`"${title}" opened — choose Print → Save as PDF in the new tab.`, false, 6000);
         button.textContent = 'Download again';
         button.disabled = false;
         button.classList.remove('opacity-60', 'cursor-not-allowed');
       } catch {
         showToast('Network error. Please try again.', true);
         button.disabled = false;
-        button.textContent = 'Use 1 credit and download';
+        button.textContent = 'Use 1 credit — save as PDF';
       }
     });
   });

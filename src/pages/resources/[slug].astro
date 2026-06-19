@@ -19,10 +19,10 @@ const previewBullets = [
 ];
 
 const confidenceColors = {
-  'Full Trust': 'text-teal-400 border-teal-700/40 bg-teal-900/30',
-  'High Confidence': 'text-amber-300 border-amber-700/40 bg-amber-900/20',
-  'Needs Human Review': 'text-orange-300 border-orange-700/40 bg-orange-900/20',
-  'Blocked': 'text-red-400 border-red-700/40 bg-red-900/20',
+  'Full Trust': 'text-[#0f766e] border-[#b5ceae] bg-[#dce8d5]',
+  'High Confidence': 'text-[#5a3c0a] border-[#e8c97c] bg-[#f7e7bd]',
+  'Needs Human Review': 'text-[#7a3c0a] border-[#e8c97c] bg-[#fdf0d5]',
+  'Blocked': 'text-[#9b1c1c] border-[#fca5a5] bg-[#fee2e2]',
 };
 const confColor = confidenceColors[data.alignment_confidence] ?? confidenceColors['High Confidence'];
 
@@ -80,12 +80,12 @@ const learningResourceSchema = JSON.stringify({
     </div>
 
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-[#4a5f63] mb-8 no-print">
-      <a href="/" class="hover:text-teal-400">Home</a>
+    <nav class="flex items-center gap-2 text-sm text-[#415066] mb-8 no-print">
+      <a href="/" class="hover:text-[#376b9b]">Home</a>
       <span>›</span>
-      <a href="/resources" class="hover:text-teal-400">Resource Library</a>
+      <a href="/resources" class="hover:text-[#376b9b]">Resource Library</a>
       <span>›</span>
-      <span class="text-[#e8f0f0]">{data.title}</span>
+      <span class="text-[#172438] font-medium">{data.title}</span>
     </nav>
 
     <!-- Header -->
@@ -149,7 +149,7 @@ const learningResourceSchema = JSON.stringify({
     </article>
 
     <!-- Why teachers can trust this resource -->
-    <div class="mt-12 rounded-xl border border-[#1e2a2d] bg-[#0d1314] p-6 no-print">
+    <div class="mt-12 rounded-xl border border-[#e4dac8] bg-[#f7f4ee] p-6 no-print">
       <div class="section-label mb-4">Why teachers can trust this resource</div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[
@@ -161,10 +161,10 @@ const learningResourceSchema = JSON.stringify({
           { label: 'No student data required', detail: 'Teachers download and use this resource without entering student personally identifiable information.' },
         ].map(item => (
           <div class="flex items-start gap-2.5">
-            <span class="text-teal-500 mt-0.5 shrink-0 text-sm">✓</span>
+            <span class="font-bold mt-0.5 shrink-0 text-sm" style="color: var(--sc-teal);">✓</span>
             <div>
-              <div class="text-sm font-medium text-[#e8f0f0]">{item.label}</div>
-              <div class="text-xs text-[#4a5f63] mt-0.5 leading-relaxed">{item.detail}</div>
+              <div class="text-sm font-semibold text-[#172438]">{item.label}</div>
+              <div class="text-xs text-[#415066] mt-0.5 leading-relaxed">{item.detail}</div>
             </div>
           </div>
         ))}
@@ -172,8 +172,8 @@ const learningResourceSchema = JSON.stringify({
     </div>
 
     <!-- Footer actions -->
-    <div class="mt-8 pt-8 border-t border-[#1e2a2d] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
-      <div class="text-sm text-[#4a5f63]">
+    <div class="mt-8 pt-8 border-t border-[#e4dac8] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
+      <div class="text-sm text-[#415066]">
         Resource ID: {data.resource_id} · {data.created_for}
       </div>
       <div class="flex gap-3">
@@ -183,8 +183,8 @@ const learningResourceSchema = JSON.stringify({
     </div>
 
     <!-- NYSED disclaimer -->
-    <div class="mt-6 p-4 rounded-lg bg-[#0d1314] border border-[#1e2a2d] text-xs text-[#3a5055] leading-relaxed no-print">
-      <strong class="text-[#4a5f63]">Independence notice:</strong> StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource is original content aligned to publicly available NYS standards. It is designed to support classroom planning and instruction and does not replace district curriculum, school-approved instructional programs, or teacher professional judgment.
+    <div class="mt-6 p-4 rounded-lg bg-[#f7f4ee] border border-[#e4dac8] text-xs text-[#415066] leading-relaxed no-print">
+      <strong class="text-[#172438]">Independence notice:</strong> StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource is original content aligned to publicly available NYS standards. It is designed to support classroom planning and instruction and does not replace district curriculum, school-approved instructional programs, or teacher professional judgment.
     </div>
 
     <!-- Print-only footer (carries the disclaimer onto the printed sheet) -->
@@ -196,6 +196,11 @@ const learningResourceSchema = JSON.stringify({
 
   <script>
     document.getElementById('print-btn')?.addEventListener('click', () => window.print());
+
+    // Auto-trigger print when opened from the download flow (?print=1)
+    if (new URLSearchParams(window.location.search).get('print') === '1') {
+      window.addEventListener('load', () => setTimeout(() => window.print(), 700));
+    }
   </script>
 </Layout>
 
