@@ -20,17 +20,24 @@ const bySubject = subjects.map(s => ({
   subject: s,
   resources: allResources.filter(r => r.data.subject === s),
 }));
+
+// Library balance signals (dynamically derived)
+const subjectCounts = bySubject.map(s => s.resources.length);
+const minPerSubject = subjectCounts.length ? Math.min(...subjectCounts) : 0;
+const maxPerSubject = subjectCounts.length ? Math.max(...subjectCounts) : 0;
+const isBalanced = subjectCounts.every(c => c === subjectCounts[0]);
+const perSubjectLabel = isBalanced ? `${minPerSubject}` : `${minPerSubject}–${maxPerSubject}`;
 ---
 
 <Layout
-  title="NYS Resource Library — StandardCraft"
-  description="50 classroom-ready NYS Next Generation standards-aligned lesson plans and worksheets. ELA, Math, Science, Social Studies, CS, Arts, Health, World Languages, CDOS, and SDI resources."
+  title="NYS-Aligned Classroom Resources | Lesson Plans & Worksheets for NY Teachers — StandardCraft"
+  description={`${stats.total} original NYS Next Generation standards-aligned classroom resources across ${subjects.length} subject areas. ELA, Math, NYSSLS Science, Social Studies, CS & Digital Fluency, Cybersecurity & AI Education, Arts, Health, World Languages, CDOS, and SDI/IEP supports. SDI blocks and MLL/ELL scaffolds included. Zero invented standard codes.`}
 >
   <!-- Hero -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
     <div class="section-label mb-4">Resource Library</div>
     <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6">
-      50 NYS-Aligned Classroom Resources
+      {stats.total} NYS-Aligned Classroom Resources
     </h1>
     <p class="text-lg text-[#4a5f63] max-w-3xl mb-8">
       Every resource is grounded in official NYS Next Generation standards — zero invented codes. Includes SDI blocks, MLL/ELL scaffolds, and alignment records teachers can use with administrators, IEP teams, and evaluators.
@@ -55,20 +62,56 @@ const bySubject = subjects.map(s => ({
     <div class="mb-2">
       <div class="flex flex-wrap gap-2 mb-3 items-center">
         <span class="section-label self-center mr-2">Subject:</span>
-        <button class="filter-btn tag tag-teal" data-filter-type="subject" data-filter-value="">All</button>
+        <button class="filter-btn tag tag-teal" data-filter-type="subject" data-filter-value="" aria-pressed="true">All</button>
         {subjects.map(s => (
-          <button class="filter-btn tag tag-gray" data-filter-type="subject" data-filter-value={s}>{s}</button>
+          <button class="filter-btn tag tag-gray" data-filter-type="subject" data-filter-value={s} aria-pressed="false">{s}</button>
         ))}
       </div>
       <div class="flex flex-wrap gap-2 items-center">
         <span class="section-label self-center mr-2">Grades:</span>
-        <button class="filter-btn tag tag-teal" data-filter-type="grade" data-filter-value="">All</button>
+        <button class="filter-btn tag tag-teal" data-filter-type="grade" data-filter-value="" aria-pressed="true">All</button>
         {gradeBands.map(b => (
-          <button class="filter-btn tag tag-gray" data-filter-type="grade" data-filter-value={b}>{b}</button>
+          <button class="filter-btn tag tag-gray" data-filter-type="grade" data-filter-value={b} aria-pressed="false">{b}</button>
         ))}
       </div>
     </div>
   </section>
+
+  <!-- Library trust module -->
+  {stats.total > 0 && (
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <div class="rounded-2xl border p-5 sm:p-6" style="border-color: var(--sc-border); background: var(--sc-sage);">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+          {[
+            { value: `${stats.total}`, label: 'NYS-aligned resources' },
+            { value: `${subjects.length}`, label: `NYS subject areas · ${perSubjectLabel} each` },
+            { value: 'K–12', label: 'Spanning every grade band' },
+            { value: `${stats.withSDI}`, label: 'Include SDI + MLL/ELL' },
+            { value: `${stats.total}`, label: 'Alignment records included' },
+          ].map(s => (
+            <div>
+              <div class="text-2xl sm:text-3xl font-bold text-[#172438]">{s.value}</div>
+              <div class="text-[11px] sm:text-xs text-[#415066] mt-1 leading-snug">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+
+  <!-- Subject quick-nav -->
+  <nav aria-label="Jump to subject" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <div class="flex flex-wrap gap-2">
+      {bySubject.map(({ subject, resources }) => (
+        <a
+          href={`#subject-${subject.replace(/\s+/g, '-').toLowerCase()}`}
+          class="subject-nav-link tag tag-gray no-underline hover:border-[#b5ceae] transition-colors"
+        >
+          {subject} <span class="opacity-60">· {resources.length}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
 
   <!-- Disclaimer -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
@@ -77,15 +120,28 @@ const bySubject = subjects.map(s => ({
     </div>
   </div>
 
+  <!-- No-results state (shown by JS when filters match nothing) -->
+  <div id="no-results" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+    <div class="card text-center py-12">
+      <h2 class="text-xl font-bold text-[#172438] mb-2">No resources match those filters</h2>
+      <p class="text-sm text-[#415066] mb-5">Try a different subject or grade band, or clear the filters to see all {stats.total} resources.</p>
+      <button id="reset-filters" type="button" class="btn-outline text-sm py-2 px-4">Clear filters</button>
+    </div>
+  </div>
+
   <!-- Resource grid by subject -->
   {bySubject.map(({ subject, resources }) => (
-    <section class="subject-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14" data-subject={subject}>
+    <section
+      id={`subject-${subject.replace(/\s+/g, '-').toLowerCase()}`}
+      class="subject-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14 scroll-mt-24"
+      data-subject={subject}
+    >
       <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-xl font-bold">{subject}</h2>
+        <h2 class="text-xl font-bold text-[#172438]">{subject}</h2>
         <span class="tag-gray tag subject-count">{resources.length} resources</span>
         <div class="flex-1 h-px bg-[#e4dac8]"></div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id={`grid-${subject.replace(/\s+/g, '-').toLowerCase()}`}>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id={`grid-${subject.replace(/\s+/g, '-').toLowerCase()}`}>
         {resources.map(resource => (
           <div class="resource-card-wrapper" data-subject={resource.data.subject} data-grade-band={resource.data.grade_band ?? ''}>
             <ResourceCard resource={resource} />
@@ -113,8 +169,11 @@ const bySubject = subjects.map(s => ({
   type FilterState = { subject: string; grade: string };
   const state: FilterState = { subject: '', grade: '' };
 
+  const noResultsEl = document.getElementById('no-results');
+
   function applyFilters() {
     const sections = document.querySelectorAll<HTMLElement>('.subject-section');
+    let totalVisible = 0;
     sections.forEach(section => {
       const sectionSubject = section.dataset.subject ?? '';
       const cards = section.querySelectorAll<HTMLElement>('.resource-card-wrapper');
@@ -133,21 +192,26 @@ const bySubject = subjects.map(s => ({
       // Hide entire subject section if no cards visible
       const subjectMatch = !state.subject || sectionSubject === state.subject;
       section.style.display = subjectMatch && visibleCards > 0 ? '' : 'none';
+      totalVisible += visibleCards;
 
       // Update count badge
       const countEl = section.querySelector('.subject-count');
       if (countEl) countEl.textContent = `${visibleCards} resource${visibleCards !== 1 ? 's' : ''}`;
     });
+
+    // Toggle the no-results empty state
+    if (noResultsEl) noResultsEl.classList.toggle('hidden', totalVisible > 0);
   }
 
   function setFilter(type: 'subject' | 'grade', value: string) {
     state[type] = value;
 
-    // Update active button styles
+    // Update active button styles and aria-pressed
     document.querySelectorAll<HTMLButtonElement>(`.filter-btn[data-filter-type="${type}"]`).forEach(btn => {
       const active = btn.dataset.filterValue === value;
       btn.classList.toggle('tag-teal', active);
       btn.classList.toggle('tag-gray', !active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
     applyFilters();
@@ -164,6 +228,13 @@ const bySubject = subjects.map(s => ({
     btn.addEventListener('click', () => {
       setFilter(btn.dataset.filterType as 'subject' | 'grade', btn.dataset.filterValue ?? '');
     });
+  });
+
+  // Reset filters from the no-results empty state
+  document.getElementById('reset-filters')?.addEventListener('click', () => {
+    setFilter('subject', '');
+    setFilter('grade', '');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // Apply filters from URL on load

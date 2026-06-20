@@ -1,6 +1,7 @@
 ﻿---
 export const prerender = false;
 
+import { getCollection } from 'astro:content';
 import { createSupabaseServerClient } from '../lib/supabase-server';
 import Layout from '../layouts/Layout.astro';
 
@@ -10,22 +11,24 @@ const { data: { user } } = await supabase.auth.getUser();
 if (user) {
   return Astro.redirect('/free-resource-library');
 }
+
+const resourceCount = (await getCollection('resources')).length;
 ---
 
 <Layout
   title="Claim Your Free Resource | StandardCraft"
-  description="Create a free StandardCraft account or sign in to browse 50 resources and download one with your signup credit."
+  description={`Create a free StandardCraft account or sign in to browse ${resourceCount} resources and download one with your signup credit.`}
 >
   <section class="max-w-xl mx-auto px-4 py-20">
     <div class="section-label mb-3">Free account - 1 signup credit, no card required</div>
-    <h1 class="text-4xl font-bold mb-3 text-[#172438]">Browse 50 resources and download one free.</h1>
+    <h1 class="text-4xl font-bold mb-3 text-[#172438]">Browse {resourceCount} resources and download one free.</h1>
     <p class="text-[#4a5f63] mb-4">Create a free account to browse the full StandardCraft launch library and download one original, NYS-aligned classroom resource with your signup credit. No payment required. No student data required.</p>
 
     <!-- Reassurance strip -->
     <div class="flex flex-wrap gap-3 mb-6">
       {['No payment required', 'No student data required', 'Original resource', 'Alignment notes included'].map(item => (
-        <span class="flex items-center gap-1.5 text-xs text-[#5a7478]">
-          <span class="text-teal-500 font-bold">✓</span>{item}
+        <span class="flex items-center gap-1.5 text-xs text-[#415066]">
+          <span class="font-bold" style="color: var(--sc-teal);">✓</span>{item}
         </span>
       ))}
     </div>
@@ -96,8 +99,8 @@ if (user) {
 
       <div class="text-xs text-[#415066] border-t border-[#e4dac8] pt-4 space-y-1.5">
         <p>By creating an account you agree to our
-          <a href="/terms" class="text-teal-500 hover:underline">Terms of Service</a> and
-          <a href="/privacy" class="text-teal-500 hover:underline">Privacy Policy</a>.
+          <a href="/terms" class="text-[#376b9b] hover:underline">Terms of Service</a> and
+          <a href="/privacy" class="text-[#376b9b] hover:underline">Privacy Policy</a>.
         </p>
         <p>You confirm that you understand StandardCraft is an independent resource platform and is not affiliated with or endorsed by the New York State Education Department.</p>
       </div>
@@ -109,7 +112,7 @@ if (user) {
 
     <p class="mt-6 text-center text-sm text-[#4a5f63]">
       Already have an account?
-      <a href="/sign-in?redirect=/free-resource-library" class="text-teal-400 hover:underline">Sign in to browse the free library</a>
+      <a href="/sign-in?redirect=/free-resource-library" class="text-[#376b9b] hover:underline">Sign in to browse the free library</a>
     </p>
   </section>
 </Layout>

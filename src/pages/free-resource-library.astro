@@ -30,14 +30,14 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
 
 <Layout
   title="Free Resource Library | StandardCraft"
-  description="Browse 50 NYS-aligned classroom resources and download one free with your StandardCraft signup credit."
+  description={`Browse ${resources.length} NYS-aligned classroom resources and download one free with your StandardCraft signup credit.`}
   noIndex={true}
 >
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid lg:grid-cols-[1fr_18rem] gap-6 items-start mb-8">
       <div>
         <div class="section-label mb-2">Free resource library</div>
-        <h1 class="text-4xl font-bold mb-4 text-[#172438]">Browse 50 resources. Download one free with your signup credit.</h1>
+        <h1 class="text-4xl font-bold mb-4 text-[#172438]">Browse {resources.length} resources. Download one free with your signup credit.</h1>
         <p class="text-[#415066] max-w-3xl">
           Preview every resource before you choose. Your free account includes one signup credit for one resource download. Upgrade when you need more.
         </p>
@@ -54,7 +54,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
     {balance === 0 && (
       <div class="mb-8 card border-amber-300 text-sm text-[#415066]">
         <strong class="text-[#172438]">You have 0 free credits remaining.</strong>
-        You can still preview all 50 resources and re-download anything you already claimed. Upgrade for more downloads.
+        You can still preview all {resources.length} resources and re-download anything you already claimed. Upgrade for more downloads.
       </div>
     )}
 
@@ -88,7 +88,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
       </div>
     </div>
 
-    <p class="text-sm font-bold text-[#415066] mb-4" id="result-count">50 of 50 resource cards shown.</p>
+    <p class="text-sm font-bold text-[#415066] mb-4" id="result-count">{resources.length} of {resources.length} resource cards shown.</p>
 
     <div id="resource-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {resources.map(resource => {
@@ -181,7 +181,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
       if (show) visible += 1;
     }
 
-    resultCount.textContent = `${visible} of 50 resource cards shown.`;
+    resultCount.textContent = `${visible} of ${cards.length} resource cards shown.`;
   }
 
   filters.forEach(filter => {

@@ -46,12 +46,19 @@ export const POST: APIRoute = async ({ request }) => {
     let customerId = sub?.stripe_customer_id;
 
     if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: profile?.email ?? user.email,
-        name: profile?.full_name,
-        metadata: { supabase_user_id: user.id },
-      });
-      customerId = customer.id;
+      // Search for an existing Stripe customer to avoid duplicate creation on re-attempts
+      const customerEmail = (profile?.email ?? user.email ?? '').toLowerCase();
+      const existingList = await stripe.customers.list({ email: customerEmail, limit: 1 });
+      if (existingList.data.length > 0) {
+        customerId = existingList.data[0].id;
+      } else {
+        const customer = await stripe.customers.create({
+          email: profile?.email ?? user.email,
+          name: profile?.full_name,
+          metadata: { supabase_user_id: user.id },
+        });
+        customerId = customer.id;
+      }
     }
 
     const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://standardcraftny.com';
@@ -60,6 +67,12 @@ export const POST: APIRoute = async ({ request }) => {
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
       mode: 'subscription',
+      // Session-level metadata is present in the checkout.session.completed webhook payload;
+      // subscription_data.metadata propagates to the subscription for invoice events.
+      metadata: {
+        supabase_user_id: user.id,
+        plan,
+      },
       success_url: `${siteUrl}/dashboard?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/pricing?checkout=cancelled`,
       subscription_data: {

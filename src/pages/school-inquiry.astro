@@ -120,6 +120,8 @@ import Layout from '../layouts/Layout.astro';
       if (res.ok) {
         successMsg.classList.remove('hidden');
         form.reset();
+        submitBtn.textContent = 'Inquiry sent';
+        return; // Keep button disabled — submission complete
       } else {
         errorMsg.textContent = data.error || 'Submission failed. Please try again.';
         errorMsg.classList.remove('hidden');
