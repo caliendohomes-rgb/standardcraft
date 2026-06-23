@@ -14,6 +14,12 @@ Supports data analysis, Earth systems, patterns, and evidence-based discussion.
 ## Classroom Use Case
 Use with climate, weathering, plate motion, or water cycle datasets.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - What pattern do you see?
 - What data point surprised you?

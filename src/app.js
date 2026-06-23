@@ -4,13 +4,15 @@
     query: "",
     subject: "All",
     gradeBand: "All",
-    lockedSlug: ""
+    lockedSlug: "",
+    billing: "monthly"
   };
 
   const storageKeys = {
     users: "standardcraft.users",
     currentEmail: "standardcraft.currentEmail"
   };
+  const totalResources = resources.length;
 
   const subjects = ["All", ...Array.from(new Set(resources.map((resource) => resource.subject)))];
   const gradeBands = ["All", ...Array.from(new Set(resources.map((resource) => resource.gradeBand)))];
@@ -95,8 +97,15 @@
         </div>
         <div>
           <a href="/pricing" data-link>Pricing</a>
-          <a href="/school-inquiry" data-link>School inquiry</a>
+          <a href="/school-inquiry" data-link>Schools</a>
+          <a href="/contact" data-link>Contact</a>
           <a href="/claim-free" data-link>Claim your free resource</a>
+        </div>
+        <div>
+          <a href="/privacy" data-link>Privacy</a>
+          <a href="/terms" data-link>Terms</a>
+          <a href="/data-security" data-link>Data security</a>
+          <a href="/refunds" data-link>Refunds</a>
         </div>
         <p class="disclaimer">StandardCraft is independent from and not affiliated with the New York State Education Department (NYSED). StandardCraft supports classroom planning and does not replace district curriculum, local requirements, or teacher professional judgment.</p>
       </footer>
@@ -110,22 +119,22 @@
         <section class="hero">
           <div class="hero-copy">
             <p class="eyebrow">Built for New York classrooms</p>
-            <h1>Warm, practical resources for standards-aligned teaching days.</h1>
-            <p class="lead">Browse 50 resources and download one free with your signup credit. StandardCraft helps teachers move from standards to usable classroom materials without the heavy lift.</p>
+            <h1>NYS-aligned planning support teachers can use tomorrow.</h1>
+            <p class="lead">StandardCraft is a classroom-ready resource library for New York educators. Browse ${totalResources} resources with alignment notes, SDI support ideas, and MLL/ELL scaffolds, then download one free with your signup credit.</p>
             <div class="hero-actions">
-              <a class="button" href="/claim-free" data-link>Start free</a>
-              <a class="button secondary" href="/free-resource-library" data-link>Preview the library</a>
+              <a class="button" href="/claim-free" data-link>Claim my free resource</a>
+              <a class="button secondary" href="/free-resource-library" data-link>View NYS sample resources</a>
             </div>
-            <p class="microcopy">Browse 50 resources. Download one free with your signup credit. No payment required.</p>
+            <p class="microcopy">No payment required. No student data required. One signup credit unlocks one download.</p>
           </div>
           <div class="hero-panel" aria-label="StandardCraft resource preview">
-            <span class="panel-label">Teacher planning card</span>
+            <span class="panel-label">Public preview example</span>
             <h2>Grade 3-5 ELA</h2>
             <p>Main Idea Evidence Ladder</p>
             <ul>
               <li>Alignment note included</li>
-              <li>Classroom use case included</li>
-              <li>Ready-to-download file</li>
+              <li>SDI and MLL/ELL support visible before download</li>
+              <li>Downloadable file after account credit</li>
             </ul>
           </div>
         </section>
@@ -144,7 +153,7 @@
             <h2>Create an account, browse widely, download intentionally.</h2>
           </div>
           <div class="steps">
-            ${["Create a free account", "Browse 50 NYS-aligned resources", "Download one with your free credit", "Upgrade when you need more"].map((step, index) => `<article><span>${index + 1}</span><h3>${step}</h3></article>`).join("")}
+            ${["Create a free account without a card", `Browse ${totalResources} NYS-aligned resources`, "Preview alignment and learner supports", "Download one with your free credit"].map((step, index) => `<article><span>${index + 1}</span><h3>${step}</h3></article>`).join("")}
           </div>
         </section>
 
@@ -167,7 +176,22 @@
             <p><strong>Teacher-centered:</strong> written for real planning constraints and mixed-readiness classrooms.</p>
             <p><strong>Transparent:</strong> standards labels and notes are visible before download.</p>
             <p><strong>Respectful:</strong> no student data is required to browse or claim the free credit.</p>
+            <p><strong>Careful:</strong> support ideas help planning and do not create legal IEP documents.</p>
           </div>
+        </section>
+
+        <section class="section audience-band">
+          <article>
+            <p class="eyebrow">For teachers</p>
+            <h2>Find a resource that fits the next lesson, not a generic worksheet.</h2>
+            <p>Search by grade band, subject, resource type, and classroom use case. Preview the alignment record and learner supports before spending a credit.</p>
+          </article>
+          <article>
+            <p class="eyebrow">For schools</p>
+            <h2>A credible path for consistent, standards-backed planning support.</h2>
+            <p>School conversations focus on teacher adoption, privacy, procurement fit, and resource consistency without requiring student data.</p>
+            <a class="button secondary" href="/school-inquiry" data-link>Request a school quote</a>
+          </article>
         </section>
 
         <section class="section">
@@ -188,8 +212,9 @@
       ["Do you need student data?", "No student data is required to create a free account, browse resources, or download with a signup credit."],
       ["What are alignment notes?", "Alignment notes explain the standards connection in teacher-friendly language so you can judge fit before using a resource."],
       ["Are the resources original?", "Yes. The launch library contains original StandardCraft resources created for classroom use."],
-      ["What does the free account include?", "A free account lets you browse 50 resources and download one resource with your signup credit."],
-      ["Why can I browse 50 resources but download one free?", "The free signup credit is meant to let you try one resource before choosing whether to upgrade for more downloads."]
+      ["What does the free account include?", `A free account lets you browse ${totalResources} resources and download one resource with your signup credit.`],
+      [`Why can I browse ${totalResources} resources but download one free?`, "The free signup credit is meant to let you try one resource before choosing whether to upgrade for more downloads."],
+      ["Are all resources educator-reviewed?", "The current launch library is original StandardCraft content. Human educator review should be treated as a pilot claim only where specifically documented, not a sitewide guarantee."]
     ];
     return `<div class="faq">${items.map(([question, answer]) => `<details><summary>${question}</summary><p>${answer}</p></details>`).join("")}</div>`;
   }
@@ -201,7 +226,7 @@
         <main id="main" class="page-shell narrow">
           <p class="eyebrow">You are signed in</p>
           <h1>Your free library is ready.</h1>
-          <p>Browse 50 resources and download one free with your signup credit.</p>
+          <p>Browse ${totalResources} resources and download one free with your signup credit.</p>
           <div class="credit-card"><strong>${user.credits}</strong><span>signup ${user.credits === 1 ? "credit" : "credits"} available</span></div>
           <a class="button" href="/free-resource-library" data-link>Go to the free resource library</a>
         </main>
@@ -212,9 +237,9 @@
       <main id="main" class="page-shell auth-shell">
         <section>
           <p class="eyebrow">Claim your free resource</p>
-          <h1>Browse 50 resources and download one free with your signup credit.</h1>
-          <p>No payment required. Use a school or personal email, then choose the resource that fits your next lesson.</p>
-          <div class="notice">New users receive exactly 1 signup credit, granted once per normalized email in this browser.</div>
+          <h1>Create a free account and choose one classroom-ready resource.</h1>
+          <p>No payment required. Use a school or personal email, then browse ${totalResources} resource previews before using your one signup credit.</p>
+          <div class="notice">New users receive exactly 1 signup credit, granted once per normalized email in this browser. Retrying signup will not create duplicate credits.</div>
         </section>
         <section class="auth-card">
           <div class="tab-row" role="tablist">
@@ -225,6 +250,7 @@
             <label>Name${mode === "signin" ? " (optional)" : ""}<input name="name" autocomplete="name" ${mode === "signin" ? "" : "required"}></label>
             <label>Email<input name="email" type="email" autocomplete="email" required></label>
             <label>Password<input name="password" type="password" autocomplete="${mode === "signin" ? "current-password" : "new-password"}" minlength="6" required></label>
+            <p class="form-help">Use at least 6 characters. StandardCraft does not ask for student names or student data.</p>
             <button class="button full" type="submit">${mode === "signin" ? "Sign in" : "Create account and start browsing"}</button>
             <p class="form-message" role="status"></p>
           </form>
@@ -246,8 +272,8 @@
         <div class="library-hero">
           <div>
             <p class="eyebrow">Free resource library</p>
-            <h1>Browse 50 resources. Download one free with your signup credit.</h1>
-            <p>Preview every resource before you choose. Your account credit unlocks one download, and upgrade options are available when you need more.</p>
+            <h1>Browse ${totalResources} resources. Download one free with your signup credit.</h1>
+            <p>Preview every resource before you choose. Alignment notes, SDI ideas, and MLL/ELL supports are visible before download.</p>
           </div>
           ${creditStatus()}
         </div>
@@ -256,8 +282,8 @@
           <label>Subject<select data-filter="subject">${subjects.map((subject) => `<option ${subject === state.subject ? "selected" : ""}>${escapeHtml(subject)}</option>`).join("")}</select></label>
           <label>Grade band<select data-filter="gradeBand">${gradeBands.map((gradeBand) => `<option ${gradeBand === state.gradeBand ? "selected" : ""}>${escapeHtml(gradeBand)}</option>`).join("")}</select></label>
         </section>
-        <p class="result-count">${filtered.length} of 50 resource cards shown.</p>
-        <section class="card-grid library-grid">${filtered.map(resourceCard).join("")}</section>
+        <p class="result-count">${filtered.length} of ${totalResources} resource cards shown.</p>
+        ${filtered.length ? `<section class="card-grid library-grid">${filtered.map(resourceCard).join("")}</section>` : `<section class="empty-state"><h2>No resources match those filters.</h2><p>Try a broader subject, grade band, or keyword. The launch library currently contains ${totalResources} resources.</p></section>`}
       </main>
     `);
   }
@@ -283,6 +309,7 @@
           <dt>Type</dt><dd>${escapeHtml(resource.resourceType)}</dd>
           <dt>NYS label</dt><dd>${escapeHtml(resource.nysFrameworkLabel)}</dd>
         </dl>
+        <div class="support-tags"><span>Alignment record</span><span>SDI support</span><span>MLL/ELL support</span></div>
         <a class="card-link" href="/resources/${resource.slug}" data-link>Open preview</a>
       </article>
     `;
@@ -319,13 +346,15 @@
               <dt>NYS framework label</dt><dd>${escapeHtml(resource.nysFrameworkLabel)}</dd>
               <dt>Alignment note</dt><dd>${escapeHtml(resource.alignmentNote)}</dd>
               <dt>Classroom use case</dt><dd>${escapeHtml(resource.classroomUseCase)}</dd>
+              <dt>SDI support idea</dt><dd>${escapeHtml(resource.sdiSupport)}</dd>
+              <dt>MLL/ELL support idea</dt><dd>${escapeHtml(resource.mllEllSupport)}</dd>
             </dl>
           </article>
         </section>
         <section class="download-panel">
           <div>
             <h2>Download rule</h2>
-            <p>Free accounts can browse all 50 resources and download one resource with the signup credit.</p>
+            <p>Free accounts can browse all ${totalResources} resources and download one resource with the signup credit. Re-downloading a resource you already claimed costs 0 additional credits.</p>
             <p class="form-message" role="status" data-download-message></p>
           </div>
           <button class="button" data-download="${resource.slug}" ${state.lockedSlug === resource.slug ? "disabled" : ""}>${buttonText}</button>
@@ -349,47 +378,140 @@
             <h2>Downloaded resources</h2>
             ${downloads.length ? downloads.map((resource) => `<p><a href="/resources/${resource.slug}" data-link>${escapeHtml(resource.title)}</a></p>`).join("") : "<p>No downloads yet. Browse the library and choose one resource with your free signup credit.</p>"}
           </article>
+          <article class="detail-card">
+            <h2>Subscription status</h2>
+            <p><strong>Free Sampler</strong></p>
+            <p>Paid checkout is not enabled in this static build. Classroom, Pro, and School access are contact-gated until Stripe environment variables and webhooks are configured.</p>
+            <a class="button secondary" href="/pricing" data-link>View upgrade paths</a>
+          </article>
         </div>
       </main>
     `);
   }
 
   function pricingPage() {
+    const annual = state.billing === "annual";
+    const plans = [
+      {
+        name: "Sampler",
+        monthly: "Free",
+        annual: "Free",
+        equivalent: "No card required",
+        credits: "1 signup only",
+        perCredit: "—",
+        summary: "Browse the full preview library and download one resource with your signup credit.",
+        cta: "Claim my free resource",
+        href: "/claim-free"
+      },
+      {
+        name: "Classroom",
+        monthly: "$29/mo",
+        annual: "$210/yr",
+        equivalent: "$17.50/mo equivalent",
+        credits: "8/mo",
+        perCredit: "~$3.63",
+        savings: "Annual saves $138/yr (40%).",
+        summary: "For an individual teacher who wants a steady monthly resource workflow.",
+        cta: "Start Classroom",
+        href: "/contact",
+        featured: true
+      },
+      {
+        name: "Pro",
+        monthly: "$69/mo",
+        annual: "$690/yr",
+        equivalent: "$57.50/mo equivalent",
+        credits: "20/mo",
+        perCredit: "~$3.45",
+        savings: "Annual saves $138/yr (20%).",
+        summary: "For teachers, coaches, specialists, or frequent planners who need more downloads.",
+        cta: "Start Pro",
+        href: "/contact"
+      },
+      {
+        name: "School",
+        monthly: "$249+/mo",
+        annual: "Custom / PO billing",
+        equivalent: "Manual procurement path",
+        credits: "Pooled",
+        perCredit: "Negotiated",
+        summary: "For grade teams, schools, and districts that need pooled access and onboarding.",
+        cta: "Request a school quote",
+        href: "/school-inquiry"
+      }
+    ];
+
     return layout(html`
-      <main id="main" class="page-shell">
-        <p class="eyebrow">Pricing</p>
-        <h1>Start free, then upgrade when the library becomes part of your planning rhythm.</h1>
-        <section class="pricing-grid">
-          <article class="price-card">
-            <h2>Free</h2>
-            <p class="price">$0</p>
-            <p>Browse 50 resources and download one free with your signup credit.</p>
-            <a class="button" href="/claim-free" data-link>Start free</a>
+      <main id="main" class="page-shell pricing-page">
+        <section class="page-intro compact-intro">
+          <div>
+            <p class="eyebrow">Pricing</p>
+            <h1>Clear credits for classroom-ready NYS resources.</h1>
+            <p>Every resource costs 1 credit to download. Re-downloads are free after a resource is claimed.</p>
+          </div>
+          <div class="billing-toggle" role="group" aria-label="Billing period">
+            <button type="button" class="${!annual ? "active" : ""}" data-billing="monthly">Monthly</button>
+            <button type="button" class="${annual ? "active" : ""}" data-billing="annual">Annual</button>
+          </div>
+        </section>
+
+        <section class="pricing-grid pricing-grid-four">
+          ${plans.map((plan) => `
+            <article class="price-card ${plan.featured ? "featured" : ""}">
+              <div>
+                <h2>${plan.name}</h2>
+                <p class="price">${annual ? plan.annual : plan.monthly}</p>
+                <p class="price-note">${annual ? plan.equivalent : plan.name === "Sampler" ? plan.equivalent : plan.annual}</p>
+              </div>
+              <dl class="price-facts">
+                <dt>Credits</dt><dd>${plan.credits}</dd>
+                <dt>Per-credit cost</dt><dd>${plan.perCredit}</dd>
+              </dl>
+              ${plan.savings ? `<p class="savings">${plan.savings}</p>` : ""}
+              <p>${plan.summary}</p>
+              <a class="button ${plan.name === "Pro" || plan.name === "School" ? "secondary" : ""}" href="${plan.href}" data-link>${plan.cta}</a>
+            </article>
+          `).join("")}
+        </section>
+
+        <section class="pricing-detail-grid">
+          <article class="detail-card">
+            <h2>Credit rules</h2>
+            <ul class="dense-list">
+              <li>Every resource costs <strong>1 credit</strong> to download regardless of type.</li>
+              <li>Signup includes <strong>1 credit</strong> for one free download with no card required.</li>
+              <li>Credits do not roll over at the end of the billing month.</li>
+              <li>Re-downloads are free after a resource has been claimed.</li>
+              <li>Subscription credits are granted at the start of each billing cycle.</li>
+            </ul>
           </article>
-          <article class="price-card featured">
-            <h2>Teacher</h2>
-            <p class="price">$9/mo</p>
-            <p>More downloads for individual teachers who want ongoing planning support.</p>
-            <a class="button" href="/account" data-link>Upgrade from account</a>
+          <article class="detail-card">
+            <h2>Checkout readiness</h2>
+            <p>Classroom and Pro pricing is shown using the required production prices. Checkout requires Stripe price IDs and server-side session creation before payment buttons can be live.</p>
+            <p class="form-help">Required Stripe env names: <code>STRIPE_PRICE_CLASSROOM_MONTHLY</code>, <code>STRIPE_PRICE_CLASSROOM_ANNUAL</code>, <code>STRIPE_PRICE_PRO_MONTHLY</code>, <code>STRIPE_PRICE_PRO_ANNUAL</code>.</p>
           </article>
-          <article class="price-card">
-            <h2>School</h2>
-            <p class="price">Custom</p>
-            <p>Shared access and planning support for grade teams, departments, and schools.</p>
-            <a class="button secondary" href="/school-inquiry" data-link>Request school pricing</a>
+          <article class="detail-card">
+            <h2>School plan</h2>
+            <p>School access starts at $249+/mo with pooled credits and custom or PO billing. No Stripe checkout is used for schools.</p>
+            <p>A school inquiry requires manual follow-up and DSA execution before onboarding school accounts under Ed Law §2-d.</p>
           </article>
+        </section>
+        <section class="notice pricing-note">
+          Annual savings are plan-specific: Classroom saves $138/yr (40%) and Pro saves $138/yr (20%). If Pro should also save about 40%, its annual Stripe price should be about $497/yr instead of $690/yr.
         </section>
       </main>
     `);
   }
 
-  function schoolInquiryPage() {
+  function schoolInquiryPage(kind = "school") {
+    const isContact = kind === "contact";
     return layout(html`
       <main id="main" class="page-shell auth-shell">
         <section>
-          <p class="eyebrow">School inquiry</p>
-          <h1>Tell us what your teachers need.</h1>
-          <p>Use this form for grade-team, school, or district conversations about StandardCraft access and classroom planning support.</p>
+          <p class="eyebrow">${isContact ? "Contact" : "School and district inquiry"}</p>
+          <h1>${isContact ? "Talk with StandardCraft." : "Plan a credible school rollout."}</h1>
+          <p>${isContact ? "Use this form for billing setup, support, partnership, or product questions." : "Use this form for grade-team, school, or district conversations about StandardCraft access, privacy, procurement, and classroom planning support."}</p>
+          <div class="notice">StandardCraft does not require student data for teacher browsing, previews, or free resource access.</div>
         </section>
         <form class="auth-card" name="school-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-school-form>
           <input type="hidden" name="form-name" value="school-inquiry">
@@ -399,7 +521,7 @@
           <label>School or district<input name="school" required></label>
           <label>Role<input name="role" placeholder="Teacher, coach, principal, district leader"></label>
           <label>What are you hoping to support?<textarea name="message" rows="5" required></textarea></label>
-          <button class="button full" type="submit">Send inquiry</button>
+          <button class="button full" type="submit">${isContact ? "Send message" : "Request a school quote"}</button>
           <p class="form-message" role="status"></p>
         </form>
       </main>
@@ -414,10 +536,36 @@
         <p class="eyebrow">Account</p>
         <h1>${escapeHtml(user.email)}</h1>
         <div class="credit-card"><strong>${user.credits}</strong><span>free credits remaining</span></div>
-        <p>Your free signup credit is granted once per normalized email. ${user.credits === 0 ? "Upgrade when you need more downloads." : "Use it for the resource that best fits your next lesson."}</p>
+        <p>Your free signup credit is granted once per normalized email. ${user.credits === 0 ? "Upgrade paths are contact-gated until Stripe checkout is configured." : "Use it for the resource that best fits your next lesson."}</p>
+        <div class="detail-card">
+          <h2>Subscription status</h2>
+          <p>Free Sampler. Paid subscriptions are not active in this static build.</p>
+        </div>
         <div class="hero-actions">
           <a class="button" href="/free-resource-library" data-link>Browse resources</a>
           <a class="button secondary" href="/pricing" data-link>View pricing</a>
+        </div>
+      </main>
+    `);
+  }
+
+  function policyPage(kind) {
+    const pages = {
+      privacy: ["Privacy", "Privacy and student-data posture", "StandardCraft does not require student names, student identifiers, or classroom rosters to browse previews, create a free account, or use the signup credit. Account information in this static demo is stored in browser local storage; production auth should move to a server-backed provider before paid launch."],
+      terms: ["Terms", "Terms of use", "StandardCraft resources support teacher planning and classroom use. They do not replace district curriculum, local requirements, accommodations teams, or professional judgment. StandardCraft is independent from NYSED and does not imply endorsement."],
+      "data-security": ["Data security", "Data security commitments", "The current static site exposes only public resource metadata and downloadable sample files. No secret keys are shipped client-side. Production billing, authentication, and download entitlements should run through server-side functions with environment-managed secrets."],
+      refunds: ["Refunds", "Refunds and billing readiness", "Paid checkout is not active yet. Refund language should be finalized before Stripe production launch. Until then, Classroom and Pro requests are routed through contact rather than pretending checkout is live."]
+    };
+    const [eyebrow, title, body] = pages[kind] || pages.terms;
+    return layout(html`
+      <main id="main" class="page-shell narrow">
+        <p class="eyebrow">${eyebrow}</p>
+        <h1>${title}</h1>
+        <p>${body}</p>
+        <div class="check-list">
+          <p><strong>NYS independence:</strong> StandardCraft is not affiliated with or endorsed by NYSED.</p>
+          <p><strong>Teacher judgment:</strong> Resources are planning support, not a curriculum mandate.</p>
+          <p><strong>Student data:</strong> No student data is required for the free browsing and download flow.</p>
         </div>
       </main>
     `);
@@ -575,6 +723,13 @@
       button.addEventListener("click", signOut);
     });
 
+    document.querySelectorAll("[data-billing]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.billing = button.dataset.billing;
+        render();
+      });
+    });
+
     document.querySelectorAll("[data-school-form]").forEach((form) => {
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -589,7 +744,7 @@
           form.reset();
           message.textContent = "Thanks. Your inquiry is ready for the StandardCraft team.";
         } catch {
-          message.textContent = "Something went wrong. Please try again.";
+          message.textContent = "Something went wrong. Please try again or email the StandardCraft team directly.";
         }
       });
     });
@@ -603,10 +758,12 @@
     if (path === "/") content = homePage();
     else if (path === "/claim-free") content = claimPage("signup");
     else if (path === "/sign-in") content = claimPage("signin");
-    else if (path === "/free-resource-library") content = libraryPage();
+    else if (path === "/free-resource-library" || path === "/resources") content = libraryPage();
     else if (path === "/dashboard") content = dashboardPage();
     else if (path === "/pricing") content = pricingPage();
-    else if (path === "/school-inquiry") content = schoolInquiryPage();
+    else if (path === "/school-inquiry" || path === "/schools") content = schoolInquiryPage("school");
+    else if (path === "/contact") content = schoolInquiryPage("contact");
+    else if (["/privacy", "/terms", "/data-security", "/refunds"].includes(path)) content = policyPage(path.slice(1));
     else if (path === "/account") content = accountPage();
     else if (path.startsWith("/resources/")) content = resourcePage(path.split("/").pop());
     else content = notFoundPage();

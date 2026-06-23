@@ -14,6 +14,12 @@ Supports fraction equivalence, comparison, modeling, and mathematical reasoning.
 ## Classroom Use Case
 Use as a partner task before students write comparison explanations independently.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Benchmark: close to 0, 1/2, or 1?
 - Model both fractions

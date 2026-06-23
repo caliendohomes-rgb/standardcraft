@@ -14,6 +14,12 @@ Supports ecosystem relationships, evidence-based explanations, and science writi
 ## Classroom Use Case
 Use after reading data about a habitat change or animal population shift.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Claim about the ecosystem
 - Evidence from data or text

@@ -14,6 +14,12 @@ Supports differentiated planning while maintaining access to grade-level learnin
 ## Classroom Use Case
 Use after exit tickets to plan tomorrow's small groups or partner structures.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Grouping purpose
 - Evidence used

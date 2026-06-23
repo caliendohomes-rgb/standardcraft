@@ -14,6 +14,12 @@ Supports reflection, responsibility, relationship repair, and student-centered r
 ## Classroom Use Case
 Use before a facilitated conversation with a teacher, counselor, or administrator.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - What happened from my view
 - Who was affected

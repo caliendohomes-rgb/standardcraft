@@ -14,6 +14,12 @@ Supports argument reading and writing by evaluating relevance and sufficiency of
 ## Classroom Use Case
 Use before drafting an argument paragraph so students defend why evidence belongs.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Strong: directly proves the claim
 - Partial: related but needs explanation

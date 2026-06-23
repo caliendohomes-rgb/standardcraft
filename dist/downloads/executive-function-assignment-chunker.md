@@ -14,6 +14,12 @@ Supports access to grade-level tasks through organization, self-monitoring, and 
 ## Classroom Use Case
 Use with students who need help starting projects, labs, essays, or long-term assignments.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Step I can do first
 - Materials I need

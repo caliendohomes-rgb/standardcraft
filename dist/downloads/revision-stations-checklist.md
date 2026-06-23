@@ -14,6 +14,12 @@ Supports writing process, revision, editing, and peer feedback routines.
 ## Classroom Use Case
 Use during writing workshop so students revise with purpose before teacher conferences.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Station 1: Does each part make sense?
 - Station 2: Add one strong detail

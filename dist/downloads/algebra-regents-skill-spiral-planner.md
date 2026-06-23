@@ -14,6 +14,12 @@ Supports ongoing practice with expressions, equations, functions, statistics, an
 ## Classroom Use Case
 Use to map bell work or intervention groups before a cumulative assessment window.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Week focus: linear equations
 - Daily quick check

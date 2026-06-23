@@ -603,5 +603,7 @@ const catalog = [
 
 export const resources = catalog.map((resource) => ({
   ...resource,
+  sdiSupport: "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+  mllEllSupport: "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
   downloadPath: `/downloads/${resource.slug}.md`
 }));

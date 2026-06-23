@@ -14,6 +14,12 @@ Supports student voice, belonging, self-advocacy, and responsive advisory planni
 ## Classroom Use Case
 Use monthly in advisory, crew, homeroom, or academic support periods.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - I feel connected at school: 1-5
 - One thing helping me

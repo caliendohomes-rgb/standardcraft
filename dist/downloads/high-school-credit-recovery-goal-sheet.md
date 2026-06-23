@@ -14,6 +14,12 @@ Supports intervention planning, progress monitoring, and student ownership of ac
 ## Classroom Use Case
 Use in advisory, academic lab, or intervention meetings with students and families.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Priority work this week
 - Barrier and support

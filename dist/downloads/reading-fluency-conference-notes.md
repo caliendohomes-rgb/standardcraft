@@ -14,6 +14,12 @@ Supports fluency, comprehension monitoring, and responsive reading instruction.
 ## Classroom Use Case
 Use during one-on-one reading conferences or intervention block rotations.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Strength noticed
 - Fluency focus

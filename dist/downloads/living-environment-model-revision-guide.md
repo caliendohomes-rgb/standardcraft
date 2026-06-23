@@ -14,6 +14,12 @@ Supports scientific modeling, systems thinking, and explanation in life science.
 ## Classroom Use Case
 Use after a lab, simulation, or reading to revise models of cells, genetics, or ecosystems.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Add the new evidence
 - Label the system parts

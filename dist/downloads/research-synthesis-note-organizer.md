@@ -14,6 +14,12 @@ Supports research writing, synthesis, source integration, and academic argument.
 ## Classroom Use Case
 Use between source collection and outline drafting for research papers or presentations.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Shared idea across sources
 - Source A evidence

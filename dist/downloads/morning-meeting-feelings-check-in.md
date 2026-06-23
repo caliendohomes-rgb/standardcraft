@@ -14,6 +14,12 @@ Supports self-awareness, communication, belonging, and classroom community routi
 ## Classroom Use Case
 Use at arrival or morning meeting to normalize feelings language and support readiness.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Today I feel
 - One thing I need

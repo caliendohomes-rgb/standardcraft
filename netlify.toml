@@ -39,6 +39,21 @@
   status = 301
 
 [[redirects]]
+  from = "/schools"
+  to = "/school-inquiry"
+  status = 301
+
+[[redirects]]
+  from = "/signin"
+  to = "/sign-in"
+  status = 301
+
+[[redirects]]
+  from = "/refunds-and-assurance"
+  to = "/refunds"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

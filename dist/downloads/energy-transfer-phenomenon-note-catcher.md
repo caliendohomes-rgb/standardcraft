@@ -14,6 +14,12 @@ Supports energy, modeling, evidence, and sensemaking practices.
 ## Classroom Use Case
 Use with a short video or demonstration before students build explanatory models.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - What do you notice?
 - Where might energy be moving?

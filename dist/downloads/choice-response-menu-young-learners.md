@@ -14,6 +14,12 @@ Supports multiple means of expression while keeping the learning target consiste
 ## Classroom Use Case
 Use after read-alouds, science observations, or math problem solving.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Draw it
 - Tell a partner

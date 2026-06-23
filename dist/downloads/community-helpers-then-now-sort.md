@@ -14,6 +14,12 @@ Supports civic roles, communities, continuity, change, and discussion from visua
 ## Classroom Use Case
 Use during a community unit with pictures, books, or local guest speaker notes.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Then
 - Now

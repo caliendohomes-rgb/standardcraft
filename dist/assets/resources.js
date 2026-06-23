@@ -14,6 +14,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "How did the character feel? What clue helped you know?",
       "What would you tell the character if you could help?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/read-aloud-question-stems-big-feelings.md"
   },
   {
@@ -31,6 +33,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence: read 8 of 10 words independently",
       "Next step: contrast short a and short i word sorts"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/foundational-phonics-small-group-tracker.md"
   },
   {
@@ -48,6 +52,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Detail 2: Which fact matters most?",
       "Main idea: Put the details together in one sentence."
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/main-idea-evidence-ladder.md"
   },
   {
@@ -65,6 +71,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Word parts I recognize",
       "My best meaning and test sentence"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/vocabulary-context-detective-mat.md"
   },
   {
@@ -82,6 +90,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "? = question or confusion",
       "W = word choice worth discussing"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/middle-school-close-reading-annotation-codes.md"
   },
   {
@@ -99,6 +109,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Partial: related but needs explanation",
       "Weak: interesting but does not prove the claim"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/argument-evidence-quality-sort.md"
   },
   {
@@ -116,6 +128,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Text evidence with page or paragraph",
       "Question I can ask to extend the discussion"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/high-school-seminar-preparation-sheet.md"
   },
   {
@@ -133,6 +147,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "How did you group them?",
       "Can someone solve it a different way?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/number-talk-dot-images-prompts.md"
   },
   {
@@ -150,6 +166,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Draw the two parts.",
       "Equation: __ + __ = __"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/part-part-whole-story-problem-frames.md"
   },
   {
@@ -167,6 +185,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Break apart one factor",
       "Write a sentence explaining your strategy"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/multiplication-strategy-choice-board.md"
   },
   {
@@ -184,6 +204,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Model both fractions",
       "Because statement"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/fraction-comparison-reasoning-mat.md"
   },
   {
@@ -201,6 +223,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Show the multiplier",
       "Explain the pattern in the table"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/ratio-table-launch-problems.md"
   },
   {
@@ -218,6 +242,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Where did the reasoning break?",
       "Write a corrected explanation"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/linear-relationship-error-analysis.md"
   },
   {
@@ -235,6 +261,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Daily quick check",
       "Reteach group and extension task"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/algebra-regents-skill-spiral-planner.md"
   },
   {
@@ -252,6 +280,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "My drawing evidence",
       "I predict tomorrow will be"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/weather-observation-journal-starter.md"
   },
   {
@@ -269,6 +299,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "What we will keep the same",
       "What evidence did we see?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/plant-needs-investigation-planner.md"
   },
   {
@@ -286,6 +318,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Where might energy be moving?",
       "Revise your model after discussion"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/energy-transfer-phenomenon-note-catcher.md"
   },
   {
@@ -303,6 +337,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence from data or text",
       "Reasoning: why the evidence supports the claim"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/ecosystem-claim-evidence-reasoning-frame.md"
   },
   {
@@ -320,6 +356,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "A beaker chips during cleanup.",
       "What should the group do first?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/middle-school-lab-safety-scenario-cards.md"
   },
   {
@@ -337,6 +375,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "What data point surprised you?",
       "What new question should we investigate?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/earth-systems-data-talk-protocol.md"
   },
   {
@@ -354,6 +394,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Label the system parts",
       "Explain what changed in your thinking"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/living-environment-model-revision-guide.md"
   },
   {
@@ -371,6 +413,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Now",
       "What stayed the same?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/community-helpers-then-now-sort.md"
   },
   {
@@ -388,6 +432,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Map symbol I used",
       "Route words: near, next to, across from"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/map-skills-neighborhood-walk-planner.md"
   },
   {
@@ -405,6 +451,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Map evidence",
       "One question we still have"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/new-york-regions-inquiry-board.md"
   },
   {
@@ -422,6 +470,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "I wonder",
       "I infer because"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/primary-source-notice-wonder-infer.md"
   },
   {
@@ -439,6 +489,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Stakeholders",
       "Action option with evidence"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/civic-action-issue-research-planner.md"
   },
   {
@@ -456,6 +508,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Context or point of view",
       "Where sources agree or conflict"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/us-history-source-corroboration-grid.md"
   },
   {
@@ -473,6 +527,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "One reason",
       "Closing sentence"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/opinion-writing-picture-prompt-planner.md"
   },
   {
@@ -490,6 +546,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "What did someone say?",
       "How did you feel?"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/narrative-small-moment-stretch-page.md"
   },
   {
@@ -507,6 +565,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Fact plus explain it",
       "Closing that teaches the reader"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/informational-paragraph-builder.md"
   },
   {
@@ -524,6 +584,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Station 2: Add one strong detail",
       "Station 3: Check transitions"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/revision-stations-checklist.md"
   },
   {
@@ -541,6 +603,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence lead-in",
       "This shows..."
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/literary-analysis-paragraph-scaffold.md"
   },
   {
@@ -558,6 +622,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Source A evidence",
       "Source B evidence and contrast"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/research-synthesis-note-organizer.md"
   },
   {
@@ -575,6 +641,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Segment: fish",
       "Change /m/ in map to /t/"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/phonemic-awareness-quick-check.md"
   },
   {
@@ -592,6 +660,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Student strategy said aloud",
       "Next strategy to teach"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/math-fact-fluency-interview-sheet.md"
   },
   {
@@ -609,6 +679,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Fluency focus",
       "One text-based question answered"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/reading-fluency-conference-notes.md"
   },
   {
@@ -626,6 +698,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Materials I need",
       "Teacher check-in point"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/executive-function-assignment-chunker.md"
   },
   {
@@ -643,6 +717,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence to look for",
       "Reteach move"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/algebra-readiness-misconception-sort.md"
   },
   {
@@ -660,6 +736,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Barrier and support",
       "Friday progress check"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/high-school-credit-recovery-goal-sheet.md"
   },
   {
@@ -677,6 +755,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Then build or draw",
       "Last share with a partner"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/visual-direction-cards-centers.md"
   },
   {
@@ -694,6 +774,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Tell a partner",
       "Build it with materials"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/choice-response-menu-young-learners.md"
   },
   {
@@ -711,6 +793,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Student-friendly meaning",
       "Picture, gesture, or example"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/tiered-vocabulary-support-sheet.md"
   },
   {
@@ -728,6 +812,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence used",
       "How students will rejoin whole group learning"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/flexible-grouping-decision-tool.md"
   },
   {
@@ -745,6 +831,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Question asker",
       "Connector to prior learning"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/accessible-text-discussion-roles.md"
   },
   {
@@ -762,6 +850,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Support before, during, or after",
       "How independence is preserved"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/high-school-accommodation-planning-snapshot.md"
   },
   {
@@ -779,6 +869,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "One thing I need",
       "Teacher follow-up note"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/morning-meeting-feelings-check-in.md"
   },
   {
@@ -796,6 +888,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "I felt",
       "Next time we can"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/friendship-problem-solving-mini-script.md"
   },
   {
@@ -813,6 +907,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Evidence of progress",
       "Support I need next week"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/advisory-goal-reflection-card.md"
   },
   {
@@ -830,6 +926,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "One thing helping me",
       "One support I could use"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/high-school-belonging-survey-exit-slip.md"
   },
   {
@@ -847,6 +945,8 @@ window.STANDARDCRAFT_RESOURCES = [
       "Who was affected",
       "What I can do to repair and move forward"
     ],
+    "sdiSupport": "Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.",
+    "mllEllSupport": "Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.",
     "downloadPath": "/downloads/restorative-conversation-prep-sheet.md"
   }
 ];

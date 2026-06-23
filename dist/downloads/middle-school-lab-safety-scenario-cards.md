@@ -14,6 +14,12 @@ Supports safe science practices, collaboration norms, and investigation readines
 ## Classroom Use Case
 Use before the first lab or as a reteach when safety procedures need tightening.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - A partner starts mixing materials before directions.
 - A beaker chips during cleanup.

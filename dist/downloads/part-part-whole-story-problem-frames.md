@@ -14,6 +14,12 @@ Connects operations, representation, and early problem-solving standards.
 ## Classroom Use Case
 Use during small group intervention or as a math center with counters.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - There are __ red apples and __ green apples.
 - Draw the two parts.

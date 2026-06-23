@@ -14,6 +14,12 @@ Supports narrative sequencing, details, and age-appropriate writing craft.
 ## Classroom Use Case
 Use after oral storytelling to help students expand one scene instead of listing events.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - What happened?
 - What did someone say?

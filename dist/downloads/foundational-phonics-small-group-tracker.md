@@ -14,6 +14,12 @@ Connects decoding, phonological awareness, and word recognition evidence to plan
 ## Classroom Use Case
 Use during weekly small groups to spot who needs reteaching, blending practice, or extension words.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Target pattern: short a CVC words
 - Evidence: read 8 of 10 words independently

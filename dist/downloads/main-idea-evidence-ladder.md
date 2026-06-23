@@ -14,6 +14,12 @@ Supports determining central ideas, summarizing, and citing relevant text eviden
 ## Classroom Use Case
 Pair with a science or social studies article for a short constructed response warmup.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Detail 1: What did the author repeat?
 - Detail 2: Which fact matters most?

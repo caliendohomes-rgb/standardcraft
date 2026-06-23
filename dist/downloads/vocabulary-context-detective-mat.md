@@ -14,6 +14,12 @@ Supports vocabulary acquisition through context, morphology, and academic langua
 ## Classroom Use Case
 Laminate for partner reading or use as a notebook insert during independent reading conferences.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Clue words around it
 - Word parts I recognize

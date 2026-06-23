@@ -14,6 +14,12 @@ Supports relationship skills, responsible decision-making, and restorative class
 ## Classroom Use Case
 Keep in a calm corner, counselor space, or classroom meeting folder.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - I noticed
 - I felt

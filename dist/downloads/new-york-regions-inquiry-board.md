@@ -14,6 +14,12 @@ Supports geographic reasoning, evidence gathering, and inquiry-based social stud
 ## Classroom Use Case
 Use as a station rotation during a New York State geography unit.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - What makes this region distinct?
 - Map evidence

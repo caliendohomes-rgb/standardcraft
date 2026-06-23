@@ -14,6 +14,12 @@ Supports planning investigations, living things, and evidence from observations.
 ## Classroom Use Case
 Use with two classroom plants to compare light, water, or soil conditions.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - Question: What do plants need?
 - What we will keep the same

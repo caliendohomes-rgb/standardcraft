@@ -14,6 +14,12 @@ Supports counting, operations, and explaining mathematical thinking in primary g
 ## Classroom Use Case
 Display one prompt during morning meeting or math launch and collect two student strategies.
 
+## SDI Support Idea
+Includes a classroom planning support that helps teachers adjust access, directions, response mode, or grouping without creating legal IEP documentation.
+
+## MLL/ELL Support Idea
+Includes language-access guidance such as vocabulary preview, sentence frames, visuals, oral rehearsal, or partner talk for multilingual learners.
+
 ## Preview Content
 - How many do you see?
 - How did you group them?
