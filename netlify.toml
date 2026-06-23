@@ -1,9 +1,9 @@
 [build]
-  command = "npm run build && npm run seed || echo '[seed] Skipped or failed — site still deploys'"
+  command = "npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "20"
 
 [[headers]]
   for = "/*"
@@ -12,15 +12,16 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    X-XSS-Protection = "1; mode=block"
 
 [[headers]]
-  for = "/api/*"
+  for = "/assets/*"
   [headers.values]
-    Cache-Control = "no-store"
+    Cache-Control = "public, max-age=31536000, immutable"
 
-[functions]
-  node_bundler = "esbuild"
+[[headers]]
+  for = "/downloads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
 
 [[redirects]]
   from = "/start-free"
@@ -38,11 +39,6 @@
   status = 301
 
 [[redirects]]
-  from = "/signin"
-  to = "/sign-in"
-  status = 301
-
-[[redirects]]
-  from = "/library"
-  to = "/free-resource-library"
-  status = 301
+  from = "/*"
+  to = "/index.html"
+  status = 200

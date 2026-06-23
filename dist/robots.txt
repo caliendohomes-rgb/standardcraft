@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /account
+Disallow: /sign-in
+Sitemap: https://standardcraft.co/sitemap.xml
