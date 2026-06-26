@@ -126,7 +126,16 @@ const faqItems = [
           <div class="text-[10px] font-bold tracking-[0.1em] uppercase text-[#415066] mb-2">{subjectCount} NYS subject areas covered</div>
           <div class="flex flex-wrap gap-1.5">
             {['ELA', 'Math', 'Science', 'Social Studies', 'CS & Tech', 'Cybersecurity & AI', 'Arts', 'World Languages', 'Health & PE', 'SDI & IEP', 'CDOS'].map(s => (
-              <span class="text-[11px] text-[#415066] bg-white/80 border border-[#e4dac8] rounded-full px-2.5 py-0.5 leading-snug">{s}</span>
+              s === 'Cybersecurity & AI' ? (
+                <a href="/resources?subject=Cybersecurity+%26+AI+Education"
+                   class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#5a3c0a] no-underline rounded-full px-2.5 py-0.5 leading-snug border transition-colors"
+                   style="background: var(--sc-gold-soft); border-color: #e8c97c;">
+                  <span class="w-1 h-1 rounded-full shrink-0" style="background: var(--sc-gold);"></span>{s}
+                  <span class="text-[9px] font-bold uppercase tracking-wide">New</span>
+                </a>
+              ) : (
+                <span class="text-[11px] text-[#415066] bg-white/80 border border-[#e4dac8] rounded-full px-2.5 py-0.5 leading-snug">{s}</span>
+              )
             ))}
           </div>
         </div>
