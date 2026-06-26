@@ -13,31 +13,28 @@ import Layout from '../layouts/Layout.astro';
       Questions about resources, alignment records, your account, or school pricing? We read every message.
     </p>
 
-    <div id="success-msg" class="hidden mb-4 p-4 rounded-lg bg-teal-950/60 border border-teal-700 text-teal-200 text-sm">
+    <div id="success-msg" class="hidden mb-4 p-4 rounded-xl bg-[#dce8d5] border border-[#b5ceae] text-[#172438] text-sm">
       Message sent — we'll get back to you within 1–2 business days.
     </div>
-    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-950/60 border border-red-800 text-red-300 text-sm"></div>
+    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
 
     <form id="contact-form" class="space-y-4" novalidate>
       <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
-        class="absolute opacity-0 pointer-events-none w-0 h-0" />
+        class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
 
       <div>
-        <label for="name" class="block text-sm font-medium mb-1.5">Name <span class="text-red-400">*</span></label>
-        <input type="text" id="name" name="name" required
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] focus:outline-none focus:border-teal-600 text-sm" />
+        <label for="name" class="block text-sm font-semibold mb-1.5 text-[#172438]">Name <span class="text-red-500">*</span></label>
+        <input type="text" id="name" name="name" required autocomplete="name" class="input-field" />
       </div>
 
       <div>
-        <label for="email" class="block text-sm font-medium mb-1.5">Email <span class="text-red-400">*</span></label>
-        <input type="email" id="email" name="email" required
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] focus:outline-none focus:border-teal-600 text-sm" />
+        <label for="email" class="block text-sm font-semibold mb-1.5 text-[#172438]">Email <span class="text-red-500">*</span></label>
+        <input type="email" id="email" name="email" required autocomplete="email" class="input-field" placeholder="you@school.edu" />
       </div>
 
       <div>
-        <label for="subject" class="block text-sm font-medium mb-1.5">Subject</label>
-        <select id="subject" name="subject"
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] focus:outline-none focus:border-teal-600 text-sm">
+        <label for="subject" class="block text-sm font-semibold mb-1.5 text-[#172438]">Subject</label>
+        <select id="subject" name="subject" class="input-field">
           <option value="General inquiry">General inquiry</option>
           <option value="Account or billing">Account or billing</option>
           <option value="Standards alignment question">Standards alignment question</option>
@@ -48,16 +45,15 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div>
-        <label for="message" class="block text-sm font-medium mb-1.5">Message <span class="text-red-400">*</span></label>
-        <textarea id="message" name="message" rows={5} required
-          class="w-full px-3 py-2.5 rounded-lg bg-[#111618] border border-[#1e2a2d] text-[#e8f0f0] focus:outline-none focus:border-teal-600 text-sm resize-none"></textarea>
+        <label for="message" class="block text-sm font-semibold mb-1.5 text-[#172438]">Message <span class="text-red-500">*</span></label>
+        <textarea id="message" name="message" rows={5} required class="input-field resize-none"></textarea>
       </div>
 
-      <button type="submit" id="submit-btn" class="btn-primary w-full py-3">Send message →</button>
+      <button type="submit" id="submit-btn" class="btn-primary w-full justify-center py-3">Send message →</button>
     </form>
 
     <div class="mt-10 text-sm text-[#4a5f63]">
-      <p>For school or district inquiries, see our <a href="/school-inquiry" class="text-teal-400 hover:underline">dedicated school inquiry page</a>.</p>
+      <p>For school or district inquiries, see our <a href="/school-inquiry" class="text-[#376b9b] hover:underline">dedicated school inquiry page</a>.</p>
     </div>
   </section>
 </Layout>
@@ -92,11 +88,13 @@ import Layout from '../layouts/Layout.astro';
       const data = await res.json();
       if (res.ok) {
         successMsg.classList.remove('hidden');
+        successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         form.reset();
-      } else {
-        errorMsg.textContent = data.error || 'Failed to send. Please try again.';
-        errorMsg.classList.remove('hidden');
+        submitBtn.textContent = 'Message sent';
+        return; // Keep button disabled — submission complete
       }
+      errorMsg.textContent = data.error || 'Failed to send. Please try again.';
+      errorMsg.classList.remove('hidden');
     } catch {
       errorMsg.textContent = 'Network error. Please try again.';
       errorMsg.classList.remove('hidden');
