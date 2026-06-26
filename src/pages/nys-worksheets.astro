@@ -1,0 +1,146 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import TrustModule from '../components/TrustModule.astro';
+import FaqSection from '../components/FaqSection.astro';
+
+const allResources = await getCollection('resources');
+const worksheets = allResources.filter(r =>
+  ['Worksheet', 'Graphic Organizer', 'Exit Ticket', 'Task Card Set', 'Anchor Chart', 'Rubric'].includes(r.data.resource_type)
+);
+
+const faqItems = [
+  {
+    q: 'Are StandardCraft worksheets original?',
+    a: 'Yes. Every worksheet is created as an original instructional support — not copied from teachers pay teachers, other marketplaces, or existing curriculum materials. Each is reviewed for instructional clarity before publication.',
+  },
+  {
+    q: 'Which NYS standards are worksheets aligned to?',
+    a: 'Worksheets cover all 9+ NYS frameworks including Next Generation ELA Standards (2017), Next Generation Mathematics Learning Standards (2017), NYSSLS Science, NYS Social Studies Framework, and more. ELA and Math resources are not tagged as Common Core.',
+  },
+  {
+    q: 'What does "alignment notes included" mean?',
+    a: 'Each worksheet includes a plain-English explanation of how the activity connects to the relevant NYS standard, along with the exact standard code and official source — so teachers can verify alignment before distributing to students.',
+  },
+  {
+    q: 'Is StandardCraft affiliated with NYSED?',
+    a: 'No. StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. Resources are built from publicly available NYS standards frameworks.',
+  },
+  {
+    q: 'Can worksheets be used for intervention and enrichment?',
+    a: 'Yes. StandardCraft worksheets are designed for classroom use, intervention, enrichment, and planning support. Each resource includes notes on suggested classroom applications.',
+  },
+  {
+    q: 'Do I need student data to use worksheets?',
+    a: 'No. Teachers access and download worksheets without entering student personally identifiable information.',
+  },
+];
+---
+
+<Layout
+  title="NYS Worksheets — Original, Standards-Aligned | StandardCraft"
+  description="Original, educator-reviewed NYS-aligned worksheets built from publicly available New York State standards. Includes alignment notes, SDI blocks, and MLL/ELL scaffolds. Independent from NYSED."
+>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+    <div class="max-w-3xl">
+      <div class="section-label mb-4">NYS Worksheets & Practice Resources</div>
+      <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6">
+        Original NYS worksheets built from publicly available standards
+      </h1>
+      <p class="text-lg text-[#4a5f63] mb-4 leading-relaxed">
+        Classroom-ready worksheets, graphic organizers, exit tickets, task card sets, and practice materials —
+        all grounded in publicly available New York State standards and designed to support whole-class instruction,
+        small-group work, intervention, enrichment, and review.
+      </p>
+      <p class="text-sm text-[#3a5055] mb-8">
+        Educator-reviewed · Original content · Alignment notes included · No student data required
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/claim-free" class="btn-primary py-3 px-8">Get 1 free worksheet →</a>
+        <a href="/resources" class="btn-outline py-3 px-8">Browse all resources</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y py-8" style="border-color: var(--sc-border); background: var(--sc-sage);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        {[
+          { value: `${worksheets.length}+`, label: 'Practice resources available' },
+          { value: '9+', label: 'NYS frameworks covered' },
+          { value: '0', label: 'Invented standard codes' },
+          { value: '100%', label: 'Original content' },
+        ].map(s => (
+          <div class="text-center">
+            <div class="text-2xl font-bold text-[#172438]">{s.value}</div>
+            <div class="text-xs text-[#415066] mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t py-16" style="border-color: var(--sc-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">Resource types available</div>
+      <h2 class="text-2xl font-bold mb-8">Every practice format classroom planning needs</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { type: 'Worksheets', cost: '1 credit', desc: 'Printable practice, review, and independent work aligned to NYS standards.' },
+          { type: 'Graphic Organizers', cost: '1 credit', desc: 'Visual scaffolds for reading, writing, and content learning. SDI and MLL supports included.' },
+          { type: 'Exit Tickets', cost: '1 credit', desc: 'Formative assessment aligned to the lesson standard. Quickly check understanding before class ends.' },
+          { type: 'Task Card Sets', cost: '1 credit', desc: 'Station activities and small-group work in a flexible card format. Ideal for intervention and enrichment.' },
+          { type: 'Anchor Charts', cost: '1 credit', desc: 'Visual classroom references tied to specific NYS standards. Designed for display and student reference.' },
+          { type: 'Rubrics', cost: '1 credit', desc: 'Standards-aligned rubrics for student work. Includes criteria aligned to the relevant NYS framework.' },
+        ].map(item => (
+          <div class="card">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-semibold text-sm">{item.type}</span>
+              <span class="tag tag-gray">{item.cost}</span>
+            </div>
+            <p class="text-xs text-[#4a5f63] leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {worksheets.length > 0 && (
+    <section class="border-t py-16" style="border-color: var(--sc-border); background: #f7f4ee;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-6">
+          <h2 class="text-2xl font-bold text-[#172438]">Available worksheets & practice resources</h2>
+          <a href="/resources" class="text-sm text-[#376b9b] hover:underline">Browse all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {worksheets.slice(0, 9).map(r => (
+            <a href={`/resources/${r.slug}`} class="card group hover:border-[#b5ceae] transition-colors no-underline cursor-pointer">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="tag tag-teal">{r.data.subject}</span>
+                <span class="tag tag-gray">Grade {r.data.grade}</span>
+                <span class="tag tag-gray">{r.data.resource_type}</span>
+              </div>
+              <h3 class="font-semibold text-sm leading-snug mb-2 text-[#172438] group-hover:text-[#376b9b] transition-colors">{r.data.title}</h3>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="font-mono text-xs text-[#0f766e] bg-[#dce8d5] px-2 py-0.5 rounded border border-[#cadbc2]">
+                  {r.data.standards[0]?.code}
+                </span>
+              </div>
+              <p class="text-[11px] text-[#415066] mt-3 pt-2 border-t" style="border-color: var(--sc-border);">
+                Alignment note included · Original resource · Educator-reviewed
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TrustModule heading="Built for trust, not just search." />
+
+  <FaqSection
+    heading="Questions about StandardCraft NYS worksheets"
+    items={faqItems}
+    id="faq-worksheets"
+  />
+</Layout>

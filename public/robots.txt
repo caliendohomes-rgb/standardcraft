@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /account
+Disallow: /free-resource-library
+Disallow: /sign-in
+Disallow: /signin
+Disallow: /reset-password
+Disallow: /update-password
+Disallow: /api/
+
+Sitemap: https://standardcraftny.com/sitemap.xml

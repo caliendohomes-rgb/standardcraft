@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Data Security — StandardCraft"
+  description="How StandardCraft protects your account data, resource files, and payment information."
+>
+  <article class="max-w-3xl mx-auto px-4 py-20">
+    <div class="section-label mb-3">Security</div>
+    <h1 class="text-3xl font-bold mb-3">Data Security</h1>
+    <p class="text-[#4a5f63] mb-10">How we protect your information — designed to meet the expectations of professional educators and school administrators.</p>
+
+    <div class="space-y-6">
+      {[
+        {
+          icon: '🔐',
+          title: 'Authentication',
+          body: 'Passwords are never stored in plain text. Supabase Auth uses industry-standard bcrypt hashing. Sessions are managed via secure, HttpOnly, SameSite=Lax cookies — not localStorage tokens. This prevents common XSS session-hijacking attacks.',
+        },
+        {
+          icon: '🛡️',
+          title: 'Database Row Level Security (RLS)',
+          body: 'Our Postgres database enforces Row Level Security policies on every table. Each user can only read and write their own rows. Admin operations (registration, credit grants, download tracking) use a server-side service role key that is never exposed to the browser.',
+        },
+        {
+          icon: '📁',
+          title: 'Resource file delivery',
+          body: 'Resource files are stored in a private Supabase Storage bucket. They cannot be accessed without a valid, time-limited signed URL. Signed URLs expire after 2 minutes and are generated only after server-side authentication and credit verification. Direct bucket URLs are blocked.',
+        },
+        {
+          icon: '💳',
+          title: 'Payment security',
+          body: 'All payment processing is handled by Stripe, a PCI-DSS Level 1 certified processor. StandardCraft never stores card numbers, CVCs, or full billing details. We receive only billing metadata (customer ID, subscription ID, plan status) via Stripe webhooks. Webhook payloads are verified using Stripe\'s HMAC signature before processing.',
+        },
+        {
+          icon: '🌐',
+          title: 'Transport security',
+          body: 'All connections to StandardCraft are served over HTTPS (TLS 1.2+). HTTP requests are redirected to HTTPS. Security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) are applied to all responses.',
+        },
+        {
+          icon: '🔑',
+          title: 'API key management',
+          body: 'Supabase service role keys and Stripe secret keys are stored as server-side environment variables. They are never embedded in client-side JavaScript bundles. The public Supabase anon key exposed to the browser can only perform operations explicitly permitted by RLS policies.',
+        },
+        {
+          icon: '📋',
+          title: 'Ed Law §2-d (School accounts)',
+          body: 'School and district accounts are governed by a data sharing agreement (DSA) executed under New York Education Law §2-d (8 NYCRR Part 121). Educator PII collected under school contracts is used solely for service delivery, is never sold, and is not used for advertising targeting.',
+        },
+        {
+          icon: '🔔',
+          title: 'Incident response',
+          body: 'In the event of a data breach involving personal information, we will notify affected users within 72 hours of discovery, consistent with applicable law. School contract customers will be notified in accordance with their DSA.',
+        },
+      ].map(s => (
+        <div class="card">
+          <div class="flex items-start gap-3">
+            <span class="text-xl shrink-0">{s.icon}</span>
+            <div>
+              <h2 class="font-bold text-[#172438] mb-2">{s.title}</h2>
+              <p class="text-sm text-[#4a5f63] leading-relaxed">{s.body}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-sm text-[#4a5f63]">
+      <p>Questions about our security practices? <a href="/contact" class="text-[#376b9b] hover:underline">Contact us</a> or email <a href="mailto:security@standardcraft.app" class="text-[#376b9b] hover:underline">security@standardcraft.app</a>.</p>
+    </div>
+  </article>
+</Layout>

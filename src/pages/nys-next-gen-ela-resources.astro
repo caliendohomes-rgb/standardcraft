@@ -1,0 +1,149 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import TrustModule from '../components/TrustModule.astro';
+import FaqSection from '../components/FaqSection.astro';
+
+const allResources = await getCollection('resources');
+const elaResources = allResources.filter(r =>
+  r.data.subject === 'ELA' || r.data.subject === 'Literacy' || r.data.subject === 'ELA/Literacy'
+);
+
+const faqItems = [
+  {
+    q: 'Are these Common Core ELA resources?',
+    a: 'No. StandardCraft ELA resources are aligned to the NYS Next Generation ELA Standards (Revised 2017) — the standards currently in effect in New York State. These are not tagged as Common Core and should not be confused with the Common Core State Standards that preceded them.',
+  },
+  {
+    q: 'Which specific ELA standards are covered?',
+    a: 'Resources cover reading (literary and informational text), writing, speaking and listening, and language standards across grade bands K-2, 3-5, 6-8, and 9-12. All standard codes are sourced from publicly available NYS Next Generation ELA Standards documents.',
+  },
+  {
+    q: 'Is StandardCraft affiliated with NYSED?',
+    a: 'No. StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department. Resources are built from publicly available standards frameworks.',
+  },
+  {
+    q: 'Are ELA resources original?',
+    a: 'Yes. All ELA resources are created as original instructional supports, reviewed for instructional clarity and standards connection, and include alignment notes so teachers can verify the connection to the relevant standard.',
+  },
+  {
+    q: 'Do ELA resources include MLL/ELL supports?',
+    a: 'Yes. Every ELA resource includes NYSESLAT-tiered scaffolds across at least two proficiency bands — tiered vocabulary, sentence frames, visual supports, and language scaffolds appropriate for ELA instruction with multilingual learners.',
+  },
+  {
+    q: 'Do I need student data to access ELA resources?',
+    a: 'No. Teachers browse and download ELA resources without entering student personally identifiable information.',
+  },
+];
+---
+
+<Layout
+  title="NYS Next Generation ELA Resources — Original, Educator-Reviewed | StandardCraft"
+  description="Original, educator-reviewed NYS Next Generation ELA Standards resources. Not Common Core. Includes alignment notes, SDI blocks, and MLL/ELL scaffolds. Independent from NYSED."
+>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
+    <div class="max-w-3xl">
+      <div class="section-label mb-4">NYS Next Generation ELA Resources</div>
+      <h1 class="text-4xl sm:text-5xl font-bold leading-tight mb-6">
+        ELA resources built from NYS Next Generation standards — not Common Core
+      </h1>
+      <p class="text-lg text-[#4a5f63] mb-4 leading-relaxed">
+        Original, educator-reviewed ELA lesson plans, worksheets, and classroom supports grounded in the NYS Next Generation ELA Standards (Revised 2017) —
+        the standards currently in effect in New York State.
+        Includes alignment notes, SDI blocks, and NYSESLAT-tiered MLL/ELL scaffolds.
+      </p>
+      <div class="flex items-center gap-3 mb-8">
+        <span class="tag tag-teal text-xs">NYS Next Gen ELA — Not Common Core</span>
+        <span class="tag tag-gray text-xs">Grades K–12</span>
+        <span class="tag tag-gray text-xs">Educator-reviewed</span>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/claim-free" class="btn-primary py-3 px-8">Get 1 free ELA resource →</a>
+        <a href="/resources" class="btn-outline py-3 px-8">Browse all resources</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y py-8" style="border-color: var(--sc-border); background: var(--sc-sage);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        {[
+          { value: `${elaResources.length}+`, label: 'ELA resources available' },
+          { value: 'K–12', label: 'Grade bands covered' },
+          { value: '2017', label: 'NYS Next Gen ELA Standards' },
+          { value: '100%', label: 'Original content' },
+        ].map(s => (
+          <div class="text-center">
+            <div class="text-2xl font-bold text-[#172438]">{s.value}</div>
+            <div class="text-xs text-[#415066] mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t py-16" style="border-color: var(--sc-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="section-label mb-4">ELA strands covered</div>
+      <h2 class="text-2xl font-bold mb-8">Reading, writing, speaking, listening, and language</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { strand: 'Reading: Literary Text', codes: 'R, RL', desc: 'Close reading, textual evidence, theme, structure, and craft. Grades K–12.' },
+          { strand: 'Reading: Informational Text', codes: 'RI', desc: 'Main idea, text structure, integration of knowledge, and informational reading across content areas.' },
+          { strand: 'Writing', codes: 'W', desc: 'Argument, informational/explanatory, narrative, and research-based writing. Aligned to NYS writing progressions.' },
+          { strand: 'Speaking & Listening', codes: 'SL', desc: 'Collaborative discussion, presentation, and media integration. Includes MLL scaffolds for academic language.' },
+          { strand: 'Language', codes: 'L', desc: 'Conventions, vocabulary acquisition, and figurative language. NYSESLAT-tiered supports included.' },
+          { strand: 'Foundational Skills', codes: 'RF', desc: 'Phonics, phonological awareness, fluency, and print concepts for early grades (K–5).' },
+        ].map(item => (
+          <div class="card">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="font-semibold text-sm">{item.strand}</span>
+              <span class="font-mono text-xs text-[#0f766e] bg-[#dce8d5] px-2 py-0.5 rounded border border-[#cadbc2] shrink-0">{item.codes}</span>
+            </div>
+            <p class="text-xs text-[#4a5f63] leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {elaResources.length > 0 && (
+    <section class="border-t py-16" style="border-color: var(--sc-border); background: #f7f4ee;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-6">
+          <h2 class="text-2xl font-bold text-[#172438]">Available ELA resources</h2>
+          <a href="/resources" class="text-sm text-[#376b9b] hover:underline">Browse all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {elaResources.map(r => (
+            <a href={`/resources/${r.slug}`} class="card group hover:border-[#b5ceae] transition-colors no-underline cursor-pointer">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="tag tag-teal">{r.data.subject}</span>
+                <span class="tag tag-gray">Grade {r.data.grade}</span>
+                <span class="tag tag-gray">{r.data.resource_type}</span>
+              </div>
+              <h3 class="font-semibold text-sm leading-snug mb-2 text-[#172438] group-hover:text-[#376b9b] transition-colors">{r.data.title}</h3>
+              <div class="flex items-center gap-2 text-xs">
+                <span class="font-mono text-xs text-[#0f766e] bg-[#dce8d5] px-2 py-0.5 rounded border border-[#cadbc2]">
+                  {r.data.standards[0]?.code}
+                </span>
+                <span class="text-[#415066]">NYS Next Gen ELA</span>
+              </div>
+              <p class="text-[11px] text-[#415066] mt-3 pt-2 border-t" style="border-color: var(--sc-border);">
+                Not Common Core · Alignment note included · Educator-reviewed
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TrustModule heading="Built for trust, not just search." subjectContext="ELA" />
+
+  <FaqSection
+    heading="Questions about StandardCraft NYS ELA resources"
+    items={faqItems}
+    id="faq-ela"
+  />
+</Layout>

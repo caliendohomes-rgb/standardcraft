@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+const query = Astro.url.search || '';
+return Astro.redirect(`/sign-in${query}`, 301);
+---

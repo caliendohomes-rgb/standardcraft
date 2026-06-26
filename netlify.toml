@@ -1,9 +1,9 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && npm run seed || echo '[seed] Skipped or failed — site still deploys'"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 [[headers]]
   for = "/*"
@@ -12,16 +12,15 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-XSS-Protection = "1; mode=block"
 
 [[headers]]
-  for = "/assets/*"
+  for = "/api/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "no-store"
 
-[[headers]]
-  for = "/downloads/*"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
+[functions]
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/start-free"
@@ -39,21 +38,11 @@
   status = 301
 
 [[redirects]]
-  from = "/schools"
-  to = "/school-inquiry"
-  status = 301
-
-[[redirects]]
   from = "/signin"
   to = "/sign-in"
   status = 301
 
 [[redirects]]
-  from = "/refunds-and-assurance"
-  to = "/refunds"
+  from = "/library"
+  to = "/free-resource-library"
   status = 301
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

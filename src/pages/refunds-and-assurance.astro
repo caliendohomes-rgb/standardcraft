@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+const lastUpdated = 'June 2026';
+---
+
+<Layout
+  title="Refunds & Assurance — StandardCraft"
+  description="StandardCraft Refunds and Assurance policy. Credit disputes, billing errors, and alignment guarantee."
+>
+  <article class="max-w-3xl mx-auto px-4 py-20">
+    <div class="section-label mb-3">Policy</div>
+    <h1 class="text-3xl font-bold mb-2">Refunds & Assurance</h1>
+    <p class="text-sm text-[#4a5f63] mb-10">Last updated: {lastUpdated}</p>
+
+    <div class="space-y-8 text-[#4a5f63] text-sm leading-relaxed">
+
+      <section class="card border-t-4" style="border-top-color: var(--sc-gold); background: var(--sc-sage);">
+        <h2 class="text-lg font-bold text-[#172438] mb-3">The Alignment Assurance Guarantee</h2>
+        <p>Every StandardCraft resource is grounded in an officially verified NYS standard code. If a resource you download contains a standard code that is not found in the official published NYS standards framework it claims to align to, we will refund the credits for that download and credit your account an additional 2 credits as compensation.</p>
+        <p class="mt-3">To claim: <a href="/contact" class="text-[#376b9b] hover:underline">contact us</a> with the resource ID and the specific standard code in question. We respond within 2 business days.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-[#172438] mb-3">Subscription refunds</h2>
+        <p class="mb-2">Subscriptions are billed monthly in advance. Because credits are available immediately upon billing, we do not offer pro-rated refunds for partial months. However:</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>If you were charged in error (e.g., after cancellation), contact us within 14 days for a full refund of that charge.</li>
+          <li>If you cancel within 48 hours of your first subscription payment and have used fewer than 2 credits, we will issue a full refund.</li>
+          <li>Technical failures that prevent you from downloading a resource you were charged credits for will be refunded as credits to your account.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-[#172438] mb-3">Credit disputes</h2>
+        <p>If you believe credits were incorrectly deducted from your account, contact us with the resource slug and approximate download date. We will review the transaction log and restore credits if the deduction was erroneous.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-[#172438] mb-3">What we don't refund</h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Unused credits at the end of a billing period</li>
+          <li>Subscriptions cancelled mid-month (access and credits remain until period end)</li>
+          <li>Dissatisfaction with content quality, subject to the Alignment Assurance guarantee above</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-[#172438] mb-3">How to request a refund or credit restore</h2>
+        <p>Use the <a href="/contact" class="text-[#376b9b] hover:underline">contact form</a> or email <a href="mailto:billing@standardcraft.app" class="text-[#376b9b] hover:underline">billing@standardcraft.app</a> with your account email and the nature of the issue. We aim to respond within 2 business days.</p>
+      </section>
+
+    </div>
+  </article>
+</Layout>

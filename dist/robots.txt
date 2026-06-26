@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /dashboard
-Disallow: /account
-Disallow: /sign-in
-Sitemap: https://standardcraftny.com/sitemap.xml

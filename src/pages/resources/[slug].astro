@@ -1,0 +1,216 @@
+﻿---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Seal from '../../components/Seal.astro';
+
+export async function getStaticPaths() {
+  const resources = await getCollection('resources');
+  return resources.map(r => ({ params: { slug: r.slug }, props: { resource: r } }));
+}
+
+const { resource } = Astro.props;
+const { data } = resource;
+const { Content } = await resource.render();
+const primaryStandard = data.standards[0];
+const previewBullets = [
+  `${data.resource_type} for Grade ${data.grade} ${data.subject}`,
+  `NYS framework label: ${data.standards_framework}`,
+  primaryStandard ? `Primary standard: ${primaryStandard.code}` : 'Standards alignment note included',
+];
+
+const confidenceColors = {
+  'Full Trust': 'text-[#0f766e] border-[#b5ceae] bg-[#dce8d5]',
+  'High Confidence': 'text-[#5a3c0a] border-[#e8c97c] bg-[#f7e7bd]',
+  'Needs Human Review': 'text-[#7a3c0a] border-[#e8c97c] bg-[#fdf0d5]',
+  'Blocked': 'text-[#9b1c1c] border-[#fca5a5] bg-[#fee2e2]',
+};
+const confColor = confidenceColors[data.alignment_confidence] ?? confidenceColors['High Confidence'];
+
+// Review claim must match reality: human review is a Mathematics-only pilot.
+const isMathPilot = data.human_review === 'Math teacher review pilot eligible';
+const reviewTrustItem = isMathPilot
+  ? { label: 'Math teacher review pilot', detail: 'Eligible for review by a NYS-certified Mathematics teacher. Human educator review is currently a Mathematics-only pilot.' }
+  : { label: 'Validated for classroom use', detail: 'Checked for instructional clarity, classroom usability, and standards connection through automated validation and founder oversight.' };
+
+const metaDescription = `NYS-aligned ${data.resource_type} for Grade ${data.grade} ${data.subject}${primaryStandard ? ` (${primaryStandard.code})` : ''}. Includes alignment record, SDI supports, and MLL/ELL scaffolds. Original resource for New York teachers.`;
+
+const learningResourceSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  name: data.title,
+  description: metaDescription,
+  learningResourceType: data.resource_type,
+  educationalLevel: `Grade ${data.grade}`,
+  teaches: data.standards.map(s => s.code).join(', '),
+  educationalUse: [
+    'classroom instruction',
+    'intervention',
+    'enrichment',
+    'planning support',
+  ],
+  audience: {
+    '@type': 'EducationalAudience',
+    educationalRole: 'teacher',
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'StandardCraft',
+    url: 'https://standardcraftny.com',
+  },
+  isAccessibleForFree: false,
+  inLanguage: 'en',
+});
+---
+
+<Layout
+  title={`${data.title} | NYS-Aligned ${data.resource_type} — StandardCraft`}
+  description={metaDescription}
+>
+  <script type="application/ld+json" set:html={learningResourceSchema} slot="head-schema" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://standardcraftny.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Resource Library', item: 'https://standardcraftny.com/resources' },
+      { '@type': 'ListItem', position: 3, name: data.title },
+    ],
+  })} slot="head-schema" />
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Print-only branded header -->
+    <div class="print-only print-header">
+      <Seal size={34} />
+      <div>
+        <div class="print-wordmark">StandardCraft</div>
+        <div class="print-tagline">NYS-Aligned Classroom Resource</div>
+      </div>
+      <div class="print-framework">{data.standards_framework}</div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-sm text-[#415066] mb-8 no-print">
+      <a href="/" class="hover:text-[#376b9b]">Home</a>
+      <span>›</span>
+      <a href="/resources" class="hover:text-[#376b9b]">Resource Library</a>
+      <span>›</span>
+      <span class="text-[#172438] font-medium">{data.title}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="tag tag-teal">{data.subject}</span>
+        <span class="tag tag-gray">Grade {data.grade}</span>
+        <span class="tag tag-gray">{data.grade_band}</span>
+        <span class="tag tag-gray">{data.resource_type}</span>
+        {data.human_review === 'Math teacher review pilot eligible' && (
+          <span class="tag tag-teal">Math Review Pilot</span>
+        )}
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">{data.title}</h1>
+      <p class="text-[#4a5f63]">Duration: {data.duration} · {data.standards_framework}</p>
+    </div>
+
+    <!-- Alignment Record Box -->
+    <div class={`alignment-record-print rounded-xl border p-5 mb-8 ${confColor}`}>
+      <div class="font-semibold text-sm mb-1 uppercase tracking-wide">Alignment Record</div>
+      <p class="text-xs opacity-70 mb-4">Built from publicly available New York State standards. Standard codes cited from official NYSED sources.</p>
+      {data.standards.map(std => (
+        <div class="mb-3 last:mb-0">
+          <div class="font-mono text-sm font-semibold">{std.code}</div>
+          <div class="text-sm opacity-90 mt-1">{std.text}</div>
+          <div class="text-xs opacity-60 mt-1">Source: {std.source}</div>
+        </div>
+      ))}
+      <div class="mt-4 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
+        <span>Confidence: <strong>{data.alignment_confidence}</strong></span>
+        <span>{data.human_review}</span>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      {data.marketplace_tags.map(tag => (
+        <span class="tag tag-gray">#{tag}</span>
+      ))}
+    </div>
+
+    <!-- Resource preview details -->
+    <div class="grid sm:grid-cols-2 gap-4 mb-8 no-print">
+      <div class="card">
+        <div class="section-label mb-3">Classroom use case</div>
+        <p class="text-sm text-[#415066]">
+          Use this resource for classroom instruction, small-group support, intervention, enrichment, independent practice, or planning support. Preview the alignment record before choosing whether to spend your signup credit.
+        </p>
+      </div>
+      <div class="card">
+        <div class="section-label mb-3">Preview content</div>
+        <ul class="space-y-2 text-sm text-[#415066]">
+          {previewBullets.map(item => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <article class="resource-prose max-w-none">
+      <Content />
+    </article>
+
+    <!-- Why teachers can trust this resource -->
+    <div class="mt-12 rounded-xl border border-[#e4dac8] bg-[#f7f4ee] p-6 no-print">
+      <div class="section-label mb-4">Why teachers can trust this resource</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {[
+          { label: 'Original resource', detail: 'Created as an original instructional support — not copied from marketplace content.' },
+          { label: 'Built from publicly available NYS standards', detail: `Standard codes and text sourced from ${data.standards_framework} — a publicly available official framework.` },
+          reviewTrustItem,
+          { label: 'Alignment notes included', detail: 'The alignment record above explains how this resource connects to the relevant NYS framework, with the exact standard code and source.' },
+          { label: 'Designed for classroom use', detail: 'Supports whole-class instruction, small-group work, intervention, enrichment, independent practice, and planning support.' },
+          { label: 'No student data required', detail: 'Teachers download and use this resource without entering student personally identifiable information.' },
+        ].map(item => (
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold mt-0.5 shrink-0 text-sm" style="color: var(--sc-teal);">✓</span>
+            <div>
+              <div class="text-sm font-semibold text-[#172438]">{item.label}</div>
+              <div class="text-xs text-[#415066] mt-0.5 leading-relaxed">{item.detail}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="mt-8 pt-8 border-t border-[#e4dac8] flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between no-print">
+      <div class="text-sm text-[#415066]">
+        Resource ID: {data.resource_id} · {data.created_for}
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <button id="print-btn" type="button" class="btn-outline text-sm py-2 px-4">Print / Save PDF</button>
+        <a href="/claim-free" class="btn-primary text-sm py-2 px-4">Get this resource free →</a>
+        <a href="/pricing" class="btn-outline text-sm py-2 px-4">View plans</a>
+      </div>
+    </div>
+
+    <!-- NYSED disclaimer -->
+    <div class="mt-6 p-4 rounded-lg bg-[#f7f4ee] border border-[#e4dac8] text-xs text-[#415066] leading-relaxed no-print">
+      <strong class="text-[#172438]">Independence notice:</strong> StandardCraft is an independent resource platform and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource is original content aligned to publicly available NYS standards. It is designed to support classroom planning and instruction and does not replace district curriculum, school-approved instructional programs, or teacher professional judgment.
+    </div>
+
+    <!-- Print-only footer (carries the disclaimer onto the printed sheet) -->
+    <div class="print-only print-footer">
+      <strong>StandardCraft</strong> — Original, educator-built resource aligned to publicly available {data.standards_framework}. Resource ID {data.resource_id}.
+      Standard codes are cited from official NYSED sources. StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department (NYSED). This resource supports — and does not replace — district curriculum, school-approved instructional programs, or teacher professional judgment.
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('print-btn')?.addEventListener('click', () => window.print());
+
+    // Auto-trigger print when opened from the download flow (?print=1)
+    if (new URLSearchParams(window.location.search).get('print') === '1') {
+      window.addEventListener('load', () => setTimeout(() => window.print(), 700));
+    }
+  </script>
+</Layout>
+
