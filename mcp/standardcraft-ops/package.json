@@ -1,0 +1,22 @@
+{
+  "name": "standardcraft-ops-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Custom MCP server that completes StandardCraft launch/ops tasks: GitHub branch protection, Netlify deploy status/trigger, Supabase form inbox, and SMTP email test.",
+  "bin": {
+    "standardcraft-ops": "server.mjs"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "nodemailer": "^9.0.1",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
