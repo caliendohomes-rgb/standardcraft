@@ -24,10 +24,14 @@ for (const route of requiredRoutes) {
 }
 
 const resourceFiles = readdirSync(join(root, 'src/content/resources')).filter(file => file.endsWith('.md'));
-assert(resourceFiles.length === 50, `Expected 50 resource content files, found ${resourceFiles.length}.`);
+assert(resourceFiles.length > 0, `Expected at least one resource content file, found ${resourceFiles.length}.`);
 
 const downloadFiles = readdirSync(join(root, 'public/downloads')).filter(file => file.endsWith('.md'));
-assert(downloadFiles.length === 50, `Expected 50 fallback download files, found ${downloadFiles.length}.`);
+// Every content resource must have a matching fallback download file (count must agree).
+assert(
+  downloadFiles.length === resourceFiles.length,
+  `Fallback download count (${downloadFiles.length}) does not match resource count (${resourceFiles.length}).`
+);
 
 for (const file of resourceFiles) {
   assert(downloadFiles.includes(file), `Missing fallback download for ${file}.`);
@@ -49,7 +53,6 @@ const combined = [
 ].map(file => readFileSync(join(root, file), 'utf8')).join('\n');
 
 for (const copy of [
-  'Browse 50 resources',
   'download one free',
   '/claim-free',
   '/school-inquiry',
@@ -63,7 +66,15 @@ for (const bad of ['Download all', '50 free downloads', '1-3 credits', '/#start'
   assert(!combined.includes(bad), `Found outdated or misleading text: ${bad}`);
 }
 
-assert(existsSync(join(root, 'public/sitemap.xml')), 'Missing public/sitemap.xml.');
+// Resource counts on user-facing pages are derived dynamically from the content
+// collection (no hardcoded totals), so guard against accidental hardcoded counts.
+for (const hardcoded of ['Browse 50 resources', 'Browse 80 resources', '80 NYS-aligned', '50 NYS-aligned']) {
+  assert(!combined.includes(hardcoded), `Found hardcoded resource count (should be dynamic): ${hardcoded}`);
+}
+
+// Sitemap is now generated at build time from the content collection
+// (src/pages/sitemap.xml.ts) rather than a static public/sitemap.xml.
+assert(existsSync(join(root, 'src/pages/sitemap.xml.ts')), 'Missing generated sitemap endpoint src/pages/sitemap.xml.ts.');
 assert(existsSync(join(root, 'public/robots.txt')), 'Missing public/robots.txt.');
 
 if (failures.length) {
@@ -71,4 +82,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('Launch QA passed: routes, 50 resources, downloads, CTA copy, SEO files, and free-credit language are present.');
+console.log(`Launch QA passed: routes, ${resourceFiles.length} resources, matching downloads, CTA copy, SEO files, and free-credit language are present.`);
