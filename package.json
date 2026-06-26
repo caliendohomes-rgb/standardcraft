@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "qa:launch": "node scripts/qa-launch.mjs",
+    "smoke": "node scripts/smoke-test.mjs",
     "seed": "node scripts/seed-resources.js",
     "seed:dry": "node scripts/seed-resources.js --dry-run"
   },
