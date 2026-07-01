@@ -1,8 +1,8 @@
-﻿import { defineMiddleware } from 'astro:middleware';
-import { createServerClient, parseCookieHeader } from '@supabase/ssr';
+import { defineMiddleware } from 'astro:middleware';
+import { createServerClient, parseCookieHeader, type CookieOptions } from '@supabase/ssr';
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Only process HTML requests â€” skip API routes, assets, etc.
+  // Only process HTML requests — skip API routes, assets, etc.
   const path = context.url.pathname;
   const needsSessionRefresh =
     path.startsWith('/dashboard') ||
@@ -29,7 +29,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
         getAll() {
           return parseCookieHeader(context.request.headers.get('Cookie') ?? '');
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value, options }) =>
             context.cookies.set(name, value, options)
           );
@@ -38,7 +38,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   );
 
-  // Refresh session if expired â€” this sets new cookie headers automatically
+  // Refresh session if expired — this sets new cookie headers automatically
   await supabase.auth.getUser();
 
   return next();

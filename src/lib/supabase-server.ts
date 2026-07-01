@@ -1,4 +1,4 @@
-import { createServerClient, parseCookieHeader } from '@supabase/ssr';
+import { createServerClient, parseCookieHeader, type CookieOptions } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import type { AstroCookies } from 'astro';
 
@@ -15,7 +15,7 @@ export function createSupabaseServerClient(
         getAll() {
           return parseCookieHeader(request.headers.get('Cookie') ?? '');
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value, options }) =>
             cookies.set(name, value, options)
           );
@@ -50,7 +50,7 @@ export function createSupabaseApiClient(request: Request) {
         getAll() {
           return parseCookieHeader(request.headers.get('Cookie') ?? '');
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value, options }) => {
             const cookieStr = `${name}=${value}; Path=${options?.path ?? '/'}; HttpOnly; SameSite=Lax${options?.secure ? '; Secure' : ''}${options?.maxAge ? `; Max-Age=${options.maxAge}` : ''}`;
             responseHeaders.append('Set-Cookie', cookieStr);
