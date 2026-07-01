@@ -30,10 +30,10 @@ const schemaJson = JSON.stringify({
 });
 ---
 
-<section id={id} class="border-t py-20" style="border-color: var(--sc-border);">
+<section id={id} class="border-t py-10 sm:py-14" style="border-color: var(--sc-border);">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="section-label mb-4">FAQ</div>
-    <h2 class="text-2xl font-bold mb-10 text-[#172438]">{heading}</h2>
+    <div class="section-label mb-3">FAQ</div>
+    <h2 class="text-2xl font-bold mb-6 text-[#172438]">{heading}</h2>
     <div class="space-y-3">
       {items.map(item => (
         <details class="group card p-0 overflow-hidden">

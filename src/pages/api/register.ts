@@ -5,7 +5,25 @@ export const prerender = false;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function isAlreadyRegistered(msg: string): boolean {
+  const m = msg.toLowerCase();
+  return (
+    m.includes('already registered') ||
+    m.includes('already been registered') ||
+    m.includes('already exists') ||
+    m.includes('email already') ||
+    m.includes('duplicate') ||
+    m.includes('user already')
+  );
+}
+
 export const POST: APIRoute = async ({ request }) => {
+  // Guard: verify service role key is configured before attempting any DB work.
+  if (!import.meta.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('SUPABASE_SERVICE_ROLE_KEY is not set — registration cannot proceed.');
+    return json({ error: 'Server configuration error. Please contact support.' }, 503);
+  }
+
   try {
     const body = await request.json();
     const {
@@ -45,39 +63,47 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (authError) {
-      if (authError.message?.toLowerCase().includes('already registered') ||
-          authError.message?.toLowerCase().includes('already been registered')) {
+      console.error('Auth create error:', authError.status, authError.message);
+      if (isAlreadyRegistered(authError.message ?? '')) {
         return json({ error: 'An account with this email already exists. Please sign in instead.' }, 409);
       }
-      console.error('Auth create error:', authError);
-      throw authError;
+      return json({ error: 'Registration failed. Please try again.' }, 500);
+    }
+
+    if (!authData?.user?.id) {
+      console.error('Auth createUser returned no user object');
+      return json({ error: 'Registration failed. Please try again.' }, 500);
     }
 
     const userId = authData.user.id;
 
-    // Create profile
-    await admin.from('profiles').upsert({
+    // Create profile (trigger may have already inserted it — upsert is safe)
+    const { error: profileErr } = await admin.from('profiles').upsert({
       id: userId,
       email: normalizedEmail,
       full_name: full_name.trim(),
       phone: phone?.trim() || null,
     });
+    if (profileErr) console.error('Profile upsert error:', profileErr.message);
 
-    // Create preferences
-    await admin.from('user_preferences').upsert({
-      user_id: userId,
-      subjects: Array.isArray(subjects) ? subjects : [],
-      grade_levels: Array.isArray(grade_levels) ? grade_levels : [],
-      marketing_consent: marketing_consent === true,
-    });
+    // Create preferences — must specify onConflict because PK is `id`, not `user_id`
+    const { error: prefErr } = await admin.from('user_preferences').upsert(
+      {
+        user_id: userId,
+        subjects: Array.isArray(subjects) ? subjects : [],
+        grade_levels: Array.isArray(grade_levels) ? grade_levels : [],
+        marketing_consent: marketing_consent === true,
+      },
+      { onConflict: 'user_id' }
+    );
+    if (prefErr) console.error('Preferences upsert error:', prefErr.message);
 
-    // Initialize credit balance
-    await admin.from('credits').upsert({
-      user_id: userId,
-      balance: 0,
-      lifetime_earned: 0,
-      lifetime_spent: 0,
-    });
+    // Initialize credit balance — same issue, PK is `id`, conflict is on `user_id`
+    const { error: credErr } = await admin.from('credits').upsert(
+      { user_id: userId, balance: 0, lifetime_earned: 0, lifetime_spent: 0 },
+      { onConflict: 'user_id' }
+    );
+    if (credErr) console.error('Credits upsert error:', credErr.message);
 
     // Grant signup credit — idempotent check
     const { data: existingBonus } = await admin
@@ -102,7 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ success: true, email: normalizedEmail });
 
   } catch (err: any) {
-    console.error('Registration error:', err);
+    console.error('Registration error:', err?.message ?? err);
     return json({ error: 'Registration failed. Please try again.' }, 500);
   }
 };

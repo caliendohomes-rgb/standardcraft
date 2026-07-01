@@ -1,11 +1,10 @@
-﻿---
+---
 export const prerender = false;
 
 import { getCollection } from 'astro:content';
 import { createSupabaseServerClient } from '../lib/supabase-server';
 import Layout from '../layouts/Layout.astro';
 
-// If already signed in, redirect to the library
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
 const { data: { user } } = await supabase.auth.getUser();
 if (user) {
@@ -13,108 +12,167 @@ if (user) {
 }
 
 const resourceCount = (await getCollection('resources')).length;
+const subjectCount = new Set((await getCollection('resources')).map(r => r.data.subject)).size;
 ---
 
 <Layout
   title="Claim Your Free Resource | StandardCraft"
   description={`Create a free StandardCraft account or sign in to browse ${resourceCount} resources and download one with your signup credit.`}
 >
-  <section class="max-w-xl mx-auto px-4 py-20">
-    <div class="section-label mb-3">Free account - 1 signup credit, no card required</div>
-    <h1 class="text-4xl font-bold mb-3 text-[#172438]">Browse {resourceCount} resources and download one free.</h1>
-    <p class="text-[#4a5f63] mb-4">Create a free account to browse the full StandardCraft launch library and download one original, NYS-aligned classroom resource with your signup credit. No payment required. No student data required.</p>
+  <div class="min-h-[calc(100vh-4rem)] grid lg:grid-cols-[1fr_1.1fr]">
 
-    <!-- Reassurance strip -->
-    <div class="flex flex-wrap gap-3 mb-6">
-      {['No payment required', 'No student data required', 'Original resource', 'Alignment notes included'].map(item => (
-        <span class="flex items-center gap-1.5 text-xs text-[#415066]">
-          <span class="font-bold" style="color: var(--sc-teal);">✓</span>{item}
-        </span>
-      ))}
+    <!-- LEFT: Value panel -->
+    <div class="hidden lg:flex flex-col justify-between px-10 xl:px-14 py-12"
+         style="background: linear-gradient(160deg, var(--sc-navy) 0%, #1d3256 100%);">
+      <div>
+        <div class="text-[11px] font-bold tracking-[0.12em] uppercase mb-8" style="color: var(--sc-gold);">
+          Free account · no credit card
+        </div>
+        <h2 class="font-display text-3xl xl:text-4xl font-semibold leading-tight mb-5 text-white">
+          {resourceCount} NYS-aligned resources.<br/>One free to keep.
+        </h2>
+        <p class="text-[#a8bfcf] leading-relaxed mb-8 max-w-[40ch]">
+          Every resource includes the exact NYS standard code, alignment record, SDI supports, and MLL/ELL scaffolds — ready for your classroom tomorrow.
+        </p>
+
+        <!-- Benefits -->
+        <ul class="space-y-4 mb-10">
+          {[
+            { icon: '✓', title: 'Browse all ' + resourceCount + ' resources free', sub: 'Preview every resource before downloading — no paywall on previews.' },
+            { icon: '✓', title: '1 download credit on signup', sub: 'No payment required. No student data collected.' },
+            { icon: '✓', title: subjectCount + ' NYS subject areas', sub: 'Math, ELA, Science, CS & Tech, SDI, Cybersecurity & AI, and more.' },
+            { icon: '✓', title: 'Alignment records included', sub: 'Show exactly which NYS Next Gen standard each resource targets.' },
+          ].map(b => (
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--sc-teal);">{b.icon}</span>
+              <div>
+                <div class="text-sm font-semibold text-white">{b.title}</div>
+                <div class="text-xs mt-0.5" style="color: #7fa3b8;">{b.sub}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Bottom trust chips -->
+      <div class="border-t pt-6" style="border-color: rgba(255,255,255,0.12);">
+        <div class="text-[10px] font-bold tracking-widest uppercase mb-3" style="color: #5a7a8f;">Trusted by NYS educators</div>
+        <div class="flex flex-wrap gap-2">
+          {['Original resources', 'Independent from NYSED', 'No student data required', 'SDI & MLL supports'].map(c => (
+            <span class="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                  style="background: rgba(255,255,255,0.08); color: #a8bfcf; border: 1px solid rgba(255,255,255,0.1);">
+              {c}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
 
-    <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
+    <!-- RIGHT: Form -->
+    <div class="flex flex-col justify-center px-5 sm:px-8 xl:px-14 py-10 sm:py-12 bg-white/95">
 
-    <form id="register-form" class="space-y-4" novalidate>
-      <!-- Honeypot — hidden from humans, traps bots -->
-      <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
-        class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
-
-      <div>
-        <label for="full_name" class="block text-sm font-medium mb-1.5">Full name <span class="text-red-400">*</span></label>
-        <input type="text" id="full_name" name="full_name" required autocomplete="name"
-          class="input-field" />
+      <!-- Mobile-only header -->
+      <div class="lg:hidden mb-6">
+        <div class="section-label mb-2">Free account · no credit card</div>
+        <h1 class="text-2xl font-bold text-[#172438]">Browse {resourceCount} resources, download one free.</h1>
       </div>
 
-      <div>
-        <label for="email" class="block text-sm font-medium mb-1.5">School email address <span class="text-red-400">*</span></label>
-        <input type="email" id="email" name="email" required autocomplete="email"
-          class="input-field" />
+      <div class="hidden lg:block mb-6">
+        <div class="section-label mb-2">Create your free account</div>
+        <h1 class="text-2xl font-bold text-[#172438]">Start browsing in 60 seconds.</h1>
+        <p class="text-sm text-[#415066] mt-1.5">No payment required. No student data collected.</p>
       </div>
 
-      <div>
-        <label for="phone" class="block text-sm font-medium mb-1.5">Phone <span class="text-[#4a5f63] font-normal">(optional)</span></label>
-        <input type="tel" id="phone" name="phone" autocomplete="tel"
-          class="input-field" />
+      <!-- Mobile reassurance -->
+      <div class="flex flex-wrap gap-3 mb-5 lg:hidden">
+        {['No payment required', 'No student data', '1 free download', 'Alignment notes'].map(item => (
+          <span class="flex items-center gap-1.5 text-xs text-[#415066]">
+            <span class="font-bold" style="color: var(--sc-teal);">✓</span>{item}
+          </span>
+        ))}
       </div>
 
-      <div>
-        <label for="password" class="block text-sm font-medium mb-1.5">Password <span class="text-red-400">*</span></label>
-        <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8"
-          class="input-field" />
-        <p class="text-xs text-[#4a5f63] mt-1">Minimum 8 characters</p>
-      </div>
+      <div id="error-msg" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
 
-      <div>
-        <label class="block text-sm font-medium mb-1">Subjects you teach</label>
-        <p class="text-xs text-[#3a5055] mb-2">We use this to recommend relevant teacher resources — nothing else.</p>
-        <div class="grid grid-cols-2 gap-2 text-sm">
-          {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" name="subjects" value={s} class="accent-teal-500" />
-              <span class="text-[#4a5f63]">{s}</span>
-            </label>
-          ))}
+      <form id="register-form" class="space-y-4" novalidate>
+        <input type="text" name="website" autocomplete="off" tabindex="-1" aria-hidden="true"
+          class="absolute opacity-0 pointer-events-none w-0 h-0 overflow-hidden" />
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="full_name" class="block text-sm font-medium mb-1.5">Full name <span class="text-red-400">*</span></label>
+            <input type="text" id="full_name" name="full_name" required autocomplete="name"
+              class="input-field" placeholder="Jane Smith" />
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium mb-1.5">Phone <span class="text-[#4a5f63] font-normal text-xs">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel"
+              class="input-field" placeholder="(518) 000-0000" />
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-2">Grade levels</label>
-        <div class="flex flex-wrap gap-2 text-sm">
-          {['K-2', '3-5', '6-8', '9-12'].map(g => (
-            <label class="flex items-center gap-1.5 cursor-pointer">
-              <input type="checkbox" name="grade_levels" value={g} class="accent-teal-500" />
-              <span class="text-[#4a5f63]">{g}</span>
-            </label>
-          ))}
+        <div>
+          <label for="email" class="block text-sm font-medium mb-1.5">School email address <span class="text-red-400">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email"
+            class="input-field" placeholder="you@school.edu" />
         </div>
-      </div>
 
-      <div class="pt-2">
-        <label class="flex items-start gap-2 cursor-pointer">
-          <input type="checkbox" id="marketing_consent" name="marketing_consent" class="accent-teal-500 mt-0.5" />
-          <span class="text-xs text-[#4a5f63]">I'd like to receive updates about new resources and NYS standards changes. (Optional)</span>
-        </label>
-      </div>
+        <div>
+          <label for="password" class="block text-sm font-medium mb-1.5">Password <span class="text-red-400">*</span></label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8"
+            class="input-field" placeholder="8+ characters" />
+        </div>
 
-      <div class="text-xs text-[#415066] border-t border-[#e4dac8] pt-4 space-y-1.5">
-        <p>By creating an account you agree to our
-          <a href="/terms" class="text-[#376b9b] hover:underline">Terms of Service</a> and
-          <a href="/privacy" class="text-[#376b9b] hover:underline">Privacy Policy</a>.
-        </p>
-        <p>You confirm that you understand StandardCraft is an independent resource platform and is not affiliated with or endorsed by the New York State Education Department.</p>
-      </div>
+        <div class="grid sm:grid-cols-2 gap-4 pt-1">
+          <div>
+            <label class="block text-sm font-medium mb-1.5">Subjects you teach</label>
+            <div class="space-y-1.5">
+              {['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI'].map(s => (
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" name="subjects" value={s} class="accent-teal-600 shrink-0" />
+                  <span class="text-[#415066]">{s}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1.5">Grade levels</label>
+            <div class="space-y-1.5">
+              {['K-2', '3-5', '6-8', '9-12'].map(g => (
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" name="grade_levels" value={g} class="accent-teal-600 shrink-0" />
+                  <span class="text-[#415066]">{g}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
 
-      <button type="submit" id="submit-btn" class="btn-primary w-full py-3 text-base">
-        Create account and browse resources
-      </button>
-    </form>
+        <div>
+          <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="marketing_consent" name="marketing_consent" class="accent-teal-600 mt-0.5 shrink-0" />
+            <span class="text-xs text-[#4a5f63]">Send me updates on new resources and NYS standards changes. (Optional)</span>
+          </label>
+        </div>
 
-    <p class="mt-6 text-center text-sm text-[#4a5f63]">
-      Already have an account?
-      <a href="/sign-in?redirect=/free-resource-library" class="text-[#376b9b] hover:underline">Sign in to browse the free library</a>
-    </p>
-  </section>
+        <div class="text-[11px] text-[#415066] border-t border-[#e4dac8] pt-3 space-y-1">
+          <p>By creating an account you agree to our
+            <a href="/terms" class="text-[#376b9b] hover:underline">Terms</a> and
+            <a href="/privacy" class="text-[#376b9b] hover:underline">Privacy Policy</a>.
+            StandardCraft is independent from NYSED.</p>
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn-primary w-full py-3 text-base justify-center">
+          Create free account →
+        </button>
+      </form>
+
+      <p class="mt-5 text-center text-sm text-[#4a5f63]">
+        Already have an account?
+        <a href="/sign-in?redirect=/free-resource-library" class="text-[#376b9b] hover:underline font-medium">Sign in →</a>
+      </p>
+    </div>
+  </div>
 </Layout>
 
 <script>
@@ -160,11 +218,10 @@ const resourceCount = (await getCollection('resources')).length;
       if (!res.ok) {
         showError(data.error || 'Registration failed. Please try again.');
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Create account and browse resources';
+        submitBtn.textContent = 'Create free account →';
         return;
       }
 
-      // Sign in client-side to establish session cookie
       submitBtn.textContent = 'Signing you in…';
       const supabase = createSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({
@@ -182,7 +239,7 @@ const resourceCount = (await getCollection('resources')).length;
     } catch {
       showError('Network error. Please try again.');
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account and browse resources';
+      submitBtn.textContent = 'Create free account →';
     }
   });
 </script>
