@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseAdmin } from '../../lib/supabase-server';
+import { requireJson, requireString, requireEmail, optionalString, ValidationError, validationResponse } from '../../lib/validate';
+import { logAudit } from '../../lib/audit';
 
 export const prerender = false;
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function isAlreadyRegistered(msg: string): boolean {
   const m = msg.toLowerCase();
@@ -25,9 +25,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
+    requireJson(request);
     const body = await request.json();
     const {
-      email, password, full_name, phone,
+      email: rawEmail, password, full_name: rawName, phone: rawPhone,
       subjects, grade_levels, marketing_consent,
       honeypot,
     } = body;
@@ -37,21 +38,23 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ error: 'Invalid submission.' }, 400);
     }
 
-    // Validation
-    if (!email || !password || !full_name) {
-      return json({ error: 'Name, email, and password are required.' }, 400);
+    // Validation with max-length enforcement
+    const normalizedEmail = requireEmail(rawEmail);
+    const full_name = requireString(rawName, 'Full name', 200);
+    const phone = optionalString(rawPhone, 'Phone', 50);
+
+    if (full_name.length < 2) {
+      return json({ error: 'Please enter your full name.' }, 400);
     }
-    if (!EMAIL_RE.test(email)) {
-      return json({ error: 'Please enter a valid email address.' }, 400);
+    if (!password || typeof password !== 'string') {
+      return json({ error: 'Password is required.' }, 400);
     }
     if (password.length < 8) {
       return json({ error: 'Password must be at least 8 characters.' }, 400);
     }
-    if (full_name.trim().length < 2) {
-      return json({ error: 'Please enter your full name.' }, 400);
+    if (password.length > 128) {
+      return json({ error: 'Password must be 128 characters or fewer.' }, 400);
     }
-
-    const normalizedEmail = email.toLowerCase().trim();
     const admin = createSupabaseAdmin();
 
     // Create auth user (skip email confirmation for frictionless onboarding)
@@ -59,14 +62,16 @@ export const POST: APIRoute = async ({ request }) => {
       email: normalizedEmail,
       password,
       email_confirm: true,
-      user_metadata: { full_name: full_name.trim() },
+      user_metadata: { full_name },
     });
 
     if (authError) {
       console.error('Auth create error:', authError.status, authError.message);
       if (isAlreadyRegistered(authError.message ?? '')) {
+        await logAudit('user.register_failed', { request, metadata: { reason: 'duplicate_email' } });
         return json({ error: 'An account with this email already exists. Please sign in instead.' }, 409);
       }
+      await logAudit('user.register_failed', { request, metadata: { reason: 'auth_error' } });
       return json({ error: 'Registration failed. Please try again.' }, 500);
     }
 
@@ -81,8 +86,8 @@ export const POST: APIRoute = async ({ request }) => {
     const { error: profileErr } = await admin.from('profiles').upsert({
       id: userId,
       email: normalizedEmail,
-      full_name: full_name.trim(),
-      phone: phone?.trim() || null,
+      full_name,
+      phone,
     });
     if (profileErr) console.error('Profile upsert error:', profileErr.message);
 
@@ -125,9 +130,11 @@ export const POST: APIRoute = async ({ request }) => {
         .eq('user_id', userId);
     }
 
+    await logAudit('user.register', { userId, request });
     return json({ success: true, email: normalizedEmail });
 
   } catch (err: any) {
+    if (err instanceof ValidationError) return validationResponse(err);
     console.error('Registration error:', err?.message ?? err);
     return json({ error: 'Registration failed. Please try again.' }, 500);
   }

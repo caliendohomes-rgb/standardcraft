@@ -1,58 +1,48 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseAdmin } from '../../lib/supabase-server';
 import { sendOwnerNotification, esc } from '../../lib/email';
+import { requireJson, requireString, requireEmail, optionalString, ValidationError, validationResponse } from '../../lib/validate';
+import { logAudit } from '../../lib/audit';
 
 export const prerender = false;
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export const POST: APIRoute = async ({ request }) => {
   try {
+    requireJson(request);
     const body = await request.json();
-    const { name, email, subject, message, honeypot } = body;
+    const { name: rawName, email: rawEmail, subject: rawSubject, message: rawMessage, honeypot } = body;
 
     if (honeypot) return json({ error: 'Invalid submission.' }, 400);
 
-    if (!name || !email || !message) {
-      return json({ error: 'Name, email, and message are required.' }, 400);
-    }
-    if (!EMAIL_RE.test(email)) {
-      return json({ error: 'Please enter a valid email address.' }, 400);
-    }
-
-    const cleanName = name.trim();
-    const cleanEmail = email.toLowerCase().trim();
-    const cleanSubject = subject?.trim() || 'General inquiry';
-    const cleanMessage = message.trim();
+    const name = requireString(rawName, 'Name', 200);
+    const email = requireEmail(rawEmail);
+    const subject = optionalString(rawSubject, 'Subject', 300) ?? 'General inquiry';
+    const message = requireString(rawMessage, 'Message', 10_000);
 
     const admin = createSupabaseAdmin();
-    await admin.from('contact_messages').insert({
-      name: cleanName,
-      email: cleanEmail,
-      subject: cleanSubject,
-      message: cleanMessage,
-    });
+    await admin.from('contact_messages').insert({ name, email, subject, message });
 
-    // Notify the site owner. Awaited so the serverless function doesn't freeze
-    // before the email sends, but never fatal — the message is already stored.
+    await logAudit('contact.submitted', { request, metadata: { subject } });
+
     await sendOwnerNotification({
-      subject: `New contact message — ${cleanSubject}`,
-      replyTo: cleanEmail,
+      subject: `New contact message — ${subject}`,
+      replyTo: email,
       text:
         `New contact form submission\n\n` +
-        `Name: ${cleanName}\nEmail: ${cleanEmail}\nSubject: ${cleanSubject}\n\n` +
-        `Message:\n${cleanMessage}\n`,
+        `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n` +
+        `Message:\n${message}\n`,
       html:
         `<h2 style="margin:0 0 12px;font-family:Georgia,serif;color:#172438;">New contact message</h2>` +
-        `<p style="margin:4px 0;"><strong>Name:</strong> ${esc(cleanName)}</p>` +
-        `<p style="margin:4px 0;"><strong>Email:</strong> <a href="mailto:${esc(cleanEmail)}">${esc(cleanEmail)}</a></p>` +
-        `<p style="margin:4px 0;"><strong>Subject:</strong> ${esc(cleanSubject)}</p>` +
+        `<p style="margin:4px 0;"><strong>Name:</strong> ${esc(name)}</p>` +
+        `<p style="margin:4px 0;"><strong>Email:</strong> <a href="mailto:${esc(email)}">${esc(email)}</a></p>` +
+        `<p style="margin:4px 0;"><strong>Subject:</strong> ${esc(subject)}</p>` +
         `<p style="margin:12px 0 4px;"><strong>Message:</strong></p>` +
-        `<p style="margin:0;white-space:pre-wrap;">${esc(cleanMessage)}</p>`,
+        `<p style="margin:0;white-space:pre-wrap;">${esc(message)}</p>`,
     });
 
     return json({ success: true });
   } catch (err) {
+    if (err instanceof ValidationError) return validationResponse(err);
     console.error('Contact form error:', err);
     return json({ error: 'Something went wrong. Please try again.' }, 500);
   }
