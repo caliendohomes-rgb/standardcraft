@@ -1,10 +1,13 @@
 import type { APIRoute } from 'astro';
 import { createSupabaseAdmin, createSupabaseApiClient } from '../../lib/supabase-server';
+import { requireJson, requireString, ValidationError, validationResponse } from '../../lib/validate';
+import { logAudit } from '../../lib/audit';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    requireJson(request);
     const { client: anonClient } = createSupabaseApiClient(request);
     const { data: { user }, error: userError } = await anonClient.auth.getUser();
 
@@ -13,11 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const body = await request.json();
-    const { resource_slug } = body;
-
-    if (!resource_slug || typeof resource_slug !== 'string') {
-      return json({ error: 'Resource slug is required.' }, 400);
-    }
+    const resource_slug = requireString(body.resource_slug, 'Resource slug', 200);
 
     const admin = createSupabaseAdmin();
 
@@ -29,8 +28,8 @@ export const POST: APIRoute = async ({ request }) => {
       .eq('status', 'published')
       .maybeSingle();
 
-    // If resource not in DB, validate slug format as a safety check
-    if (!resource && !/^[a-z0-9-]+$/.test(resource_slug)) {
+    // Enforce slug format as a defence-in-depth path traversal guard
+    if (!/^[a-z0-9-]+$/.test(resource_slug)) {
       return json({ error: 'Resource not found.' }, 404);
     }
 
@@ -45,6 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
       .maybeSingle();
 
     if (existingDownload) {
+      await logAudit('download.redownload', { userId: user.id, resourceId: resource_slug, request });
       // Re-download: generate signed URL without deducting credits
       if (!resource?.file_path) {
         return json({ success: true, url: `/downloads/${resource_slug}.md`, redownload: true, fallback: true });
@@ -114,6 +114,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    await logAudit('download.success', { userId: user.id, resourceId: resource_slug, request });
     return json({
       success: true,
       url: signedUrlData.signedUrl,
@@ -122,6 +123,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
   } catch (err: any) {
+    if (err instanceof ValidationError) return validationResponse(err);
     console.error('Download API error:', err);
     return json({ error: 'Download failed. Please try again.' }, 500);
   }

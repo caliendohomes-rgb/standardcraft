@@ -1,11 +1,14 @@
 import type { APIRoute } from 'astro';
 import { getStripe, PLANS, type PlanKey } from '../../lib/stripe';
 import { createSupabaseApiClient, createSupabaseAdmin } from '../../lib/supabase-server';
+import { requireJson } from '../../lib/validate';
+import { logAudit } from '../../lib/audit';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    requireJson(request);
     const { client } = createSupabaseApiClient(request);
     const { data: { user } } = await client.auth.getUser();
 
@@ -84,6 +87,7 @@ export const POST: APIRoute = async ({ request }) => {
       allow_promotion_codes: true,
     });
 
+    await logAudit('checkout.created', { userId: user.id, request, metadata: { plan, billing } });
     return json({ url: session.url });
 
   } catch (err: any) {
