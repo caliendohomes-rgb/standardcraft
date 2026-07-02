@@ -3,10 +3,14 @@ import { getStripe, PLANS, type PlanKey } from '../../lib/stripe';
 import { createSupabaseApiClient, createSupabaseAdmin } from '../../lib/supabase-server';
 import { requireJson } from '../../lib/validate';
 import { logAudit } from '../../lib/audit';
+import { rateLimit, tooManyRequests } from '../../lib/rate-limit';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  const rl = rateLimit(request, 'checkout', 10, 10 * 60_000);
+  if (!rl.allowed) return tooManyRequests(rl.retryAfterSeconds);
+
   try {
     requireJson(request);
     const { client } = createSupabaseApiClient(request);

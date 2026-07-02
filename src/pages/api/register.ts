@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { createSupabaseAdmin } from '../../lib/supabase-server';
 import { requireJson, requireString, requireEmail, optionalString, ValidationError, validationResponse } from '../../lib/validate';
 import { logAudit } from '../../lib/audit';
+import { rateLimit, tooManyRequests } from '../../lib/rate-limit';
 
 export const prerender = false;
 
@@ -18,6 +19,10 @@ function isAlreadyRegistered(msg: string): boolean {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  // Account creation grants a free credit — keep it expensive to farm.
+  const rl = rateLimit(request, 'register', 5, 15 * 60_000);
+  if (!rl.allowed) return tooManyRequests(rl.retryAfterSeconds);
+
   // Guard: verify service role key is configured before attempting any DB work.
   if (!import.meta.env.SUPABASE_SERVICE_ROLE_KEY) {
     console.error('SUPABASE_SERVICE_ROLE_KEY is not set — registration cannot proceed.');

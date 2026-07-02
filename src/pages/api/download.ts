@@ -2,10 +2,14 @@ import type { APIRoute } from 'astro';
 import { createSupabaseAdmin, createSupabaseApiClient } from '../../lib/supabase-server';
 import { requireJson, requireString, ValidationError, validationResponse } from '../../lib/validate';
 import { logAudit } from '../../lib/audit';
+import { rateLimit, tooManyRequests } from '../../lib/rate-limit';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  const rl = rateLimit(request, 'download', 30, 10 * 60_000);
+  if (!rl.allowed) return tooManyRequests(rl.retryAfterSeconds);
+
   try {
     requireJson(request);
     const { client: anonClient } = createSupabaseApiClient(request);
