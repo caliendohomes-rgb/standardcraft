@@ -18,8 +18,10 @@ export const POST: APIRoute = async ({ request }) => {
     const rawBody = await request.text();
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (err: any) {
+    // Keep the detail in logs; return a generic message so an unauthenticated
+    // caller probing the endpoint can't fingerprint internals (CWE-209).
     console.error('Webhook signature verification failed:', err.message);
-    return new Response(`Webhook error: ${err.message}`, { status: 400 });
+    return new Response('Invalid signature', { status: 400 });
   }
 
   const admin = createSupabaseAdmin();
