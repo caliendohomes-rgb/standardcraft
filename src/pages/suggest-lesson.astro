@@ -1,0 +1,245 @@
+---
+export const prerender = false;
+
+import { createSupabaseServerClient, createSupabaseAdmin } from '../lib/supabase-server';
+import Layout from '../layouts/Layout.astro';
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+
+if (!user) {
+  return Astro.redirect('/sign-in?redirect=/suggest-lesson');
+}
+
+const admin = createSupabaseAdmin();
+const { data: mySuggestions } = await admin
+  .from('lesson_suggestions')
+  .select('title, subject, grade_level, status, created_at')
+  .eq('user_id', user.id)
+  .order('created_at', { ascending: false })
+  .limit(10);
+
+const suggestions = mySuggestions ?? [];
+
+const statusStyle: Record<string, string> = {
+  new: 'tag-gray',
+  reviewing: 'tag-amber',
+  planned: 'tag-teal',
+  published: 'tag-teal',
+  declined: 'tag-gray',
+};
+const statusLabel: Record<string, string> = {
+  new: 'Received',
+  reviewing: 'Under review',
+  planned: 'On the roadmap',
+  published: 'Published',
+  declined: 'Not planned',
+};
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+const subjects = ['ELA', 'Math', 'Science', 'Social Studies', 'CS / Technology', 'Cybersecurity & AI', 'Arts', 'World Languages', 'Health / PE', 'Special Education / SDI', 'CDOS / Career'];
+const grades = ['K–2', '3–5', '6–8', '9–12', 'K–12 / Multi'];
+---
+
+<Layout
+  title="Shape the Roadmap — Suggest a Lesson Plan | StandardCraft"
+  description="Registered educators can suggest the lesson plans we build next. Partner with StandardCraft to direct the future of NYS-aligned lesson plan development."
+  noIndex={true}
+>
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+
+    <!-- Header / partner framing -->
+    <div class="mb-8">
+      <div class="section-label mb-2">Partner with StandardCraft</div>
+      <h1 class="font-display text-3xl sm:text-4xl font-semibold text-[#172438] leading-tight mb-3">
+        Help direct what we build next.
+      </h1>
+      <p class="text-[#415066] leading-relaxed max-w-2xl">
+        We add <strong class="text-[#172438]">25+ new lesson plans every month</strong> — and the
+        educators who use them decide where we focus. Tell us the standard, topic, or gap you need
+        covered, and it goes straight onto our development board. This is your seat at the table.
+      </p>
+    </div>
+
+    <!-- Value strip -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+      {[
+        { n: '25+', l: 'New lesson plans added every month' },
+        { n: 'You', l: 'Directly influence the build order' },
+        { n: 'NYS', l: 'Every request mapped to real standards' },
+      ].map(s => (
+        <div class="card">
+          <div class="font-display text-2xl font-semibold text-[#376b9b] mb-1">{s.n}</div>
+          <div class="text-sm text-[#415066]">{s.l}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="grid lg:grid-cols-[1.2fr_1fr] gap-8">
+
+      <!-- Form -->
+      <div class="card">
+        <h2 class="font-bold text-lg text-[#172438] mb-1">Suggest a lesson plan</h2>
+        <p class="text-sm text-[#415066] mb-5">The more specific, the faster we can build it.</p>
+
+        <div id="suggest-error" class="hidden mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
+        <div id="suggest-success" class="hidden mb-4 p-3 rounded-lg bg-[#dce8d5] border border-[#b5ceae] text-[#172438] text-sm">
+          🎉 Thanks — your suggestion is on our development board. We’ll update its status as it moves.
+        </div>
+
+        <form id="suggest-form" class="space-y-4" novalidate>
+          <div>
+            <label for="title" class="block text-sm font-medium mb-1.5">Lesson title or topic <span class="text-red-400">*</span></label>
+            <input type="text" id="title" name="title" required maxlength="200"
+              class="input-field" placeholder="e.g. Grade 7 ratios & proportional relationships" />
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="subject" class="block text-sm font-medium mb-1.5">Subject <span class="text-[#4a5f63] font-normal text-xs">(optional)</span></label>
+              <select id="subject" name="subject" class="input-field">
+                <option value="">Select…</option>
+                {subjects.map(s => <option value={s}>{s}</option>)}
+              </select>
+            </div>
+            <div>
+              <label for="grade_level" class="block text-sm font-medium mb-1.5">Grade level <span class="text-[#4a5f63] font-normal text-xs">(optional)</span></label>
+              <select id="grade_level" name="grade_level" class="input-field">
+                <option value="">Select…</option>
+                {grades.map(g => <option value={g}>{g}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="standard" class="block text-sm font-medium mb-1.5">NYS standard code <span class="text-[#4a5f63] font-normal text-xs">(optional)</span></label>
+            <input type="text" id="standard" name="standard" maxlength="100"
+              class="input-field" placeholder="e.g. NY-7.RP.1" />
+          </div>
+
+          <div>
+            <label for="description" class="block text-sm font-medium mb-1.5">What do you need? <span class="text-red-400">*</span></label>
+            <textarea id="description" name="description" required maxlength="5000" rows="5"
+              class="input-field" placeholder="Describe the lesson, the gap it fills, and any supports you need (SDI, MLL/ELL scaffolds, assessments…)."></textarea>
+          </div>
+
+          <button type="submit" id="suggest-submit" class="btn-primary w-full justify-center">
+            Submit suggestion →
+          </button>
+          <p class="text-[11px] text-[#4a5f63] text-center">
+            Suggestions go straight to our team at support@standard-craft.com.
+          </p>
+        </form>
+      </div>
+
+      <!-- Your suggestions -->
+      <div>
+        <div class="card">
+          <h2 class="font-bold text-lg text-[#172438] mb-4">Your suggestions</h2>
+          {suggestions.length === 0 ? (
+            <p class="text-sm text-[#4a5f63] py-3">
+              None yet — your first suggestion will appear here with its live status.
+            </p>
+          ) : (
+            <ul class="space-y-3">
+              {suggestions.map((s: any) => (
+                <li class="border-t border-[#e4dac8] pt-3 first:border-0 first:pt-0">
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="text-sm font-medium text-[#172438] leading-snug">{s.title}</div>
+                    <span class={`tag ${statusStyle[s.status] ?? 'tag-gray'} text-[10px] shrink-0`}>
+                      {statusLabel[s.status] ?? s.status}
+                    </span>
+                  </div>
+                  <div class="text-xs text-[#4a5f63] mt-1">
+                    {[s.subject, s.grade_level].filter(Boolean).join(' · ')}
+                    {(s.subject || s.grade_level) && ' · '}
+                    {formatDate(s.created_at)}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div class="card mt-4 text-sm text-[#415066]">
+          <div class="font-semibold text-[#172438] mb-2">How it works</div>
+          <ol class="space-y-2 list-decimal list-inside">
+            <li>You submit a standard, topic, or gap.</li>
+            <li>We map it to NYS standards and slot it on the board.</li>
+            <li>It ships in a monthly release — you’ll see the status change here.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <a href="/dashboard" class="text-sm text-[#376b9b] hover:underline">← Back to dashboard</a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('suggest-form') as HTMLFormElement;
+  const errorEl = document.getElementById('suggest-error') as HTMLDivElement;
+  const successEl = document.getElementById('suggest-success') as HTMLDivElement;
+  const submitBtn = document.getElementById('suggest-submit') as HTMLButtonElement;
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    successEl.classList.add('hidden');
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+
+    const fd = new FormData(form);
+    const payload = {
+      title: (fd.get('title') as string)?.trim(),
+      subject: (fd.get('subject') as string) || null,
+      grade_level: (fd.get('grade_level') as string) || null,
+      standard: (fd.get('standard') as string)?.trim() || null,
+      description: (fd.get('description') as string)?.trim(),
+    };
+
+    if (!payload.title || !payload.description) {
+      showError('Please add a title and a description.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    try {
+      const res = await fetch('/api/suggest-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(data.error || 'Submission failed. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit suggestion →';
+        return;
+      }
+
+      (window as any).plausible?.('Lesson Suggestion');
+      successEl.classList.remove('hidden');
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit another →';
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => window.location.reload(), 1800);
+    } catch {
+      showError('Network error. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit suggestion →';
+    }
+  });
+</script>

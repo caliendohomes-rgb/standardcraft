@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getStripe, creditsForPlan } from '../../lib/stripe';
 import { createSupabaseAdmin } from '../../lib/supabase-server';
+import { sendOwnerNotification, esc } from '../../lib/email';
+import { logAudit } from '../../lib/audit';
 
 export const prerender = false;
 
@@ -64,6 +66,30 @@ export const POST: APIRoute = async ({ request }) => {
 
         // Grant initial subscription credits — throws on failure so Stripe retries
         await grantSubscriptionCredits(admin, userId, plan, planCredits, session.subscription);
+
+        // Notify the site owner of the new purchase. Non-fatal: wrapped so a
+        // mail failure never causes Stripe to retry an already-granted purchase.
+        try {
+          const { data: buyer } = await admin
+            .from('profiles').select('full_name, email').eq('id', userId).maybeSingle();
+          const name = buyer?.full_name ?? 'A customer';
+          const email = buyer?.email ?? session.customer_details?.email ?? 'unknown';
+          await logAudit('purchase.completed', { userId, metadata: { plan } });
+          await sendOwnerNotification({
+            subject: `New StandardCraft purchase — ${plan} plan`,
+            replyTo: email,
+            text:
+              `New subscription purchase\n\nCustomer: ${name} (${email})\n` +
+              `Plan: ${plan}\nMonthly credits: ${planCredits}\nStripe customer: ${session.customer}\n`,
+            html:
+              `<h2 style="margin:0 0 12px;font-family:Georgia,serif;color:#172438;">New purchase — ${esc(plan)} plan</h2>` +
+              `<p style="margin:4px 0;"><strong>Customer:</strong> ${esc(name)} ` +
+              `(<a href="mailto:${esc(email)}">${esc(email)}</a>)</p>` +
+              `<p style="margin:4px 0;"><strong>Plan:</strong> ${esc(plan)} · ${planCredits} credits/mo</p>`,
+          });
+        } catch (notifyErr) {
+          console.error('Purchase notification failed (non-fatal):', notifyErr);
+        }
         break;
       }
 

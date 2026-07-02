@@ -60,7 +60,9 @@ export async function sendOwnerNotification({
 }: SendArgs): Promise<{ sent: boolean; skipped?: boolean; error?: string }> {
   const transport = getTransport();
   const from = import.meta.env.EMAIL_FROM || import.meta.env.SMTP_USER;
-  const to = import.meta.env.CONTACT_NOTIFICATION_EMAIL || import.meta.env.SMTP_USER;
+  // All inquiries, registrations, and purchases route here by default;
+  // override with CONTACT_NOTIFICATION_EMAIL (comma-separated list allowed).
+  const to = import.meta.env.CONTACT_NOTIFICATION_EMAIL || 'support@standard-craft.com';
 
   if (!transport || !from || !to) {
     return { sent: false, skipped: true };

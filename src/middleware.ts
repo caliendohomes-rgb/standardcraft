@@ -10,6 +10,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     path.startsWith('/claim-free') ||
     path.startsWith('/sign-in') ||
     path.startsWith('/signin') ||
+    path.startsWith('/suggest-lesson') ||
     path.startsWith('/free-resource-library');
 
   if (!needsSessionRefresh) {
