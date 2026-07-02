@@ -42,6 +42,11 @@ export const POST: APIRoute = async ({ request }) => {
           console.error('No user ID in checkout session metadata');
           break;
         }
+        if (!session.subscription) {
+          // Malformed/non-subscription session — not retryable, don't 500
+          console.error('checkout.session.completed without subscription id', session.id);
+          break;
+        }
 
         const sub = await stripe.subscriptions.retrieve(session.subscription);
         const planCredits = creditsForPlan(plan);
@@ -55,12 +60,8 @@ export const POST: APIRoute = async ({ request }) => {
           current_period_end: new Date((sub as any).current_period_end * 1000).toISOString(),
         });
 
-        // Grant initial subscription credits
-        try {
-          await grantSubscriptionCredits(admin, userId, plan, planCredits, session.subscription);
-        } catch (grantErr) {
-          console.error('CREDIT_GRANT_FAILED checkout.session.completed', { userId, plan, planCredits }, grantErr);
-        }
+        // Grant initial subscription credits — throws on failure so Stripe retries
+        await grantSubscriptionCredits(admin, userId, plan, planCredits, session.subscription);
         break;
       }
 
@@ -84,11 +85,8 @@ export const POST: APIRoute = async ({ request }) => {
           })
           .eq('stripe_subscription_id', invoice.subscription);
 
-        try {
-          await grantSubscriptionCredits(admin, userId, plan, planCredits, invoice.subscription);
-        } catch (grantErr) {
-          console.error('CREDIT_GRANT_FAILED invoice.payment_succeeded', { userId, plan, planCredits }, grantErr);
-        }
+        // Throws on failure so Stripe retries the delivery
+        await grantSubscriptionCredits(admin, userId, plan, planCredits, invoice.subscription);
         break;
       }
 
@@ -105,8 +103,11 @@ export const POST: APIRoute = async ({ request }) => {
       }
     }
   } catch (err) {
-    console.error('Webhook handler error:', err);
-    // Still return 200 so Stripe doesn't retry
+    // Return 500 so Stripe retries the delivery. All handlers are idempotent
+    // (subscription upserts; period-key dedup on credit grants), so a retry
+    // after partial failure is safe and recovers the missed work.
+    console.error('WEBHOOK_HANDLER_FAILED', event.type, err);
+    return new Response('Webhook handler failed; Stripe should retry.', { status: 500 });
   }
 
   return new Response('OK', { status: 200 });
@@ -121,6 +122,27 @@ async function grantSubscriptionCredits(
 ) {
   // Prevent double-granting for the same billing period
   const periodKey = `subscription_${stripeSubscriptionId}_${new Date().toISOString().slice(0, 7)}`;
+  const description = `${plan} plan — ${credits} monthly credits`;
+
+  // Atomic path (migration 005): ledger insert + balance increment in one
+  // transaction, deduped on the period key — safe under webhook redelivery.
+  const { error: rpcError } = await admin.rpc('grant_subscription_credits', {
+    p_user_id: userId,
+    p_amount: credits,
+    p_description: description,
+    p_period_key: periodKey,
+  });
+
+  if (!rpcError) return;
+
+  const missingFn = rpcError.code === 'PGRST202' || rpcError.code === '42883'
+    || /could not find the function|does not exist/i.test(rpcError.message ?? '');
+  if (!missingFn) {
+    throw new Error(`CREDIT_GRANT_FAILED ${periodKey}: ${rpcError.message}`);
+  }
+
+  // Legacy two-step path until migration 005 is applied
+  console.warn('grant_subscription_credits RPC missing — apply migration 005. Using legacy grant.');
 
   const { data: existing } = await admin
     .from('credit_ledger')
@@ -131,40 +153,44 @@ async function grantSubscriptionCredits(
 
   if (existing) return; // Already granted this period
 
-  await admin.from('credit_ledger').insert({
+  const { error: ledgerError } = await admin.from('credit_ledger').insert({
     user_id: userId,
     amount: credits,
     type: 'subscription',
-    description: `${plan} plan — ${credits} monthly credits`,
+    description,
     stripe_session_id: periodKey,
   });
+  if (ledgerError) {
+    throw new Error(`CREDIT_GRANT_FAILED ledger insert ${periodKey}: ${ledgerError.message}`);
+  }
 
-  // Increment existing balance atomically via RPC
-  const { error } = await admin.rpc('increment_credits', {
+  const { error: incError } = await admin.rpc('increment_credits', {
     p_user_id: userId,
     p_amount: credits,
   });
 
-  if (error) {
+  if (incError) {
     // Fallback: read current balance then increment
-    const { data: existing } = await admin
+    const { data: row } = await admin
       .from('credits')
       .select('balance, lifetime_earned')
       .eq('user_id', userId)
       .single();
 
-    if (existing) {
-      await admin.from('credits').update({
-        balance: existing.balance + credits,
-        lifetime_earned: existing.lifetime_earned + credits,
+    if (row) {
+      const { error: updError } = await admin.from('credits').update({
+        balance: row.balance + credits,
+        lifetime_earned: row.lifetime_earned + credits,
       }).eq('user_id', userId);
+      if (updError) throw new Error(`CREDIT_GRANT_FAILED balance update ${periodKey}: ${updError.message}`);
     } else {
-      await admin.from('credits').insert({
+      const { error: insError } = await admin.from('credits').insert({
         user_id: userId,
         balance: credits,
         lifetime_earned: credits,
         lifetime_spent: 0,
       });
+      if (insError) throw new Error(`CREDIT_GRANT_FAILED balance insert ${periodKey}: ${insError.message}`);
     }
   }
 }
