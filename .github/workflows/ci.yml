@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: Typecheck, build & secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npx astro build
+        env:
+          # Placeholders — no page executes Supabase calls at build time,
+          # but the env vars must exist for the modules to load.
+          PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          PUBLIC_SITE_URL: https://standardcraftny.com
+
+      - name: Secret scan
+        run: |
+          if git grep -nE 'sk_live_[A-Za-z0-9]{20,}|sk_test_[A-Za-z0-9]{20,}|whsec_[A-Za-z0-9]{20,}|-----BEGIN (RSA |EC )?PRIVATE KEY-----' -- ':!package-lock.json'; then
+            echo '::error::Potential secret committed to the repository'
+            exit 1
+          fi
+          echo "No secrets detected."
+
+  audit:
+    name: Dependency audit (high+)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: npm audit
+        run: npm audit --audit-level=high
