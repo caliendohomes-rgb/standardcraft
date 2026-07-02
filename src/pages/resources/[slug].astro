@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Seal from '../../components/Seal.astro';
 
 export async function getStaticPaths() {
   const resources = await getCollection('resources');
-  return resources.map(r => ({ params: { slug: r.slug }, props: { resource: r } }));
+  return resources.map(r => ({ params: { slug: r.id }, props: { resource: r } }));
 }
 
 const { resource } = Astro.props;
 const { data } = resource;
-const { Content } = await resource.render();
+const { Content } = await render(resource);
 const primaryStandard = data.standards[0];
 const previewBullets = [
   `${data.resource_type} for Grade ${data.grade} ${data.subject}`,

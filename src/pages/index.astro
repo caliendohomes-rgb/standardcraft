@@ -146,7 +146,7 @@ const faqItems = [
 
         <!-- Featured resource card -->
         {featuredResource && (
-          <a href={`/resources/${featuredResource.slug}`}
+          <a href={`/resources/${featuredResource.id}`}
              class="card block no-underline group"
              style="box-shadow: var(--sc-shadow-md);">
             <div class="flex items-center gap-2 mb-2.5">
@@ -188,7 +188,7 @@ const faqItems = [
               .replace('Cross-Content SDI & IEP Support', 'SDI & IEP');
             const tc = heroSubjectColors[r.data.subject] ?? 'tag-gray';
             return (
-              <a href={`/resources/${r.slug}`}
+              <a href={`/resources/${r.id}`}
                  class="rounded-xl border border-[#e4dac8] bg-white/90 px-3 py-3 no-underline hover:border-[#b5ceae] hover:shadow-sm transition-all flex flex-col gap-1">
                 <span class={`tag ${tc} text-[10px] self-start`}>{label}</span>
                 <div class="text-[11px] font-semibold text-[#172438] leading-snug mt-0.5 overflow-hidden" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">

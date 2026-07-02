@@ -1,7 +1,7 @@
 ---
 interface Props {
   resource: {
-    slug: string;
+    id: string;
     data: {
       title: string;
       grade: string;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const { resource } = Astro.props;
-const { data, slug } = resource;
+const { data, id: slug } = resource;
 
 const subjectColors: Record<string, string> = {
   'ELA': 'tag-teal',

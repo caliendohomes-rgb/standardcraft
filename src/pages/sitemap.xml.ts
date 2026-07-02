@@ -40,9 +40,9 @@ export const GET: APIRoute = async () => {
   }
 
   // Individual resource detail pages — enumerated from the content collection.
-  for (const r of [...resources].sort((a, b) => a.slug.localeCompare(b.slug))) {
+  for (const r of [...resources].sort((a, b) => a.id.localeCompare(b.id))) {
     urls.push(
-      `  <url><loc>${SITE}/resources/${r.slug}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`
+      `  <url><loc>${SITE}/resources/${r.id}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`
     );
   }
 
