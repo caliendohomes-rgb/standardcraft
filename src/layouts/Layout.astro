@@ -39,10 +39,13 @@ const analyticsDomain =
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts: non-render-blocking, swap to avoid FOIT -->
+    <!-- Fonts: async-loaded so the stylesheet never blocks first paint; display=swap avoids FOIT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    </noscript>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -161,7 +164,7 @@ const analyticsDomain =
             </div>
           </div>
         </div>
-        <div class="mt-10 pt-8 space-y-3 text-xs leading-relaxed" style="border-top: 1px solid #2a3d5a; color: #5a7a9a;">
+        <div class="mt-10 pt-8 space-y-3 text-xs leading-relaxed" style="border-top: 1px solid #2a3d5a; color: #8fafc4;">
           <p>
             StandardCraft provides original, educator-reviewed resources built from publicly available New York State standards frameworks.
             StandardCraft is independent and is not affiliated with, endorsed by, or sponsored by the New York State Education Department.
