@@ -86,8 +86,16 @@ const redirectTo = Astro.url.searchParams.get('redirect') ?? '/dashboard';
       return;
     }
 
+    // Only allow same-origin, single-slash paths. Reject protocol-relative
+    // (//evil.com) and backslash (/\evil.com) forms that browsers treat as
+    // absolute URLs — otherwise this is an open redirect (CWE-601).
     const redirectTo = redirectInput.value || '/dashboard';
-    const safe = redirectTo.startsWith('/') ? redirectTo : '/dashboard';
+    const safe =
+      redirectTo.startsWith('/') &&
+      !redirectTo.startsWith('//') &&
+      !redirectTo.startsWith('/\\')
+        ? redirectTo
+        : '/dashboard';
     window.location.href = safe;
   });
 </script>
