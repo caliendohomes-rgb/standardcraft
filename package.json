@@ -10,7 +10,9 @@
     "qa:launch": "node scripts/qa-launch.mjs",
     "smoke": "node scripts/smoke-test.mjs",
     "seed": "node scripts/seed-resources.js",
-    "seed:dry": "node scripts/seed-resources.js --dry-run"
+    "seed:dry": "node scripts/seed-resources.js --dry-run",
+    "format": "prettier --write \"src/**/*.{ts,astro,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,astro,css}\""
   },
   "dependencies": {
     "@astrojs/netlify": "^7.0.13",
@@ -25,6 +27,8 @@
     "@types/node": "^20.0.0",
     "@types/nodemailer": "^8.0.1",
     "autoprefixer": "^10.5.2",
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.0.0"
   }
 }

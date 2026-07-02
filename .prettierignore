@@ -1,0 +1,8 @@
+dist/
+.netlify/
+.astro/
+node_modules/
+package-lock.json
+public/downloads/
+src/content/resources/
+content/
