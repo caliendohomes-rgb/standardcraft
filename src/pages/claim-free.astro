@@ -22,39 +22,53 @@ const subjectCount = new Set((await getCollection('resources')).map(r => r.data.
   <div class="min-h-[calc(100vh-4rem)] grid lg:grid-cols-[1fr_1.1fr]">
 
     <!-- LEFT: Value panel -->
-    <div class="hidden lg:flex flex-col justify-between px-10 xl:px-14 py-12"
+    <div class="hidden lg:flex flex-col justify-center gap-9 px-10 xl:px-14 py-12"
          style="background: linear-gradient(160deg, var(--sc-navy) 0%, #1d3256 100%);">
       <div>
-        <div class="text-[11px] font-bold tracking-[0.12em] uppercase mb-8" style="color: var(--sc-gold);">
+        <div class="text-[11px] font-bold tracking-[0.12em] uppercase mb-6" style="color: var(--sc-gold);">
           Free account · no credit card
         </div>
         <h2 class="font-display text-3xl xl:text-4xl font-semibold leading-tight mb-5 text-white">
           {resourceCount} NYS-aligned resources.<br/>One free to keep.
         </h2>
-        <p class="text-[#a8bfcf] leading-relaxed mb-8 max-w-[40ch]">
+        <p class="text-[#a8bfcf] leading-relaxed max-w-[40ch]">
           Every resource includes the exact NYS standard code, alignment record, SDI supports, and MLL/ELL scaffolds — ready for your classroom tomorrow.
         </p>
-
-        <!-- Benefits -->
-        <ul class="space-y-4 mb-10">
-          {[
-            { icon: '✓', title: 'Browse all ' + resourceCount + ' resources free', sub: 'Preview every resource before downloading — no paywall on previews.' },
-            { icon: '✓', title: '1 download credit on signup', sub: 'No payment required. No student data collected.' },
-            { icon: '✓', title: subjectCount + ' NYS subject areas', sub: 'Math, ELA, Science, CS & Tech, SDI, Cybersecurity & AI, and more.' },
-            { icon: '✓', title: 'Alignment records included', sub: 'Show exactly which NYS Next Gen standard each resource targets.' },
-          ].map(b => (
-            <li class="flex items-start gap-3">
-              <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--sc-teal);">{b.icon}</span>
-              <div>
-                <div class="text-sm font-semibold text-white">{b.title}</div>
-                <div class="text-xs mt-0.5" style="color: #7fa3b8;">{b.sub}</div>
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
 
-      <!-- Bottom trust chips -->
+      <!-- Stat band -->
+      <div class="grid grid-cols-3 gap-3">
+        {[
+          { n: resourceCount, l: 'Resources' },
+          { n: subjectCount, l: 'NYS subjects' },
+          { n: '0', l: 'Invented codes' },
+        ].map(s => (
+          <div class="rounded-xl px-3 py-4 text-center" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);">
+            <div class="font-display text-2xl xl:text-3xl font-semibold text-white leading-none">{s.n}</div>
+            <div class="text-[10px] mt-1.5 tracking-wide uppercase" style="color: #7fa3b8;">{s.l}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Benefits -->
+      <ul class="space-y-4">
+        {[
+          { icon: '✓', title: 'Browse all ' + resourceCount + ' resources free', sub: 'Preview every resource before downloading — no paywall on previews.' },
+          { icon: '✓', title: '1 download credit on signup', sub: 'No payment required. No student data collected.' },
+          { icon: '✓', title: subjectCount + ' NYS subject areas', sub: 'Math, ELA, Science, CS & Tech, SDI, Cybersecurity & AI, and more.' },
+          { icon: '✓', title: 'Alignment records included', sub: 'Show exactly which NYS Next Gen standard each resource targets.' },
+        ].map(b => (
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--sc-teal);">{b.icon}</span>
+            <div>
+              <div class="text-sm font-semibold text-white">{b.title}</div>
+              <div class="text-xs mt-0.5" style="color: #7fa3b8;">{b.sub}</div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Trust chips -->
       <div class="border-t pt-6" style="border-color: rgba(255,255,255,0.12);">
         <div class="text-[10px] font-bold tracking-widest uppercase mb-3" style="color: #5a7a8f;">Trusted by NYS educators</div>
         <div class="flex flex-wrap gap-2">
@@ -112,9 +126,9 @@ const subjectCount = new Set((await getCollection('resources')).map(r => r.data.
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium mb-1.5">School email address <span class="text-red-400">*</span></label>
+          <label for="email" class="block text-sm font-medium mb-1.5">Email address <span class="text-red-400">*</span></label>
           <input type="email" id="email" name="email" required autocomplete="email"
-            class="input-field" placeholder="you@school.edu" />
+            class="input-field" placeholder="you@example.com" />
         </div>
 
         <div>
