@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import ResourceCard from '../components/ResourceCard.astro';
 import FaqSection from '../components/FaqSection.astro';
+import { jsonLd } from '../lib/jsonld';
 
 const allResources = await getCollection('resources');
 const resourceCount = allResources.length;
@@ -68,7 +69,7 @@ const faqItems = [
   title="StandardCraft | NYS-Aligned Lesson Plans, Worksheets & Resources for New York Teachers"
   description={`${resourceCount} original NYS-aligned lesson plans, worksheets, and classroom resources for New York teachers across ${subjectCount} NYS subject areas — including a Cybersecurity & AI Education track. SDI supports, MLL/ELL scaffolds, and alignment records included. Browse free, no credit card required.`}
 >
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script type="application/ld+json" set:html={jsonLd({
     '@context': 'https://schema.org',
     '@graph': [
       {

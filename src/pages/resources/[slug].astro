@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Seal from '../../components/Seal.astro';
+import { jsonLd } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const resources = await getCollection('resources');
@@ -34,7 +35,7 @@ const reviewTrustItem = isMathPilot
 
 const metaDescription = `NYS-aligned ${data.resource_type} for Grade ${data.grade} ${data.subject}${primaryStandard ? ` (${primaryStandard.code})` : ''}. Includes alignment record, SDI supports, and MLL/ELL scaffolds. Original resource for New York teachers.`;
 
-const learningResourceSchema = JSON.stringify({
+const learningResourceSchema = jsonLd({
   '@context': 'https://schema.org',
   '@type': 'LearningResource',
   name: data.title,
@@ -67,7 +68,7 @@ const learningResourceSchema = JSON.stringify({
   description={metaDescription}
 >
   <script type="application/ld+json" set:html={learningResourceSchema} slot="head-schema" />
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script type="application/ld+json" set:html={jsonLd({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [

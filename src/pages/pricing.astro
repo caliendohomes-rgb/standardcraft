@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { jsonLd } from '../lib/jsonld';
 
 const allResources = await getCollection('resources');
 const resourceCount = allResources.length;
@@ -100,7 +101,7 @@ const plans = [
   title="Pricing — StandardCraft | NYS-Aligned Classroom Resources from $0"
   description="StandardCraft plans start free. Original, educator-reviewed NYS-aligned resources. No student data required. Classroom $29/mo · Pro $69/mo · School plans available."
 >
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script type="application/ld+json" set:html={jsonLd({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
