@@ -3,6 +3,7 @@ import { createSupabaseAdmin } from '../../lib/supabase-server';
 import { requireJson, requireString, requireEmail, optionalString, ValidationError, validationResponse } from '../../lib/validate';
 import { logAudit } from '../../lib/audit';
 import { rateLimit, tooManyRequests } from '../../lib/rate-limit';
+import { sendOwnerNotification, esc } from '../../lib/email';
 
 export const prerender = false;
 
@@ -136,6 +137,29 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     await logAudit('user.register', { userId, request });
+
+    // Notify the site owner of the new registration. Never fatal — the account
+    // is already created and the credit granted.
+    const subjectList = Array.isArray(subjects) && subjects.length ? subjects.join(', ') : '—';
+    const gradeList = Array.isArray(grade_levels) && grade_levels.length ? grade_levels.join(', ') : '—';
+    await sendOwnerNotification({
+      subject: `New StandardCraft registration — ${full_name}`,
+      replyTo: normalizedEmail,
+      text:
+        `New free-account registration\n\n` +
+        `Name: ${full_name}\nEmail: ${normalizedEmail}\n` +
+        `Phone: ${phone ?? '—'}\nSubjects: ${subjectList}\nGrade levels: ${gradeList}\n` +
+        `Marketing opt-in: ${marketing_consent === true ? 'yes' : 'no'}\n`,
+      html:
+        `<h2 style="margin:0 0 12px;font-family:Georgia,serif;color:#172438;">New registration</h2>` +
+        `<p style="margin:4px 0;"><strong>Name:</strong> ${esc(full_name)}</p>` +
+        `<p style="margin:4px 0;"><strong>Email:</strong> <a href="mailto:${esc(normalizedEmail)}">${esc(normalizedEmail)}</a></p>` +
+        (phone ? `<p style="margin:4px 0;"><strong>Phone:</strong> ${esc(phone)}</p>` : '') +
+        `<p style="margin:4px 0;"><strong>Subjects:</strong> ${esc(subjectList)}</p>` +
+        `<p style="margin:4px 0;"><strong>Grade levels:</strong> ${esc(gradeList)}</p>` +
+        `<p style="margin:4px 0;"><strong>Marketing opt-in:</strong> ${marketing_consent === true ? 'yes' : 'no'}</p>`,
+    });
+
     return json({ success: true, email: normalizedEmail });
 
   } catch (err: any) {

@@ -81,9 +81,43 @@ $$;
 REVOKE EXECUTE ON FUNCTION public.grant_subscription_credits FROM PUBLIC;
 GRANT  EXECUTE ON FUNCTION public.grant_subscription_credits TO service_role;
 
--- ---------- verification (should return all three rows) ---------------------
-SELECT 'audit_log table'      AS check, to_regclass('public.audit_log')            IS NOT NULL AS ok
+-- ---------- 006: lesson_suggestions (registered-user roadmap feature) --------
+CREATE TABLE IF NOT EXISTS public.lesson_suggestions (
+  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id      UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  title        TEXT        NOT NULL,
+  subject      TEXT,
+  grade_level  TEXT,
+  standard     TEXT,
+  description  TEXT        NOT NULL,
+  upvotes      INTEGER     NOT NULL DEFAULT 0,
+  status       TEXT        NOT NULL DEFAULT 'new'
+                 CHECK (status IN ('new', 'reviewing', 'planned', 'published', 'declined')),
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS lesson_suggestions_user_id_idx ON public.lesson_suggestions (user_id);
+CREATE INDEX IF NOT EXISTS lesson_suggestions_status_idx  ON public.lesson_suggestions (status);
+
+ALTER TABLE public.lesson_suggestions ENABLE ROW LEVEL SECURITY;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'lesson_suggestions'
+      AND policyname = 'lesson_suggestions_select_own'
+  ) THEN
+    CREATE POLICY "lesson_suggestions_select_own" ON public.lesson_suggestions
+      FOR SELECT USING (auth.uid() = user_id);
+  END IF;
+END $$;
+
+-- ---------- verification (should return all four rows, ok = true) -----------
+SELECT 'audit_log table'          AS check, to_regclass('public.audit_log')                 IS NOT NULL AS ok
 UNION ALL
-SELECT 'period-key uniq idx', to_regclass('public.credit_ledger_period_key_uidx') IS NOT NULL
+SELECT 'period-key uniq idx',     to_regclass('public.credit_ledger_period_key_uidx')       IS NOT NULL
 UNION ALL
-SELECT 'grant fn',            EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'grant_subscription_credits');
+SELECT 'grant fn',                EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'grant_subscription_credits')
+UNION ALL
+SELECT 'lesson_suggestions table', to_regclass('public.lesson_suggestions')                 IS NOT NULL;

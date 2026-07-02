@@ -146,12 +146,28 @@ const planLabel: Record<string, string> = {
       )}
     </div>
 
+    <!-- Partner / shape the roadmap -->
+    <a href="/suggest-lesson" class="block no-underline mt-6 rounded-xl p-5 sm:p-6 transition-transform hover:-translate-y-0.5"
+       style="background: linear-gradient(135deg, var(--sc-navy) 0%, #1d3256 100%);">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <div class="text-[11px] font-bold tracking-[0.12em] uppercase mb-1.5" style="color: var(--sc-gold);">Partner with StandardCraft</div>
+          <div class="text-white font-display text-xl font-semibold mb-1">Shape the roadmap →</div>
+          <div class="text-sm max-w-lg" style="color: #a8bfcf;">
+            We add <strong class="text-white">25+ new lesson plans every month</strong>. Suggest the standards and topics we build next — your requests go straight to our development board.
+          </div>
+        </div>
+        <span class="hidden sm:flex shrink-0 items-center justify-center w-11 h-11 rounded-full text-lg"
+              style="background: rgba(255,255,255,0.1); color: var(--sc-gold);">✎</span>
+      </div>
+    </a>
+
     <!-- Quick links -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
       {[
         { href: '/free-resource-library', label: 'Resource Library', desc: `${resourceCount} verified resources` },
+        { href: '/suggest-lesson', label: 'Suggest a Lesson', desc: 'Direct what we build next' },
         { href: '/account', label: 'Account Settings', desc: 'Profile, password, billing' },
-        { href: '/contact', label: 'Get Help', desc: 'Contact our team' },
       ].map(l => (
         <a href={l.href} class="card hover:border-[#b5ceae] transition-colors cursor-pointer no-underline block">
           <div class="font-semibold text-sm mb-1">{l.label}</div>

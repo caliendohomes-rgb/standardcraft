@@ -8,9 +8,11 @@ export type AuditEventType =
   | 'download.failed'
   | 'download.redownload'
   | 'checkout.created'
+  | 'purchase.completed'
   | 'webhook.received'
   | 'contact.submitted'
   | 'school_inquiry.submitted'
+  | 'lesson_suggestion.submitted'
   | 'billing_portal.created';
 
 export async function logAudit(
