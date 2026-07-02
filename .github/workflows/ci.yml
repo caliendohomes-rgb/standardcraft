@@ -20,6 +20,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Generates .astro/types.d.ts so the astro:content / astro:middleware
+      # virtual modules resolve during typecheck.
+      - name: Generate Astro types
+        run: npx astro sync
+        env:
+          PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          PUBLIC_SITE_URL: https://standardcraftny.com
+
       - name: Typecheck
         run: npx tsc --noEmit
 
