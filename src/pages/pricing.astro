@@ -314,6 +314,12 @@ const plans = [
     setTimeout(() => checkoutErrorEl!.classList.add('hidden'), 8000);
   }
 
+  // Returning from an abandoned Stripe checkout — reassure, then clean the URL
+  if (new URLSearchParams(window.location.search).get('checkout') === 'cancelled') {
+    showCheckoutError('Checkout was cancelled — you have not been charged. Your plan is here whenever you are ready.');
+    history.replaceState(null, '', window.location.pathname);
+  }
+
   document.querySelectorAll('.checkout-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       const plan = btn.getAttribute('data-plan')!;
@@ -328,6 +334,8 @@ const plans = [
         window.location.href = `/sign-in?redirect=/pricing`;
         return;
       }
+
+      (window as any).plausible?.('Begin Checkout', { props: { plan, billing } });
 
       try {
         const res = await fetch('/api/checkout', {

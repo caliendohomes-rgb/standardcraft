@@ -236,6 +236,8 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
           if (nextBalance === 0) exhaustUndownloadedButtons();
         }
 
+        (window as any).plausible?.('Resource Download', { props: { slug, redownload: String(!!data.redownload) } });
+
         // Navigate the already-open tab — avoids popup-blocker since the window was opened synchronously
         if (printWin) {
           printWin.location.href = `/resources/${slug}?print=1`;
