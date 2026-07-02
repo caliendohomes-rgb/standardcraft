@@ -108,7 +108,7 @@ const faqItems = [
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {ssResources.map(r => (
-            <a href={`/resources/${r.slug}`} class="card group hover:border-[#b5ceae] transition-colors no-underline cursor-pointer">
+            <a href={`/resources/${r.id}`} class="card group hover:border-[#b5ceae] transition-colors no-underline cursor-pointer">
               <div class="flex flex-wrap gap-2 mb-3">
                 <span class="tag tag-gray">Social Studies</span>
                 <span class="tag tag-gray">Grade {r.data.grade}</span>

@@ -1,7 +1,10 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const resources = defineCollection({
-  type: 'content',
+  // Content Layer loader (Astro 5+). Entry ids match the old slugs:
+  // the filename without .md extension.
+  loader: glob({ base: './src/content/resources', pattern: '**/*.md' }),
   schema: z.object({
     title: z.string(),
     grade: z.string(),

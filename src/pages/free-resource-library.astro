@@ -92,7 +92,7 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
 
     <div id="resource-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {resources.map(resource => {
-        const alreadyDownloaded = downloadedSlugs.has(resource.slug);
+        const alreadyDownloaded = downloadedSlugs.has(resource.id);
         const canDownload = alreadyDownloaded || balance >= 1;
         const primaryStandard = resource.data.standards[0];
 
@@ -122,10 +122,10 @@ const resourceTypes = [...new Set(resources.map(r => r.data.resource_type))].sor
               </div>
             )}
             <div class="flex flex-col sm:flex-row gap-2 pt-3 border-t" style="border-color: var(--sc-border);">
-              <a href={`/resources/${resource.slug}`} class="btn-outline text-sm py-2 px-3 justify-center">Open preview</a>
+              <a href={`/resources/${resource.id}`} class="btn-outline text-sm py-2 px-3 justify-center">Open preview</a>
               <button
                 class={`download-btn btn-primary text-sm py-2 px-3 justify-center ${canDownload ? '' : 'opacity-60 cursor-not-allowed'}`}
-                data-slug={resource.slug}
+                data-slug={resource.id}
                 data-title={resource.data.title}
                 disabled={!canDownload}
               >
