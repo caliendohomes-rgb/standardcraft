@@ -16,7 +16,9 @@ const {
   id = 'faq',
 } = Astro.props;
 
-const schemaJson = JSON.stringify({
+import { jsonLd } from '../lib/jsonld';
+
+const schemaJson = jsonLd({
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: items.map(item => ({
