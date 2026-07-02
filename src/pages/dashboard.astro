@@ -168,3 +168,13 @@ const planLabel: Record<string, string> = {
     </div>
   </section>
 </Layout>
+
+<script>
+  // Conversion event on return from Stripe checkout — fire once, then strip
+  // the query param so a refresh doesn't double-count the purchase.
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('checkout') === 'success') {
+    (window as any).plausible?.('Purchase Complete');
+    history.replaceState(null, '', window.location.pathname);
+  }
+</script>

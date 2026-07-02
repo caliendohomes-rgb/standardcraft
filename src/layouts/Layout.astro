@@ -19,6 +19,12 @@ const {
 } = Astro.props;
 
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+
+// Privacy-first analytics — only active when both env vars are set
+const analyticsDomain =
+  import.meta.env.PUBLIC_ANALYTICS_PROVIDER === 'plausible'
+    ? import.meta.env.PUBLIC_ANALYTICS_DOMAIN
+    : undefined;
 ---
 
 <!doctype html>
@@ -59,6 +65,12 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       ? <meta name="robots" content="noindex, nofollow" />
       : <meta name="robots" content="index, follow" />
     }
+    {analyticsDomain && (
+      <>
+        <script defer data-domain={analyticsDomain} src="https://plausible.io/js/script.js"></script>
+        <script is:inline>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};</script>
+      </>
+    )}
     <slot name="head-schema" />
   </head>
   <body class="site-shell font-sans antialiased">

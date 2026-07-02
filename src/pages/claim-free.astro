@@ -222,6 +222,9 @@ const subjectCount = new Set((await getCollection('resources')).map(r => r.data.
         return;
       }
 
+      // Fire before the sign-in round trip so the event flushes pre-navigation
+      (window as any).plausible?.('Sign Up');
+
       submitBtn.textContent = 'Signing you in…';
       const supabase = createSupabaseBrowserClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({
