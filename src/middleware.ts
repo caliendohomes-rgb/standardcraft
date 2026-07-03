@@ -1,5 +1,6 @@
 import { defineMiddleware } from 'astro:middleware';
 import { createServerClient, parseCookieHeader, type CookieOptions } from '@supabase/ssr';
+import { SUPABASE_URL } from './lib/supabase-config';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   // Only process HTML requests — skip API routes, assets, etc.
@@ -23,7 +24,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   const supabase = createServerClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
+    SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
