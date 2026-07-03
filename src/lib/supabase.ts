@@ -1,8 +1,9 @@
 import { createBrowserClient } from '@supabase/ssr';
+import { SUPABASE_URL } from './supabase-config';
 
 export function createSupabaseBrowserClient() {
   return createBrowserClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
+    SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY
   );
 }

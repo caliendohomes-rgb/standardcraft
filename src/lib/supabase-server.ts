@@ -1,6 +1,7 @@
 import { createServerClient, parseCookieHeader, type CookieOptions } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 import type { AstroCookies } from 'astro';
+import { SUPABASE_URL, serviceRoleKeyLooksValid } from './supabase-config';
 
 /** Server client for Astro pages — reads/writes cookies via Astro.cookies */
 export function createSupabaseServerClient(
@@ -8,7 +9,7 @@ export function createSupabaseServerClient(
   cookies: AstroCookies
 ) {
   return createServerClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
+    SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
@@ -27,9 +28,20 @@ export function createSupabaseServerClient(
 
 /** Admin client — never expose to client. Service role bypasses RLS. */
 export function createSupabaseAdmin() {
+  const serviceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Surface the single most common production misconfiguration with a clear,
+  // actionable log line instead of a generic downstream 401 on createUser().
+  if (!serviceRoleKeyLooksValid(serviceKey)) {
+    console.error(
+      'SUPABASE_SERVICE_ROLE_KEY does not decode to role="service_role" ' +
+      '(it appears to be an anon key). Admin operations like user creation ' +
+      'will fail. Copy the service_role secret from Supabase → Project ' +
+      'Settings → API into this env var.'
+    );
+  }
   return createClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
+    SUPABASE_URL,
+    serviceKey,
     {
       auth: {
         autoRefreshToken: false,
@@ -43,7 +55,7 @@ export function createSupabaseAdmin() {
 export function createSupabaseApiClient(request: Request) {
   const responseHeaders = new Headers();
   const client = createServerClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
+    SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
