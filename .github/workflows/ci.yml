@@ -60,5 +60,5 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: npm audit
-        run: npm audit --audit-level=high
+      - name: npm audit (gated, see scripts/audit-gate.mjs for waiver policy)
+        run: node scripts/audit-gate.mjs

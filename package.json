@@ -15,10 +15,10 @@
     "format:check": "prettier --check \"src/**/*.{ts,astro,css}\""
   },
   "dependencies": {
-    "@astrojs/netlify": "^7.0.13",
+    "@astrojs/netlify": "^8.2.1",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
-    "astro": "^6.4.8",
+    "astro": "^7.2.1",
     "nodemailer": "^9.0.1",
     "stripe": "^17.3.1",
     "tailwindcss": "^3.4.1"
@@ -30,5 +30,10 @@
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.0.0"
+  },
+  "overrides": {
+    "sharp": "^0.35.3",
+    "image-size": "^2.0.2",
+    "extract-zip": "^2.0.1"
   }
 }
