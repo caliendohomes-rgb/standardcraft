@@ -15,11 +15,11 @@
     "format:check": "prettier --check \"src/**/*.{ts,astro,css}\""
   },
   "dependencies": {
-    "@astrojs/netlify": "^8.2.1",
-    "@supabase/ssr": "^0.5.2",
+    "@astrojs/netlify": "^8.2.4",
+    "@supabase/ssr": "^0.12.5",
     "@supabase/supabase-js": "^2.45.4",
-    "astro": "^7.2.1",
-    "nodemailer": "^9.0.1",
+    "astro": "^7.2.9",
+    "nodemailer": "^9.1.0",
     "stripe": "^17.3.1",
     "tailwindcss": "^3.4.1"
   },
